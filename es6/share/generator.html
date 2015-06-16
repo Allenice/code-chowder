@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Generator</title>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.4/zepto.min.js"></script>
+  <script>
+
+//  (function() {
+//    "use strict";
+//
+//    function* Hello(name) {
+//      var data;
+//      yield "Hello";
+//      data = yield name;
+//      return data;
+//    }
+//
+//    var hello = Hello('Allenice');
+//    console.log(hello.next());;
+//    console.log(hello.next());
+//    console.log(hello.next('2333'));
+//    console.log(hello.next());
+//
+//    // for...of
+//    for(let value of Hello('for...of')) {
+//      console.log(value);
+//    }
+//
+    // yiled*
+    function* generator1(){
+      yield 3;
+      yield 4;
+    }
+
+    function* generator2() {
+      yield 1;
+      yield 2;
+      yield* generator1();
+      yield 5;
+    }
+//
+    for(let value of generator2()){
+      console.log(value); // 1,2,3,4,5
+    }
+//
+//  })();
+
+  // 一个异步的例子
+  (function() {
+
+    "use strict";
+
+    // 返回 json 文件路径
+    function getJSON(url) {
+      return url;
+    }
+
+    // 封装异步操作
+    function async(generator) {
+
+      // 状态遍历器， data 是 ajax 返回的数据
+      function continuer(data) {
+        var status = generator.next(data),
+            url;
+
+        if(!status.done) {
+          url = status.value;
+        } else {
+          // 结束遍历
+          return;
+        }
+
+        $.ajax({
+          url: url,
+          dataType: 'json',
+          success: function(data) {
+            // 继续下一个状态
+            continuer({
+              status: 'success',
+              data: data
+            });
+          },
+          error: function(xhr) {
+            // 错误也可以继续下一个状态
+            continuer({
+              status: 'error',
+              data: xhr
+            });
+          }
+        });
+      }
+
+      // 执行第一个状态
+      continuer();
+    }
+
+    // 愉快的异步编程
+    async(function*() {
+      var story = yield getJSON("data/story.json");
+      console.log(story.data.heading);
+
+      for(let url of story.data.chapterUrls) {
+        var chapter = yield getJSON(url)
+        console.log(chapter.data.html);
+      }
+
+    }());
+
+  })();
+
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ECMAScript 6 </title>
+  <script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+  <script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+  <script type="text/javascript">
+    traceur.options.experimental = true;
+  </script>
+  <script type="module">
+  const PI = 3.14;
+  // PI = 1; // 不会报错，但是不会被修改，只是默默的失败; 但是 traceur 编译器会报错，火狐不会
+  console.log(PI);
+
+  if(true) {
+    const PI = 233; // const 也是块作用域的
+    console.log(PI);
+  }
+
+  console.log(PI);
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

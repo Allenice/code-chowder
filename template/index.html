@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>template</title>
+	<script src="template.js"></script>
+	<script>
+	var tpl = _.template('My name is <%= name %> <%if (name === "Allenice") {%>fff<%}%>');
+	console.log(tpl({name: "Allenice"}));
+	</script>
+</head>
+
+<body>
+	
+</body>
+</html>

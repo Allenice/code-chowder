@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    ul {
+      width: 100px;
+      height: 400px;
+      background-color: #f8f8f8;
+      overflow: scroll;
+    }
+
+    .selected {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <ul id="list">
+    
+  </ul>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script>
+  var data = [];
+  var html = '';
+  var reg = new RegExp('3333', i);
+  // var reg = /^\d{1,2}(\.\d{1,2})?$/
+  var $list = $('#list');
+
+  for(var i = 0; i < 10000; i++) {
+    var item = {id: i, name: i, selected: false};
+    data.push(item);
+    if($.inArray(i, [2,3,5,10]) >= 0) {
+      html += '<li class="selected">'+ i  +'</li>';
+      item.selected = true;
+    } else {
+      html += '<li>'+ i  +'</li>';
+    }
+  }
+
+  $list.html(html);
+  setTimeout(function() {
+    html = '';
+    console.time('test');
+    for(var i = 0; i < data.length; i++) {
+      var item = data[i];
+      reg.test(item.name);
+      if(i%2 === 0) {
+        if(item.selected) {
+          html += '<li class="selected">'+ item.name +'</li>';
+        } else {
+          html += '<li>'+ item.name +'</li>';
+        }
+      }
+    }
+    $list.html(html);
+    console.timeEnd('test');
+    }, 2000);
+  </script>
+</body>
+</html>

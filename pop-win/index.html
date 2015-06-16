@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>pop-win</title>
+	<link rel="stylesheet" href="pop-win.css">
+</head>
+<body style="height: 1000px;">
+	<button id="show-pop">显示弹窗</button>
+
+	<script src="https://code.jquery.com/jquery-1.10.1.min.js" ></script>
+	<script src="pop-win.js"></script>
+	<script>
+		$(function() {
+			var win = new PopWin({
+				title: "上传获奖名单",
+				width: 600,
+				height: 500,
+				className: 'pop-win-custom',
+				buttons: [
+					{
+						id: "btn1",
+						btnText: "取消",
+						className: "btn-custom"
+					},
+					{
+						id: "btn2",
+						btnText: "确定",
+						className: "btn-custom"
+					}
+				]
+			});
+
+			// 当弹窗显示
+			win.on('show', function() {
+				console.log('on show');
+				// this is win
+				console.log(this);
+			});
+
+			// 当弹窗关闭
+			win.on('hide', function() {
+				console.log('on hide');
+				// this is win
+				console.log(this);
+			});
+
+			// 关闭按钮点击
+			win.on('close-btn-click', function() {
+				console.log('close-btn-click');
+				console.log(this);
+			});
+
+			// 动作按钮(底部按钮) 点击
+			win.on('action-btn-click', 'btn1', function() {
+				console.log('action-btn-click btn1');
+				console.log(this);
+				this.hide();
+			});
+			win.on('action-btn-click', 'btn2', function() {
+				console.log('action-btn-click btn2');
+				console.log(this);
+				this.hide();
+			});
+
+			// win.setHeight(800);
+			// win.setWidth(400);
+
+			// win.setContent('<a href="http://www.baidu.com" target="_blank" > content use html </a>');
+			var $html = $('<a href="http://www.baidu.com" target="_blank" > content use jquery object </a>');
+			win.setContent($html);
+
+			$("#show-pop").click(function() {
+				win.show();
+			});
+
+		});
+	</script>
+</body>
+</html>

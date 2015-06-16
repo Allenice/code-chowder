@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Service Worker</title>
+</head>
+<body>
+	<div id="status"></div>
+	<script>
+	if('serviceWorker' in navigator) {
+		navigator.serviceWorker.register('worker.js', {scope: './'}).then(function(registration) {
+			document.querySelector('#status').textContent = 'register success';
+			console.log(registration);
+		}).catch(function(error) {
+			document.querySelector('#status').textContent = 'register error';
+			console.log(error);
+		});
+	}
+	</script>
+</body>
+</html>

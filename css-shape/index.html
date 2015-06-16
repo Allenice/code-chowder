@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css shape</title>
+	<style>
+		article {
+			width: 600px;
+			min-height: 300px;
+			margin: 0 auto;
+		}
+
+		img {
+			shape-outside: url(bg.png);
+			shape-image-threshold: 0.5;
+			float: left;
+			-webkit-clip-path: circle(50%);
+		}
+
+		.el {
+			width: 300px;
+			height: 300px;
+			float: left;
+			background-image: url('fruit.jpg');
+			background-size: cover;
+			-webkit-clip-path: circle(50% at 0 0);
+			shape-outside: circle(50% at 0 0) margin-box;
+			shape-image-threshold: 0.5;
+			margin-right: 20px;
+		}
+	</style>
+</head>
+<body>
+	<article>
+		<img src="bg.png" alt="">
+		<div class="el"></div>
+		<p>For a long time, web designers have been forced to create within the constraints of the rectangle. Most content on the web is still trapped in simple boxes because most creative ventures into non-rectangular layout end in frustration. That is about to change with the introduction of CSS Shapes, available starting with Chrome 37.</p>
+		<p>CSS Shapes allow web designers to wrap content around custom paths, like circles, ellipses and polygons, thus breaking free from the constraints of the rectangle.</p>
+	</article>
+</body>
+</html>

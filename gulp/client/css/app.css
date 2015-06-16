@@ -1,0 +1,9 @@
+/* line 1, ../sass/common/_common.scss */
+* {
+  padding: 0;
+}
+
+/* line 4, ../sass/app.scss */
+.test {
+  color: red;
+}

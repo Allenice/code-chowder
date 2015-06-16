@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <style>
+@charset "UTF-8";
+/* line 5, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+
+/*  Syntax Quick Reference
+  --------------------------
+  column($ratios: 1, $offset: 0, $cycle: 0, $uncycle: 0, $gutter: $jeet-gutter)
+  span($ratio: 1, $offset: 0)
+  shift($ratios: 0, $col_or_span: column, $gutter: $jeet-gutter)
+  unshift()
+  edit()
+  center($max_width: 1410px, $pad: 0)
+  stack($pad: 0, $align: false)
+  unstack()
+  align($direction: both)
+  cf()
+*/
+/**
+ * Grid settings.
+ * All values are defaults and can therefore be easily overidden.
+ */
+/**
+ * List functions courtesy of the wonderful folks at Team Sass.
+ * Check out their awesome grid: Singularity.
+ */
+/**
+ * Get  percentage from a given ratio.
+ * @param {number} [$ratio=1] - The column ratio of the element.
+ * @returns {number} - The percentage value.
+ */
+/**
+ * Work out the column widths based on the ratio and gutter sizes.
+ * @param {number} [$ratios=1] - The column ratio of the element.
+ * @param {number} [$gutter=$jeet-gutter] - The gutter for the column.
+ * @returns {list} $width $gutter - A list containing the with and gutter for the element.
+ */
+/**
+ * Get the set layout direction for the project.
+ * @returns {string} $direction - The layout direction.
+ */
+/**
+ * Replace a specified list value with a new value (uses built in set-nth() if available)
+ * @param {list} $list - The list of values you want to alter.
+ * @param {number} $index - The index of the list item you want to replace.
+ * @param {*} $value - The value you want to replace $index with.
+ * @returns {list} $list - The list with the value replaced or removed.
+ * @warn if an invalid index is supplied.
+ */
+/**
+ * Reverse a list (progressively enhanced for Sass 3.3)
+ * @param {list} $list - The list of values you want to reverse.
+ * @returns {list} $result - The reversed list.
+ */
+/**
+ * Get the opposite direction to a given value.
+ * @param {string} $dir - The direction you want the opposite of.
+ * @returns {string} - The opposite direction to $dir.
+ * @warn if an incorrect string is provided.
+ */
+/**
+ * Style an element as a column with a gutter.
+ * @param {number} [$ratios=1] - A width relative to its container as a fraction.
+ * @param {number} [$offset=0] - A offset specified as a fraction (see $ratios).
+ * @param {number} [$cycle=0] - Easily create an nth column grid where $cycle equals the number of columns.
+ * @param {number} [$uncycle=0] - Undo a previous cycle value to allow for a new one.
+ * @param {number} [$gutter=$jeet-gutter] - Specify the gutter width as a percentage of the containers width.
+ */
+/**
+ * An alias for the column mixin.
+ * @param [$args...] - All arguments get passed through to column().
+ */
+/**
+ * Get the width of a column and nothing else.
+ * @param {number} [$ratios=1] - A width relative to its container as a fraction.
+ * @param {number} [$gutter=$jeet-gutter] - Specify the gutter width as a percentage of the containers width.
+ */
+/**
+ * Get the gutter size of a column and nothing else.
+ * @param {number} [ratios=1] - A width relative to its container as a fraction.
+ * @param {number} [gutter=jeet.gutter] - Specify the gutter width as a percentage of the containers width.
+ */
+/**
+ * An alias for the column-width function.
+ * @param [$args...] - All arguments get passed through to column().
+ */
+/**
+ * An alias for the column-gutter function.
+ * @param [$args...] - All arguments get passed through to column().
+ */
+/**
+ * Style an element as a column without any gutters for a seamless row.
+ * @param {number} [$ratios=1] - A width relative to its container as a fraction.
+ * @param {number} [$offset=0] - A offset specified as a fraction (see $ratios).
+ * @param {number} [cycle=0] - Easily create an nth column grid where cycle equals the number of columns.
+ * @param {number} [uncycle=0] - Undo a previous cycle value to allow for a new one.
+ */
+/**
+ * Reorder columns without altering the HTML.
+ * @param {number} [$ratios=0] - Specify how far along you want the element to move.
+ * @param {string} [$col-or-span=column] - Specify whether the element has a gutter or not.
+ * @param {number} [$gutter=$jeet-gutter] - Specify the gutter width as a percentage of the containers width.
+ */
+/**
+ * Reset an element that has had shift() applied to it.
+ */
+/**
+ * View the grid and its layers for easy debugging.
+ * @param {string} [$color=black] - The background tint applied.
+ * @param {boolean} [$important=false] - Whether to apply the style as !important.
+ */
+/**
+ *  Alias for edit().
+ */
+/**
+ * Horizontally center an element.
+ * @param {number} [$max-width=1410px] - The max width the element can be.
+ * @param {number} [$pad=0] - Specify the element's left and right padding.
+ */
+/**
+ * Uncenter an element.
+ */
+/**
+ * Stack an element so that nothing is either side of it.
+ * @param {number} [$pad=0] - Specify the element's left and right padding.
+ * @param {boolean/string} [$align=false] - Specify the text align for the element.
+ */
+/**
+ * Unstack an element.
+ */
+/**
+ * Center an element on either or both axes.
+ * @requires A parent container with relative positioning.
+ * @param {string} [$direction=both] - Specify which axes to center the element on.
+ */
+/**
+ * Apply a clearfix to an element.
+ */
+/* 常量 */
+/* 基础样式 */
+/* line 3, ../../sass/common/_base.scss */
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* line 10, ../../sass/common/_base.scss */
+html {
+  font-size: 100%;
+  font-family: sans-serif;
+  /* 1 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
+}
+
+/* line 17, ../../sass/common/_base.scss */
+body {
+  margin: 0 auto;
+  max-width: 640px;
+  min-width: 320px;
+  font-size: 0.75rem;
+  color: #333333;
+  background-color: #e5e5e5;
+}
+
+/* line 26, ../../sass/common/_base.scss */
+.clearfix {
+  *zoom: 1;
+}
+
+/* line 30, ../../sass/common/_base.scss */
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+/* line 37, ../../sass/common/_base.scss */
+.clearfix:after {
+  clear: both;
+}
+
+/* line 41, ../../sass/common/_base.scss */
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* margin and padding */
+/* line 50, ../../sass/common/_base.scss */
+.m-t-5 {
+  margin-top: 5px;
+}
+
+/* line 53, ../../sass/common/_base.scss */
+.m-b-5 {
+  margin-bottom: 5px;
+}
+
+/* line 56, ../../sass/common/_base.scss */
+.m-l-5 {
+  margin-left: 5px;
+}
+
+/* line 59, ../../sass/common/_base.scss */
+.m-r-5 {
+  margin-right: 5px;
+}
+
+/* line 62, ../../sass/common/_base.scss */
+.p-t-5 {
+  padding-top: 5px;
+}
+
+/* line 65, ../../sass/common/_base.scss */
+.p-b-5 {
+  padding-bottom: 5px;
+}
+
+/* line 68, ../../sass/common/_base.scss */
+.p-l-5 {
+  padding-left: 5px;
+}
+
+/* line 71, ../../sass/common/_base.scss */
+.p-r-5 {
+  padding-right: 5px;
+}
+
+/* line 50, ../../sass/common/_base.scss */
+.m-t-10 {
+  margin-top: 10px;
+}
+
+/* line 53, ../../sass/common/_base.scss */
+.m-b-10 {
+  margin-bottom: 10px;
+}
+
+/* line 56, ../../sass/common/_base.scss */
+.m-l-10 {
+  margin-left: 10px;
+}
+
+/* line 59, ../../sass/common/_base.scss */
+.m-r-10 {
+  margin-right: 10px;
+}
+
+/* line 62, ../../sass/common/_base.scss */
+.p-t-10 {
+  padding-top: 10px;
+}
+
+/* line 65, ../../sass/common/_base.scss */
+.p-b-10 {
+  padding-bottom: 10px;
+}
+
+/* line 68, ../../sass/common/_base.scss */
+.p-l-10 {
+  padding-left: 10px;
+}
+
+/* line 71, ../../sass/common/_base.scss */
+.p-r-10 {
+  padding-right: 10px;
+}
+
+/* line 50, ../../sass/common/_base.scss */
+.m-t-15 {
+  margin-top: 15px;
+}
+
+/* line 53, ../../sass/common/_base.scss */
+.m-b-15 {
+  margin-bottom: 15px;
+}
+
+/* line 56, ../../sass/common/_base.scss */
+.m-l-15 {
+  margin-left: 15px;
+}
+
+/* line 59, ../../sass/common/_base.scss */
+.m-r-15 {
+  margin-right: 15px;
+}
+
+/* line 62, ../../sass/common/_base.scss */
+.p-t-15 {
+  padding-top: 15px;
+}
+
+/* line 65, ../../sass/common/_base.scss */
+.p-b-15 {
+  padding-bottom: 15px;
+}
+
+/* line 68, ../../sass/common/_base.scss */
+.p-l-15 {
+  padding-left: 15px;
+}
+
+/* line 71, ../../sass/common/_base.scss */
+.p-r-15 {
+  padding-right: 15px;
+}
+
+/* line 50, ../../sass/common/_base.scss */
+.m-t-20 {
+  margin-top: 20px;
+}
+
+/* line 53, ../../sass/common/_base.scss */
+.m-b-20 {
+  margin-bottom: 20px;
+}
+
+/* line 56, ../../sass/common/_base.scss */
+.m-l-20 {
+  margin-left: 20px;
+}
+
+/* line 59, ../../sass/common/_base.scss */
+.m-r-20 {
+  margin-right: 20px;
+}
+
+/* line 62, ../../sass/common/_base.scss */
+.p-t-20 {
+  padding-top: 20px;
+}
+
+/* line 65, ../../sass/common/_base.scss */
+.p-b-20 {
+  padding-bottom: 20px;
+}
+
+/* line 68, ../../sass/common/_base.scss */
+.p-l-20 {
+  padding-left: 20px;
+}
+
+/* line 71, ../../sass/common/_base.scss */
+.p-r-20 {
+  padding-right: 20px;
+}
+
+/* line 76, ../../sass/common/_base.scss */
+.fr {
+  float: right;
+}
+
+/* line 80, ../../sass/common/_base.scss */
+.fl {
+  float: left;
+}
+
+/* line 84, ../../sass/common/_base.scss */
+.hide {
+  display: none !important;
+}
+
+/* 图标 */
+/* line 3, ../../sass/common/_icon.scss */
+.icon {
+  background: no-repeat center;
+  background-size: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@media only screen and (min-width: 640px) {
+  /* line 2, ../../sass/common/_media.scss */
+  body {
+    border: 1px solid #ddd;
+  }
+}
+@-webkit-keyframes slide-down {
+  0% {
+    top: -120px;
+  }
+  100% {
+    top: 0;
+  }
+}
+@-moz-keyframes slide-down {
+  0% {
+    top: -120px;
+  }
+  100% {
+    top: 0;
+  }
+}
+@-ms-keyframes slide-down {
+  0% {
+    top: -120px;
+  }
+  100% {
+    top: 0;
+  }
+}
+@keyframes slide-down {
+  0% {
+    top: -120px;
+  }
+  100% {
+    top: 0;
+  }
+}
+@-webkit-keyframes slide-up {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -120px;
+  }
+}
+@-moz-keyframes slide-up {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -120px;
+  }
+}
+@-ms-keyframes slide-up {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -120px;
+  }
+}
+@keyframes slide-up {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -120px;
+  }
+}
+/* line 23, ../../sass/common/_animate.scss */
+.a-slide-down {
+  -webkit-animation: slide-down 1s forwards;
+  -moz-animation: slide-down 1s forwards;
+  -ms-animation: slide-down 1s forwards;
+  animation: slide-down 1s forwards;
+}
+
+/* line 27, ../../sass/common/_animate.scss */
+.a-slide-up {
+  -webkit-animation: slide-up 1s forwards;
+  -moz-animation: slide-up 1s forwards;
+  -ms-animation: slide-up 1s forwards;
+  animation: slide-up 1s forwards;
+}
+
+/* 组件样式 */
+/* line 4, ../../sass/common/_component.scss */
+.btn {
+  display: inline-block;
+  width: 60px;
+  padding: 0 5px;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #333;
+  border-radius: 3px;
+}
+
+/* line 14, ../../sass/common/_component.scss */
+.btn-normal {
+  background-color: #6bb247;
+  color: #fff;
+}
+
+/* line 24, ../../sass/common/_component.scss */
+.btn-primary {
+  border: 1px solid #e97d05;
+  color: #fff;
+  background-color: #fd8b11;
+}
+
+/* line 37, ../../sass/common/_component.scss */
+.progress-bar {
+  height: 6px;
+  background-color: #eaeaea;
+  border-radius: 6px;
+  overflow: hidden;
+}
+/* line 43, ../../sass/common/_component.scss */
+.progress-bar .progress {
+  display: block;
+  height: 100%;
+  background-color: #fd8b11;
+}
+
+/* line 38, ../../sass/sprites/_common.scss */
+.sprite-icon {
+  background-image: url('../../../images/sprites-dest/sprite-common@2x.png?1420710911');
+  background-size: 46px 207px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* line 12, ../../sass/common/_common.scss */
+.sprite-home {
+  background-position: -2px -39px;
+  width: 16px;
+  height: 15px;
+}
+
+/* line 15, ../../sass/common/_common.scss */
+.sprite-rank {
+  background-position: -2px -59px;
+  width: 17px;
+  height: 15px;
+}
+
+/* line 18, ../../sass/common/_common.scss */
+.sprite-recommend {
+  background-position: -2px -78px;
+  width: 15px;
+  height: 15px;
+}
+
+/* line 21, ../../sass/common/_common.scss */
+.sprite-top {
+  background-position: -2px -163px;
+  width: 42px;
+  height: 42px;
+}
+
+/* line 26, ../../sass/common/_common.scss */
+.container {
+  padding-bottom: 55px;
+}
+
+/* line 30, ../../sass/common/_common.scss */
+.wrap {
+  background: #fff;
+  padding: 0 15px;
+  overflow: hidden;
+}
+
+/* line 37, ../../sass/common/_common.scss */
+h1.title {
+  height: 43px;
+  line-height: 43px;
+  padding: 0 15px;
+  border-bottom: 1px solid #d0d0d0;
+  font-size: 1.063rem;
+}
+
+/* line 45, ../../sass/common/_common.scss */
+.footer {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+  border-top: 1px solid #e5e5e5;
+  z-index: 10;
+  padding: 15px 0;
+}
+/* line 55, ../../sass/common/_common.scss */
+.footer a {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 33.33333%;
+  margin-left: 0%;
+  margin-right: 0%;
+  display: block;
+  text-align: center;
+  line-height: 18px;
+  font-size: 0.9375rem;
+  border-right: 1px solid #d0d0d0;
+  color: #888;
+}
+/* line 344, ../../sass/lib/jeet/_grid.scss */
+.footer a:before, .footer a:after {
+  content: '';
+  display: table;
+}
+/* line 349, ../../sass/lib/jeet/_grid.scss */
+.footer a:after {
+  clear: both;
+}
+/* line 58, ../../sass/lib/jeet/_grid.scss */
+.footer a:last-child {
+  margin-right: 0%;
+}
+/* line 64, ../../sass/common/_common.scss */
+.footer a:last-child {
+  border-right: 0;
+}
+/* line 68, ../../sass/common/_common.scss */
+.footer a.cur {
+  color: #fd8b11;
+}
+/* line 71, ../../sass/common/_common.scss */
+.footer a.cur .sprite-home {
+  background-position: -2px -20px;
+  width: 16px;
+  height: 15px;
+}
+/* line 75, ../../sass/common/_common.scss */
+.footer a.cur .sprite-rank {
+  background-position: -2px -2px;
+  width: 17px;
+  height: 14px;
+}
+/* line 79, ../../sass/common/_common.scss */
+.footer a.cur .sprite-recommend {
+  background-position: -2px -98px;
+  width: 15px;
+  height: 15px;
+}
+/* line 85, ../../sass/common/_common.scss */
+.footer i {
+  margin-right: 5px;
+  position: relative;
+  top: -1px;
+}
+/* line 91, ../../sass/common/_common.scss */
+.footer .line {
+  display: block;
+  width: 10px;
+  height: 12px;
+  border-left: 1px solid #d9d9d9;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -5px;
+  margin-top: -6px;
+  z-index: 2;
+}
+
+/* fixed max-width */
+/* line 106, ../../sass/common/_common.scss */
+.max-fixed {
+  max-width: 640px;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* line 114, ../../sass/common/_common.scss */
+.img-wrap.loading {
+  background: url('../../../images/logo-gray.png?1416307706') #e2e2e2 center center no-repeat;
+  background-size: 23px 25px;
+}
+/* line 118, ../../sass/common/_common.scss */
+.img-wrap.loading img {
+  visibility: hidden;
+}
+
+/* line 124, ../../sass/common/_common.scss */
+.tab .loading {
+  height: 46px;
+  line-height: 46px;
+  text-align: center;
+  color: #666;
+}
+/* line 130, ../../sass/common/_common.scss */
+.tab .loading i {
+  margin-right: 5px;
+}
+
+/* 提示 */
+/* line 137, ../../sass/common/_common.scss */
+.ui-notify {
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 10px;
+  text-align: center;
+  z-index: 100;
+  color: #fff;
+}
+/* line 146, ../../sass/common/_common.scss */
+.ui-notify.success {
+  background-color: #0a9e66;
+}
+/* line 150, ../../sass/common/_common.scss */
+.ui-notify.error {
+  background-color: #d54646;
+}
+/* line 154, ../../sass/common/_common.scss */
+.ui-notify.info {
+  background-color: #6bb247;
+}
+
+/* 返回顶部 */
+/* line 160, ../../sass/common/_common.scss */
+.to-top {
+  position: fixed;
+  right: 10px;
+  bottom: 60px;
+  display: none;
+  z-index: 1000;
+}
+/* line 167, ../../sass/common/_common.scss */
+.to-top:active {
+  background-position: -2px -117px;
+  width: 42px;
+  height: 42px;
+}
+
+/* 游戏图标全局样式 */
+/* line 173, ../../sass/common/_common.scss */
+.game-icon {
+  border-radius: 10px;
+}
+/* line 176, ../../sass/common/_common.scss */
+.game-icon img {
+  border-radius: 10px;
+}
+
+/* line 3, ../../sass/common/list/_list.scss */
+.list {
+  padding: 0;
+  margin-top: 10px;
+  background-color: #fff;
+}
+/* line 8, ../../sass/common/list/_list.scss */
+.list .list-title {
+  padding: 10px 15px;
+  border-bottom: 1px solid #d0d0d0;
+  font-size: 1.063rem;
+}
+/* line 13, ../../sass/common/list/_list.scss */
+.list .list-title span {
+  font-size: 0.75rem;
+  color: #999;
+}
+/* line 19, ../../sass/common/list/_list.scss */
+.list .list-content {
+  overflow: hidden;
+}
+/* line 23, ../../sass/common/list/_list.scss */
+.list .list-item {
+  height: 80px;
+  padding-top: 10px;
+  padding-left: 15px;
+  overflow: hidden;
+  border-bottom: 1px solid #eee;
+}
+/* line 31, ../../sass/common/list/_list.scss */
+.list .img-wrap {
+  float: left;
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+}
+/* line 37, ../../sass/common/list/_list.scss */
+.list .img-wrap img {
+  width: 100%;
+  height: 100%;
+}
+/* line 43, ../../sass/common/list/_list.scss */
+.list .detail {
+  float: left;
+  margin-left: 5px;
+}
+/* line 48, ../../sass/common/list/_list.scss */
+.list .name,
+.list figure {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* line 55, ../../sass/common/list/_list.scss */
+.list .name {
+  font-size: 0.875rem;
+  color: #333;
+}
+/* line 60, ../../sass/common/list/_list.scss */
+.list figure {
+  color: #999;
+}
+
+/* line 4, ../../sass/common/list/_list-s1.scss */
+.list-s1 .list-item {
+  *zoom: 1;
+  float: left;
+  clear: none;
+  text-align: inherit;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: 0%;
+  padding: 10px 5px 0 75px;
+}
+/* line 344, ../../sass/lib/jeet/_grid.scss */
+.list-s1 .list-item:before, .list-s1 .list-item:after {
+  content: '';
+  display: table;
+}
+/* line 349, ../../sass/lib/jeet/_grid.scss */
+.list-s1 .list-item:after {
+  clear: both;
+}
+/* line 58, ../../sass/lib/jeet/_grid.scss */
+.list-s1 .list-item:last-child {
+  margin-right: 0%;
+}
+/* line 9, ../../sass/common/list/_list-s1.scss */
+.list-s1 .img-wrap {
+  margin-top: 2px;
+  margin-left: -60px;
+}
+/* line 14, ../../sass/common/list/_list-s1.scss */
+.list-s1 .detail {
+  width: 100%;
+  overflow: hidden;
+}
+/* line 19, ../../sass/common/list/_list-s1.scss */
+.list-s1 .progress-bar {
+  width: 60px;
+  margin: 6px 0;
+}
+/* line 24, ../../sass/common/list/_list-s1.scss */
+.list-s1 .name {
+  display: inline-block;
+  width: 100%;
+}
+/* line 29, ../../sass/common/list/_list-s1.scss */
+.list-s1 figure {
+  margin: 3px 0;
+}
+/* line 33, ../../sass/common/list/_list-s1.scss */
+.list-s1 .btn {
+  height: 30px;
+  line-height: 30px;
+}
+
+/* line 4, ../../sass/common/list/_list-s2.scss */
+.list-s2 .list-item {
+  padding-right: 75px;
+  overflow: hidden;
+}
+/* line 8, ../../sass/common/list/_list-s2.scss */
+.list-s2 .link {
+  width: 100%;
+  display: block;
+  float: left;
+  overflow: hidden;
+  padding-left: 60px;
+}
+/* line 16, ../../sass/common/list/_list-s2.scss */
+.list-s2 .img-wrap {
+  margin-left: -60px;
+}
+/* line 20, ../../sass/common/list/_list-s2.scss */
+.list-s2 .detail {
+  width: 100%;
+  overflow: hidden;
+}
+/* line 25, ../../sass/common/list/_list-s2.scss */
+.list-s2 .name {
+  display: inline-block;
+  width: 100%;
+  padding-right: 10px;
+}
+/* line 31, ../../sass/common/list/_list-s2.scss */
+.list-s2 figure {
+  line-height: 24px;
+  padding-right: 5px;
+}
+/* line 36, ../../sass/common/list/_list-s2.scss */
+.list-s2 .line {
+  display: inline-block;
+  height: 12px;
+  width: 1px;
+  background-color: #d5d5d5;
+  position: relative;
+  top: 1px;
+  margin: 0 5px;
+}
+/* line 46, ../../sass/common/list/_list-s2.scss */
+.list-s2 .btn {
+  height: 30px;
+  line-height: 30px;
+}
+/* line 51, ../../sass/common/list/_list-s2.scss */
+.list-s2 .action {
+  float: right;
+  padding-right: 15px;
+  line-height: 65px;
+  margin-right: -75px;
+}
+
+/* line 1, ../../sass/icons/_arrow-right.scss */
+.icon-arrow-right {
+  width: 11px;
+  height: 10px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAUCAYAAACJfM0wAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjUxNUQ2Njc5ODI4RTExRTQ4M0Y0RkJEMzZBRjkxRkYxIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjUxNUQ2NjdBODI4RTExRTQ4M0Y0RkJEMzZBRjkxRkYxIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NTE1RDY2Nzc4MjhFMTFFNDgzRjRGQkQzNkFGOTFGRjEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NTE1RDY2Nzg4MjhFMTFFNDgzRjRGQkQzNkFGOTFGRjEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6/P7xLAAAA2UlEQVR42mL4//8/AyHwZkM1IwMRAGQWDDMQMvh/B4MvEB8CYj5SDGYiZCiQWgvEtkC8hRjDYYCJgHwiELNC2SQZjtfgv68MI4DUeiQhog3HazBL3/lf5BpOKCjINpyJmPAix3BGcHLrZPzPQD44DMQ+jBUMn5CTLhMD5QCry6lhMAhwkBXGBMBpIHYBBQVGGDMyEi4K/hQZsjGLnV8BZAbiMpTkMCbGUJKDghxDCRpMrqEEDQYaOpscQwkHBQfDdiD5m1RDGdBjEqv8BIYIcgp6BlpVTQABBgAYvZqynHJFrwAAAABJRU5ErkJggg==');
+}
+
+/* line 9, ../../sass/index/index.scss */
+.icon-arrow-right {
+  vertical-align: baseline;
+}
+
+/* 首页样式 */
+/* line 14, ../../sass/index/index.scss */
+.img-list {
+  overflow: hidden;
+  position: relative;
+}
+/* line 19, ../../sass/index/index.scss */
+.img-list .swiper-container {
+  width: 100%;
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+}
+/* line 27, ../../sass/index/index.scss */
+.img-list .swiper-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+/* line 32, ../../sass/index/index.scss */
+.img-list .swiper-slide {
+  width: 100%;
+  height: 100%;
+  float: left;
+}
+/* line 38, ../../sass/index/index.scss */
+.img-list .pagination {
+  position: absolute;
+  left: 0;
+  bottom: 10px;
+  text-align: center;
+  width: 100%;
+  z-index: 10;
+}
+/* line 47, ../../sass/index/index.scss */
+.img-list .swiper-pagination-switch {
+  display: inline-block;
+  width: 12px;
+  height: 3px;
+  background: #ccc;
+  margin-right: 5px;
+  opacity: 0.8;
+}
+/* line 55, ../../sass/index/index.scss */
+.img-list .swiper-active-switch {
+  background: #ff8800;
+  opacity: 1;
+}
+/* line 60, ../../sass/index/index.scss */
+.img-list .img-wrap {
+  height: 100%;
+}
+/* line 63, ../../sass/index/index.scss */
+.img-list .img-wrap img {
+  width: 100%;
+  height: 180px;
+}
+
+/* line 71, ../../sass/index/index.scss */
+.bottom-more {
+  display: block;
+  width: 100%;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  font-size: 0.9375rem;
+  color: #333;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+/*# sourceMappingURL=index.css.map */
+
+  </style>
+  <title>uc test</title>
+</head>
+<body>
+  <div class="wrap list list-s2">
+    <h1 class="list-title">小编推荐 <span>内啥，真的是好游戏！</span></h1>
+    <ul class="list-content">
+      <li class="list-item">
+        <a class="link" href="{{root_path}}html/game/Game/game-detail.html?gameId=1">
+          <div class="img-wrap loading game-icon">
+            <img data-src="{{root_path}}images/app-icon.png" alt="" src="//:0"/>
+          </div>
+          <div class="detail">
+            <span class="name">决战沙城</span>
+            <figure>角色<span class="line"></span>106.1M<span class="line"></span>100.5万下载</figure>
+            <figure>跨世纪动作卡牌大作跨世纪动作卡牌大作跨世纪动作卡牌大作</figure>
+          </div>
+        </a>
+        <div class="action">
+          <a class="btn btn-normal" href="javascript:void(0);" data-action="download" data-url="http://10.1.85.122:3001/ugame-sdk/download" data-gameid="{{i}}">下载</a>
+        </div>
+      </li>
+      <li class="list-item">
+        <a class="link" href="{{root_path}}html/game/Game/game-detail.html?gameId=1">
+          <div class="img-wrap loading game-icon">
+            <img data-src="{{root_path}}images/app-icon.png" alt="" src="//:0"/>
+          </div>
+          <div class="detail">
+            <span class="name">决战沙城</span>
+            <figure>角色<span class="line"></span>106.1M<span class="line"></span>100.5万下载</figure>
+            <figure>跨世纪动作卡牌大作跨世纪动作卡牌大作跨世纪动作卡牌大作</figure>
+          </div>
+        </a>
+        <div class="action">
+          <a class="btn btn-normal" href="javascript:void(0);" data-action="download" data-url="http://10.1.85.122:3001/ugame-sdk/download" data-gameid="{{i}}">下载</a>
+        </div>
+      </li>
+      <li class="list-item">
+        <a class="link" href="{{root_path}}html/game/Game/game-detail.html?gameId=1">
+          <div class="img-wrap loading game-icon">
+            <img data-src="{{root_path}}images/app-icon.png" alt="" src="//:0"/>
+          </div>
+          <div class="detail">
+            <span class="name">决战沙城</span>
+            <figure>角色<span class="line"></span>106.1M<span class="line"></span>100.5万下载</figure>
+            <figure>跨世纪动作卡牌大作跨世纪动作卡牌大作跨世纪动作卡牌大作</figure>
+          </div>
+        </a>
+        <div class="action">
+          <a class="btn btn-normal" href="javascript:void(0);" data-action="download" data-url="http://10.1.85.122:3001/ugame-sdk/download" data-gameid="{{i}}">下载</a>
+        </div>
+      </li>
+      <li class="list-item">
+        <a class="link" href="{{root_path}}html/game/Game/game-detail.html?gameId=1">
+          <div class="img-wrap loading game-icon">
+            <img data-src="{{root_path}}images/app-icon.png" alt="" src="//:0"/>
+          </div>
+          <div class="detail">
+            <span class="name">决战沙城</span>
+            <figure>角色<span class="line"></span>106.1M<span class="line"></span>100.5万下载</figure>
+            <figure>跨世纪动作卡牌大作跨世纪动作卡牌大作跨世纪动作卡牌大作</figure>
+          </div>
+        </a>
+        <div class="action">
+          <a class="btn btn-normal" href="javascript:void(0);" data-action="download" data-url="http://10.1.85.122:3001/ugame-sdk/download" data-gameid="{{i}}">下载</a>
+        </div>
+      </li>
+      <li class="list-item">
+        <a class="link" href="{{root_path}}html/game/Game/game-detail.html?gameId=1">
+          <div class="img-wrap loading game-icon">
+            <img data-src="{{root_path}}images/app-icon.png" alt="" src="//:0"/>
+          </div>
+          <div class="detail">
+            <span class="name">决战沙城</span>
+            <figure>角色<span class="line"></span>106.1M<span class="line"></span>100.5万下载</figure>
+            <figure>跨世纪动作卡牌大作跨世纪动作卡牌大作跨世纪动作卡牌大作</figure>
+          </div>
+        </a>
+        <div class="action">
+          <a class="btn btn-normal" href="javascript:void(0);" data-action="download" data-url="http://10.1.85.122:3001/ugame-sdk/download" data-gameid="{{i}}">下载</a>
+        </div>
+      </li>
+      <li class="list-item">
+        <a class="link" href="{{root_path}}html/game/Game/game-detail.html?gameId=1">
+          <div class="img-wrap loading game-icon">
+            <img data-src="{{root_path}}images/app-icon.png" alt="" src="//:0"/>
+          </div>
+          <div class="detail">
+            <span class="name">决战沙城</span>
+            <figure>角色<span class="line"></span>106.1M<span class="line"></span>100.5万下载</figure>
+            <figure>跨世纪动作卡牌大作跨世纪动作卡牌大作跨世纪动作卡牌大作</figure>
+          </div>
+        </a>
+        <div class="action">
+          <a class="btn btn-normal" href="javascript:void(0);" data-action="download" data-url="http://10.1.85.122:3001/ugame-sdk/download" data-gameid="{{i}}">下载</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>

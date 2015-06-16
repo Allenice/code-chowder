@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>promise</title>
+</head>
+<body>
+	<script>
+		var p1 = new Promise(function(resolve, reject) {
+		  resolve(1);
+		});
+
+		// p1.then(function(val) {
+		// 	console.log(val);
+		// 	return 2;
+		// });
+
+		// p1.then(function(val) {
+		// 	console.log(val);
+		// 	return 3;
+		// });
+
+		// var p2 = p1.then(function(val) {
+		//   console.log(val); // 1
+		//   return val + 2;
+		// }, function(val) {
+		// 	console.log(val);
+		// }).then(function(val) {
+		//   console.log(val); // 3
+		//   return 'done';
+		// }, function(val) {
+		// 	console.log('ff');
+		// }).then(function(val) {
+		// 	console.log(val);
+		// });
+
+		// console.log('p1:', p1);
+		// console.log('p2:', p2);
+
+		// function wait(tick, prevResult) {
+		// 	return new Promise(function(resolve, reject) {
+		// 		setTimeout(function() {
+		// 			resolve(prevResult);
+		// 		}, tick);
+		// 	});
+		// };
+
+		// function step1() {
+		// 	console.log(1);
+		// 	return wait(2000, 'step1 result');
+		// }
+
+		// function step2(data) {
+		// 	console.log(data);
+		// 	console.log(2);
+		// 	return wait(3000, 'step2 result');
+		// }
+
+		// function step3(data) {
+		// 	console.log(data);
+		// 	console.log(3);
+		// 	return wait(1000);
+		// }
+
+		// function noPromise() {
+		// 	console.log('no promise');
+
+		// 	setTimeout(function(){
+		// 		step1();
+		// 		setTimeout(function() {
+		// 			step2();
+		// 			setTimeout(function() {
+		// 				step3();
+		// 			}, 3000);
+		// 		}, 2000);
+		// 	}, 1000);
+		// }
+
+		// console.log('with promise');
+		// wait(1000).then(step1).then(step2).then(step3).then(noPromise);
+
+		var promise = new Promise(function(resolve, reject) {
+			setTimeout(function() {
+				resolve(1);
+			}, 1000);
+		});
+
+		promise.then(function(value) {
+			console.log('1', value);
+			return 3;
+		}).then(function(value) {
+			console.log(value);
+		});
+
+		promise.then(function(value) {
+			console.log('2', value);
+		});
+
+
+
+	</script>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>promise</title>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+</head>
+<body>
+<script>
+
+  // 基本用法
+//  (function () {
+//    'use strict';
+//    var promise = new Promise(function (resolve, reject) {
+//      if (true/* 异步操作成功 */) {
+//        resolve('success');
+//      } else {
+//        reject('error');
+//      }
+//    });
+//    promise.then(function (value) {
+//      // success
+//      console.log(value);
+//    }, function (value) {
+//      // failure
+//      console.log(value);
+//    });
+//
+    var promise1 = new Promise(function (resolve, reject) {
+      console.log('begin');
+      resolve(1);
+    });
+
+    promise1.then(function (value) {
+      console.log(value);
+      return value + 1;
+    }).then(function (value) {
+      console.log(value);
+      return new Promise(function (resolve) {
+        resolve('haaaa');
+      });
+    }).then(function (value) {
+      console.log(value);
+    });
+//
+//  })();
+//
+////  // 静态方法
+  (function () {
+    "use strict";
+
+    // promise
+    var promise1 = new Promise(function (resolve, reject) {
+      setTimeout(function() {
+        resolve(1);
+      }, 2000);
+    });
+
+    var promise2 = Promise.resolve(promise1);
+
+    setTimeout(function() {
+      promise1.then(function(value) {
+        console.log('promise1 resolve2', value);
+      });
+    }, 3000);
+
+    promise2.then(function (value) {
+      console.log('promise.resolve(promise1)', value);
+    });
+
+    // thenable
+    var jqAjaxPromise = Promise.resolve($.ajax('data/story.json', {
+      success: function (data, xhr) {
+        console.log('ajax:' ,data, xhr); // ajax: {story data} xhr
+      }
+    }));
+    jqAjaxPromise.then(function (data, xhr) {
+      console.log('promise:', data, xhr); // promise: {story data} undefined
+    });
+
+    // object or value
+    var promiseObj = Promise.resolve('hello world!');
+    promiseObj.then(function(value) {
+      console.log(value); // hello world!
+    });
+
+  })();
+//
+  // Promise.all
+  (function () {
+    "use strict";
+
+    var promise1 = new Promise(function(resolve, reject) {
+      resolve(1);
+    });
+    var promise2 = new Promise(function(resolve, reject) {
+      resolve(2);
+    });
+    var promise3 = new Promise(function(resolve, reject) {
+      reject(3);
+    });
+    var promise4 = new Promise(function(resolve, reject) {
+      resolve(4);
+    });
+
+    Promise.all([promise1, promise2, 'hahaha']).then(function(value) {
+      console.log(value); // [1,2, "hahaha"]
+    });
+
+    Promise.all([promise1, promise2, promise3, promise4]).then(function(value) {
+      console.log('resolve', value); // no call
+    }, function(value) {
+      console.log('reject', value); // reject 3
+    });
+
+  })();
+
+  // Promise.race
+//  (function () {
+//    "use strict";
+//
+//    var promise1 = new Promise(function(resolve, reject) {
+//      setTimeout(function() {
+//        resolve(1);
+//      }, 500);
+//    });
+//    var promise2 = new Promise(function(resolve, reject) {
+//      setTimeout(function() {
+//        resolve(2);
+//      }, 300);
+//    });
+//    var promise3 = new Promise(function(resolve, reject) {
+//      setTimeout(function() {
+//        reject(3);
+//      }, 350);
+//    });
+//    var promise4 = new Promise(function(resolve, reject) {
+//      setTimeout(function() {
+//        resolve(4);
+//      }, 400);
+//    });
+//
+//    Promise.race([promise1, promise2, promise3, promise4]).then(function(value) {
+//      console.log('resolve', value); // resolve 2
+//    }, function(value) {
+//      console.log('reject', value); // no call
+//    });
+//
+//    Promise.race([promise1, promise3, promise4]).then(function(value) {
+//      console.log('resolve', value); // no call
+//    }, function(value) {
+//      console.log('reject', value); // reject 3
+//    });
+//
+//  })();
+
+  // 顺序延迟执行
+  (function () {
+    "use strict";
+
+    /**
+     * 延迟执行
+     * @param tick 多少秒后执行
+     * @param prevResult 上一次的执行结果
+     * @returns {Promise}
+     */
+    function wait(tick, prevResult) {
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          resolve(prevResult);
+        }, tick);
+      });
+    };
+
+    function step1() {
+      console.log(1);
+      return wait(2000, 'step1 result');
+    }
+
+    function step2(data) {
+      console.log(data);
+      console.log(2);
+      return wait(3000, 'step2 result');
+    }
+
+    function step3(data) {
+      console.log(data);
+      console.log(3);
+      return wait(1000);
+    }
+
+    wait(1000).then(step1).then(step2).then(step3);
+  })();
+
+</script>
+</body>
+</html>

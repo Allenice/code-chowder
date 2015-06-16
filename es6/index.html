@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ECMAScript 6 </title>
+  <script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+  <script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+  <script type="text/javascript">
+    traceur.options.experimental = true;
+  </script>
+  <script type="module">
+  // class Calc {
+  //   constructor() {
+  //     console.log('Calc constructor');
+  //   }
+
+  //   add(a, b) {
+  //     return a + b;
+  //   }
+  // }
+
+  // var calc = new Calc();
+  // console.log(calc.add(1,2));
+
+  // var birth = '198x-12-25';
+  // var person = {
+  //   // 等同于 birth: birth
+  //   birth,
+
+  //   // 等同于 hello: function(x, y) {}
+  //   hello(x, y) {
+  //     // 等同于 {x: x, y: y}
+  //     return {x, y}
+  //   }
+  // }
+
+  // var mySymbol = Symbol();
+  // var a = {};
+  // a.mySymbol = "hello";
+
+  // console.log(a.mySymbol); // hello
+  // console.log(a[mySymbol]); // undefied
+
+//   var user = {};
+// Object.observe(user, function(changes){
+//   console.log(changes);    
+//   changes.forEach(function(change) {
+//     user.fullName = user.firstName+" "+user.lastName;         
+//   });
+// });
+
+// user.firstName = 'Michael';
+// user.lastName = 'Jackson';
+// user.fullName // 'Michael Jackson'
+
+// function push(array, ...items) { 
+//   items.forEach(function(item) {
+//     array.push(item);
+//   });
+// }
+
+// var a = [];
+// var values = [1,2,3];
+// push(a, ...values);
+// console.log(a);
+
+let obj = {
+  data: [ 'hello', 'world' ],
+  [Symbol.iterator]() {
+    const self = this;
+    let index = 0;
+    return {
+      next() {
+        if (index < self.data.length) {
+          return {
+            value: self.data[index++],
+            done: false
+          };
+        } else {
+          return { value: undefined, done: true };
+        }
+      }
+    };
+  }
+};
+
+for(let v of obj) {
+  console.log(v);
+}
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

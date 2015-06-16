@@ -1,0 +1,122 @@
+* {
+	color: #333;
+	box-sizing: border-box;
+}
+ul {
+	list-style: none;
+}
+.container {
+	width: 600px;
+	margin: 0 auto;
+}
+
+.tips {
+	background-color: #f3f3f3;
+	margin-top: 10px;
+	padding: 15px;
+	color: #333;
+	border-radius: 3px;
+}
+
+.wrap {
+	/* border: 1px solid #ddd; */
+}
+
+.list {
+	display: flex;
+	padding: 0;
+	margin: 0;
+}
+
+.list-item {
+	line-height: 50px;
+	text-align: center;
+	color: #fff;
+	padding: 0 10px;
+	background-color: #ccc;
+}
+
+.item-1,
+.item-3 {
+	background-color: rgb(35, 84, 161);
+}
+
+.item-2 {
+	background-color: rgb(60, 122, 160);
+}
+
+/* s1 */
+
+
+.list-s1 .item-1 {
+	flex: 2 0 100px;
+	-webkit-flex: 2 0 100px;
+}
+.list-s1 .item-2 {
+	flex: 0 0 150px;
+	-webkit-flex: 0 0 150px;
+}
+.list-s1 .item-3 {
+	flex: 2 0 100px;
+	-webkit-flex: 2 0 100px;
+}
+
+/* s2 */
+.list-s2 .item-1 {
+	flex: 2 0 100px;
+}
+.list-s2 .item-2 {
+	flex: 0 0 150px;
+}
+.list-s2 .item-3 {
+	flex: 2 0 50px;
+}
+
+/* s3 */
+
+.list-s3 .item-1 {
+	flex: 1 1 200px;
+}
+.list-s3 .item-2 {
+	flex: 1 2 200px;
+}
+.list-s3 .item-3 {
+	flex: 1 3 200px;
+}
+
+.list-s3 .item-4 {
+	flex: 1 4 200px;
+}
+
+/* s4 */
+.list-s4 {
+	  flex-wrap: wrap;
+	  justify-content: flex-start;
+}
+.list-s4 .list-item {
+	padding: 10px;
+	background-color: #fff;
+	flex: 0 0 calc(1/3 * 100%);
+}
+
+.list-s4 a {
+	background-color: #ccc;
+	display: block;
+	text-decoration: none;
+
+}
+
+.list-s4 .flex-pinned {
+	flex: 0 0 calc(2/3 * 100%);
+	order: -1;
+}
+
+/* s5 */
+
+.list-s5 {
+	align-items: stretch;
+}
+
+.list-s5 .list-item {
+	flex: 1 0 0;
+}

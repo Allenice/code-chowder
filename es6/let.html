@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ECMAScript 6 </title>
+  <script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+  <script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+  <script type="text/javascript">
+    traceur.options.experimental = true;
+  </script>
+  <script type="module">
+  // 使用 var
+  {
+    var a = [];
+    for(var i =0; i < 10; i++) {
+      var c = i;
+      a[i] = function() {
+        console.log(c);
+      }
+    }
+
+    a[6](); // 9
+  }
+
+  // 使用 let
+  {
+    var a = [];
+
+    for(var i =0; i < 10; i++) {
+      let c = i;
+      a[i] = function() {
+        console.log(c);
+      }
+    }
+
+    a[6](); // 6
+  }
+
+  let obj = {
+    get foo() {
+        console.log('GET foo');
+        return 123;
+    },
+    set bar(value) {
+        console.log('SET bar to '+value);
+        // return value is ignored
+    }
+};
+
+  console.log(obj.foo);
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

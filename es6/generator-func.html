@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ECMAScript 6 </title>
+	<script type="text/javascript">
+	// function* helloGenerator() {
+	// 	yield "hello";
+	// 	yield "world";
+	// 	return "return";
+	// } 
+
+	// var hg = helloGenerator();
+	// console.log(hg.next());
+	// console.log(hg.next());
+	// console.log(hg.next());
+	// console.log(hg.next());
+
+	// for(let i of hg) {
+	// 	console.log(i);
+	// }
+
+	// function *addGenerator() {
+	// 	var i = 0;
+	// 	while(true) {
+	// 		i += yield i;
+	// 	}
+	// }
+
+	// var adder = addGenerator();
+	// console.log(adder.next().value);
+	// console.log(adder.next(1).value);
+	// console.log(adder.next(2).value);
+	// console.log(adder.next(3).value);
+	// console.log(adder.next(4).value);
+	// console.log(adder.next(5).value);
+
+	function get(url) {
+	  // 返回一个新的 Promise
+	  return new Promise(function(resolve, reject) {
+	    // 经典 XHR 操作
+	    var req = new XMLHttpRequest();
+	    req.open('GET', url);
+
+	    req.onload = function() {
+	      // 当发生 404 等状况的时候调用此函数
+	      // 所以先检查状态码
+	      if (req.status == 200) {
+	        // 以响应文本为结果，完成此 Promise
+	        resolve(req.response);
+	      }
+	      else {
+	        // 否则就以状态码为结果否定掉此 Promise
+	        // （提供一个有意义的 Error 对象）
+	        reject(Error(req.statusText));
+	      }
+	    };
+
+	    // 网络异常的处理方法
+	    req.onerror = function() {
+	      reject(Error("Network Error"));
+	    };
+
+	    // 发出请求
+	    req.send();
+	  });
+	}
+
+	function getJSON(url) {
+	  return get(url).then(JSON.parse);
+	}
+
+	function spawn(generatorFunc) {
+		'use strict';
+	  function continuer(verb, arg) {
+	    var result;
+	    try {
+	      result = generator[verb](arg);
+	    } catch (err) {
+	      Promise.reject(err);
+	    }
+	    if (result.done) {
+	    } else {
+	      Promise.resolve(result.value).then(onFulfilled, onRejected);
+	    }
+	  }
+	  var generator = generatorFunc();
+	  var onFulfilled = continuer.bind(continuer, "next");
+	  var onRejected = continuer.bind(continuer, "throw");
+	  return onFulfilled();
+	}
+
+	spawn(function *() {
+		'use strict';
+	  try {
+	    // 'yield' 会执行一个异步的等待，返回这个 Promise 的结果
+	    let story = yield getJSON('story.json');
+	    console.log(story.heading);
+
+	    // 把章节 URL 数组转换成对应的 Promise 数组
+	    // 以便并行加载
+	    let chapterPromises = story.chapterUrls.map(getJSON);
+
+	    for (let chapterPromise of chapterPromises) {
+	      // 等待每个章节加载完成，将其添加至页面
+	      let chapter = yield chapterPromise;
+	      console.log(chapter.html);
+	    }
+
+	    console.log("All done");
+	  }
+	  catch (err) {
+	    // try/catch 即可。否定的 Promise 会在这里抛出。
+	    console.log("Argh, broken: " + err.message);
+	  }
+	});
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

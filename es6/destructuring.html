@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title> 解构赋值 - ECMAScript 6 </title>
+	<script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+	<script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+	<script type="text/javascript">
+		traceur.options.experimental = true;
+	</script>
+	<script type="module">
+		var [a, b] = ['a', 'b'];
+		console.log(a, b); // a b
+
+		var {c, d} = {'c': 'c','d': 'd'};
+
+		console.log(c, d); // c d
+
+		// 解构失败，返回 undefined
+		var [foo] = [];
+		console.log(foo); // undefined
+
+		// 可以赋默认值
+		var [bar = 'bar'] = [];
+		console.log(bar); // bar
+
+		// 值都可以解构
+		var {foo2: bar2} = {foo2: "bar2"};
+		console.log(bar2); // bar2
+
+		// 交换
+		var x = 1, y = 2;
+		[x, y] = [y, x];
+		console.log(x, y); // 2 1
+
+		// 遍历
+		var map = new Map();
+		map.set('first', 'hello ');
+		map.set('second', 'world');
+
+		for(let [key, value] of map) {
+			console.log(key, value);
+		}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

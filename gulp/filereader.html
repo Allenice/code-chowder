@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+
+  <script>
+    function readFile() {
+      var reader = new FileReader();
+      var input = document.getElementById('file1');
+      reader.onload = function (e) {
+        document.getElementById('result').innerText = reader.result;
+      }
+      reader.readAsText(input.files[0]);
+    }
+  </script>
+</head>
+<body>
+<input id="file1" type="file"/>
+<div id="result"></div>
+<button onclick="readFile()">read</button>
+</body>
+</html>

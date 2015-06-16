@@ -1,0 +1,80 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+ul,
+li{
+  list-style: none;
+}
+
+.form-select {
+  width: 140px;
+  height: 40px;
+  line-height: 40px;
+  position: relative;
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+  margin: 10px;
+  box-sizing: border-box;
+  padding: 0 25px 0 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.form-select:before{
+  content: '';
+  display: block;
+  position: absolute;
+  right: 8px;
+  top: 15px;
+  width: 0;
+  height: 0px;
+  border: 5px solid transparent;
+  border-width: 6px 4px;
+  border-top-color: #555;
+}
+
+.form-select ul {
+  position: absolute;
+  left: 0;
+  top: 42px;
+  width: 140px;
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+  display: none;
+  box-sizing: border-box;
+  max-height: 200px;
+  overflow: auto;
+}
+
+.form-select li {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-top: 1px solid #d3d3d3;
+  padding: 0 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+}
+
+.form-select li:first-child {
+  border-top: 0;
+}
+
+.form-select li:hover {
+  background-color: #f1f1f1;
+}
+
+.form-select .value {
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+}

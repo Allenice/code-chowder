@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  // function add(arg) {
+  //   console.log(arg);
+  //   console.log(arguments);
+  //   console.log(this);
+  // }
+
+  // var foo = add.bind(add, 'foo');
+  // var bar = add.bind(add, 'bar');
+  // foo('fffff');
+  // bar('kjjjjjj');
+
+  // var p = Promise.resolve("hello");
+
+  // p.then(function(data) {
+  //   console.log(data);
+  // });
+
+  function* generator(i) {
+    console.log(i);
+    var str = "begin";
+    while(true) {
+      str = yield str;
+      console.log(str);
+    }
+  }
+
+  var g = generator(1);
+  var begin = g.next('fff').value;
+  console.log(begin);
+  g.next('ggg').value;
+
+
+  </script>
+</body>
+</html>

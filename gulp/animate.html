@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
+  <title></title>
+
+  <style>
+    #box {
+      width: 300px;
+      height: 320px;
+      line-height: 40px;
+      position: relative;
+      border: 1px solid #ccc;
+      margin: 50px auto;
+      background-color: #fff;
+      background-image: -moz-linear-gradient(top , #fff 39px, #ccc 39px, #ccc 40px);
+      background-image: -webkit-linear-gradient(#fff 39px, #ccc 39px, #ccc 40px);
+      background-image: linear-gradient(to bottom, #fff 39px, #ccc 39px, rgba(0,0,0,0.5) 40px);
+      background-repeat: repeat-y;
+      background-size: 100% 40px;
+      overflow: hidden;
+    }
+
+    .text {
+      height: 40px;
+      line-height: 40px;
+      position: absolute;
+      left: 300px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="box">
+    </div>
+  </div>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.4/zepto.min.js"></script>
+  <script src="http://mockjs.com/dist/mock-min.js"></script>
+  <script>
+
+    var sentence = [],
+        cursor = 0,
+        index = 0;
+        left = 300,
+        maxLow = 8;
+
+    for(var i = 0; i < 100; i++) {
+      sentence.push(Random.string(10, 30));
+    }
+
+    var app = {
+
+      run: function () {
+        this.cacheDom();
+        this.scheduleUpdate();
+
+        this.boxWidth = this.$box.width();
+
+        // 放入第一句
+        this.$box.append('<div class="text" >'+ sentence[index++] +'</div>');
+      },
+
+      cacheDom: function () {
+        this.$box = $('#box');
+      },
+      
+      scheduleUpdate: function () {
+        if (window.requestAnimationFrame) {
+          window.requestAnimationFrame(this.update.bind(this));
+        } else if (window.mozRequestAnimationFrame) {
+          window.mozRequestAnimationFrame(this.update.bind(this));
+        } else if (window.webkitRequestAnimationFrame) {
+          window.webkitRequestAnimationFrame(this.update.bind(this));
+        }
+      },
+      
+      update: function () {
+        var $text = this.$box.find('.text');
+
+        $text.each(function() {
+          $(this).css('left', --left);
+        });
+
+        if(cursor >= maxLow) cursor = 0;
+
+        // 下一次更新
+        this.scheduleUpdate();
+      }
+
+
+    };
+
+    app.run();
+
+  </script>
+</body>
+</html>

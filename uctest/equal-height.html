@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    .h-equal-w {
+      width: 100px;
+      overflow: hidden;
+      background: #ccc;
+      position: relative;
+    }
+
+    .h-equal-w:before {
+      content: '';
+      display: block;
+      padding-top: 100%;
+    }
+
+    .content {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="h-equal-w">
+    <div class="content">height equal width</div>
+  </div>
+</body>
+</html>

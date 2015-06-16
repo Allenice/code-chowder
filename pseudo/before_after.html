@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>:before, :after</title>
+  <style>
+    .test {
+      width: 100px;
+      height: 100px;
+      background-color: #fff;
+      border: 1px solid #d0d0d0;
+      overflow: hidden;
+    }
+
+    .test:before {
+      content: " ";
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      color: #fff;
+      display: inline-block;
+    }
+
+    .test:after {
+      content: "#";
+      width: 20px;
+      height: 20px;
+      background-color: red;
+      color: #fff; 
+    }
+  </style>
+</head>
+<body>
+  <div class="test">test fjsd jfksdajf k </div>
+</body>
+</html>

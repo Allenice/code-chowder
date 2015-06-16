@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ECMAScript 6 </title>
+	<script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+	<script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+	<script type="text/javascript">
+		traceur.options.experimental = true;
+	</script>
+	<script type="module">
+	var f = a => console.log(a);
+
+	f(1);
+
+	var handler = {
+		id: 123,
+
+		init() {
+			document.addEventListener('click', e => this.doSomeThing(e), false);
+		},
+
+		init2() {
+			document.addEventListener('click', function(e) {
+				this.doSomeThing(e); // error
+			}, false);
+
+		},
+
+		doSomeThing(e) {
+			console.log(e.type, this.id);
+		}
+	}
+
+	handler.init();
+	handler.init2();
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
