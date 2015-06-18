@@ -1,41 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>css shape</title>
-	<style>
-		article {
-			width: 600px;
-			min-height: 300px;
-			margin: 0 auto;
-		}
-
-		img {
-			shape-outside: url(bg.png);
-			shape-image-threshold: 0.5;
-			float: left;
-			-webkit-clip-path: circle(50%);
-		}
-
-		.el {
-			width: 300px;
-			height: 300px;
-			float: left;
-			background-image: url('fruit.jpg');
-			background-size: cover;
-			-webkit-clip-path: circle(50% at 0 0);
-			shape-outside: circle(50% at 0 0) margin-box;
-			shape-image-threshold: 0.5;
-			margin-right: 20px;
-		}
-	</style>
+  <meta charset="UTF-8">
+  <title>css shape</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<article>
-		<img src="bg.png" alt="">
-		<div class="el"></div>
-		<p>For a long time, web designers have been forced to create within the constraints of the rectangle. Most content on the web is still trapped in simple boxes because most creative ventures into non-rectangular layout end in frustration. That is about to change with the introduction of CSS Shapes, available starting with Chrome 37.</p>
-		<p>CSS Shapes allow web designers to wrap content around custom paths, like circles, ellipses and polygons, thus breaking free from the constraints of the rectangle.</p>
-	</article>
+  <h1 id="image">使用图片</h1>
+  <div class="demo demo1">
+    <article>
+      <img src="img/bg.png" alt="">
+      <p>For a long time, web designers have been forced to create within the constraints of the rectangle. Most content on the web is still trapped in simple boxes because most creative ventures into non-rectangular layout end in frustration. That is about to change with the introduction of CSS Shapes, available starting with Chrome 37.</p>
+      <p>CSS Shapes allow web designers to wrap content around custom paths, like circles, ellipses and polygons, thus breaking free from the constraints of the rectangle.</p>
+    </article>
+  </div>
+
+  <h1 id="threshold">threshold</h1>
+  <div class="demo demo2">
+    <article>
+      <img src="img/bg2.png" alt="">
+      <p>For a long time, web designers have been forced to create within the constraints of the rectangle. Most content on the web is still trapped in simple boxes because most creative ventures into non-rectangular layout end in frustration. That is about to change with the introduction of CSS Shapes, available starting with Chrome 37.</p>
+      <p>CSS Shapes allow web designers to wrap content around custom paths, like circles, ellipses and polygons, thus breaking free from the constraints of the rectangle.</p>
+    </article>
+  </div>
+  <h1 id="circle">circle</h1>
+  <div class="demo demo3">
+    <article>
+      <div class="el"></div>
+      <p>For a long time, web designers have been forced to create within the constraints of the rectangle. Most content on the web is still trapped in simple boxes because most creative ventures into non-rectangular layout end in frustration. That is about to change with the introduction of CSS Shapes, available starting with Chrome 37.</p>
+      <p>CSS Shapes allow web designers to wrap content around custom paths, like circles, ellipses and polygons, thus breaking free from the constraints of the rectangle.</p>
+    </article>
+  </div>
+  <h1 id="ellipse">ellipse</h1>
+  <div class="demo demo4">
+    <article>
+      <div class="el"></div>
+      <p>For a long time, web designers have been forced to create within the constraints of the rectangle. Most content on the web is still trapped in simple boxes because most creative ventures into non-rectangular layout end in frustration. That is about to change with the introduction of CSS Shapes, available starting with Chrome 37.</p>
+      <p>CSS Shapes allow web designers to wrap content around custom paths, like circles, ellipses and polygons, thus breaking free from the constraints of the rectangle.</p>
+    </article>
+  </div>
+  <h1 id="polygon">polygon</h1>
+  <div class="demo demo5">
+    <article>
+      <div class="el"></div>
+      <p>For a long time, web designers have been forced to create within the constraints of the rectangle. Most content on the web is still trapped in simple boxes because most creative ventures into non-rectangular layout end in frustration. That is about to change with the introduction of CSS Shapes, available starting with Chrome 37.</p>
+      <p>CSS Shapes allow web designers to wrap content around custom paths, like circles, ellipses and polygons, thus breaking free from the constraints of the rectangle.</p>
+      <p>For a long time, web designers have been forced to create within the constraints of the rectangle. Most content on the web is still trapped in simple boxes because most creative ventures into non-rectangular layout end in frustration. That is about to change with the introduction of CSS Shapes, available starting with Chrome 37.</p>
+    </article>
+  </div>
+  <h1 id="inset">inset</h1>
+  <div class="demo demo6">
+    <article>
+      <div class="el"></div>
+      <p>For a long time, web designers have been forced to create within the constraints of the rectangle. Most content on the web is still trapped in simple boxes because most creative ventures into non-rectangular layout end in frustration. That is about to change with the introduction of CSS Shapes, available starting with Chrome 37.</p>
+      <p>CSS Shapes allow web designers to wrap content around custom paths, like circles, ellipses and polygons, thus breaking free from the constraints of the rectangle.</p>
+      <p>For a long time, web designers have been forced to create within the constraints of the rectangle. Most content on the web is still trapped in simple boxes because most creative ventures into non-rectangular layout end in frustration. That is about to change with the introduction of CSS Shapes, available starting with Chrome 37.</p>
+    </article>
+  </div>
 </body>
 </html>

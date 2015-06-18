@@ -1,0 +1,83 @@
+body {
+  width: 700px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.demo {
+  padding: 20px;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  margin: 10px 0;
+  box-shadow: 1px 1px 5px rgba(128, 128, 128, 0.3);
+}
+
+.demo1 img {
+  width: 150px;
+  height: 150px;
+  shape-outside: url(img/bg.png);
+  float: left;
+}
+
+.demo2 img {
+  width: 150px;
+  height: 150px;
+  shape-outside: url(img/bg2.png);
+  shape-image-threshold: 0.5;
+  float: left;
+  margin-right: 20px;
+}
+
+.demo3 {
+  min-height: 200px;
+}
+
+.demo3 .el {
+  width: 300px;
+  height: 300px;
+  float: left;
+  background-image: url('img/fruit.jpg');
+  background-size: cover;
+  -webkit-clip-path: circle(50% at 0 0);
+  shape-outside: circle(50% at 0 0) margin-box;
+  shape-image-threshold: 0.5;
+  margin-right: 20px;
+}
+
+.demo4 {
+  min-height: 200px;
+}
+
+.demo4 .el {
+  width: 200px ;
+  height: 100px;
+  float: left;
+  background-image: url('img/fruit.jpg');
+  background-size: cover;
+  -webkit-clip-path: ellipse(closest-side closest-side at 50% 50%);
+  shape-outside: ellipse(closest-side closest-side at 50% 50%) content-box;
+  shape-image-threshold: 0.5;
+  margin: 40px 0 0 150px;
+}
+
+.demo5 .el {
+  width: 200px;
+  height: 200px;
+  float: left;
+  shape-outside: polygon(0 0, 30% 70%, 70% 50%) content-box;
+  -webkit-clip-path: polygon(0 0, 30% 70%, 70% 50%);
+  background-color: green;
+  margin-left: 200px;
+}
+
+.demo6 .el {
+  width: 200px;
+  height: 200px;
+  float: left;
+  shape-outside: inset(80px 50px 10px 20px);
+  -webkit-clip-path: inset(80px 50px 10px 20px);
+  background-color: green;
+  margin-left: 200px;
+  overflow: hidden;
+}
+
