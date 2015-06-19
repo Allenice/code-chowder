@@ -81,3 +81,28 @@ body {
   overflow: hidden;
 }
 
+.border-box .el {
+  width: 200px;
+  height: 200px;
+  float: left;
+  shape-outside: border-box;
+  border-radius: 50%;
+  background-color: green;
+}
+
+.content-box .el {
+  width: 200px;
+  height: 100px;
+  line-height: 100px;
+  float: left;
+  text-align: center;
+  background-color: #fff;
+  shape-outside: content-box;
+  margin-top: 80px;
+  padding: 10px;
+  color: red;
+  margin-left: 50px;
+  border: 1px solid red;
+}
+
+
