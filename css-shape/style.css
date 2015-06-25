@@ -12,6 +12,10 @@ body {
   box-shadow: 1px 1px 5px rgba(128, 128, 128, 0.3);
 }
 
+.el {
+  color: #fff
+}
+
 .demo1 img {
   width: 150px;
   height: 150px;
@@ -54,8 +58,8 @@ body {
   float: left;
   background-image: url('img/fruit.jpg');
   background-size: cover;
-  -webkit-clip-path: ellipse(closest-side closest-side at 50% 50%);
-  shape-outside: ellipse(closest-side closest-side at 50% 50%) content-box;
+  -webkit-clip-path: ellipse(closest-side farthest-side at 20% 20%);
+  shape-outside: ellipse(closest-side farthest-side at 20% 20%) content-box;
   shape-image-threshold: 0.5;
   margin: 40px 0 0 150px;
 }
@@ -104,5 +108,51 @@ body {
   margin-left: 50px;
   border: 1px solid red;
 }
+
+.margin-box .el {
+  width: 200px;
+  height: 100px;
+  line-height: 100px;
+  float: left;
+  text-align: center;
+  background-color: #fff;
+  shape-outside: margin-box;
+  padding: 10px;
+  color: red;
+  margin-right: 50px;
+  border: 1px solid red;
+}
+
+.animate1 .el {
+  width: 200px;
+  height: 200px;
+  background: green;
+  float: left;
+  transition: all 1s;
+  shape-outside: circle(30%);
+  -webkit-clip-path: circle(30%);
+}
+
+.animate1 .el:hover {
+  shape-outside: circle(50%);
+  -webkit-clip-path: circle(50%);
+}
+
+.animate2 .el {
+  width: 200px;
+  height: 200px;
+  background: green;
+  float: left;
+  transition: all 1s;
+  shape-outside: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.animate2 .el:hover {
+  shape-outside: polygon(0 0, 100% 50%, 100% 50%, 0 100%);
+  -webkit-clip-path: polygon(0 0, 100% 50%, 100% 50%, 0 100%);
+}
+
+
 
 
