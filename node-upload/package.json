@@ -1,0 +1,8 @@
+{
+  "name": "node-upload",
+  "version": "0.0.1",
+  "dependencies": {
+    "formidable": "^1.0.17",
+    "fs-extra": "^0.20.1"
+  }
+}
