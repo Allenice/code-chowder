@@ -13,7 +13,8 @@ var mime = {
   'json': 'application/json',
   'png': 'image/png',
   'jpg': 'image/jpeg',
-  'gif': 'image/gif'
+  'gif': 'image/gif',
+  'swf': 'application/x-shockwave-flash'
 };
 
 
@@ -63,4 +64,4 @@ var server = http.createServer(function(req, res) {
   }
 });
 
-server.listen(3000);
+server.listen(3004);

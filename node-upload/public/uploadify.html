@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>uploadify demo</title>
+  <link rel="stylesheet" href="uploadify/uploadify.css"/>
+</head>
+<body>
+
+<h1>Uploadify Demo</h1>
+<form>
+  <div id="queue"></div>
+  <input id="file_upload" name="file_upload" type="file" multiple="true">
+</form>
+<div id="test"></div>
+
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="uploadify/jquery.uploadify.min.js"></script>
+<script src="test.js"></script>
+<script>
+//  $(function() {
+//    $('#file_upload').uploadify({
+//      'swf'      : '/uploadify/uploadify.swf',
+//      'uploader' : '/upload/'
+//    });
+//  });
+
+  $(function() {
+    $('#file_upload').uploadify({
+      'swf'      : '/uploadify/uploadify.swf',
+      'uploader' : 'http://localhost:3000/upload/'
+    });
+  });
+</script>
+</body>
+</html>
