@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>selection</title>
+</head>
+<body>
+<textarea name="" id="textarea" cols="30" rows="10">adb中国efg</textarea>
+<script>
+
+  window.onload = function() {
+    var textbox = document.getElementById('textarea');
+    textbox.setSelectionRange(5, 2);
+    console.log(textbox.selectionStart);
+    console.log(textbox.selectionEnd);
+  }
+
+</script>
+</body>
+</html>
