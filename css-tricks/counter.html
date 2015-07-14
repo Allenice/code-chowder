@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    body {
+      font-family: microsoft yahei;
+      font-size: 14px;
+      color: #333;
+    }
+
+    h1 {
+      font-size: 16px;
+    }
+
+    ol {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+    }
+    
+    ol {
+      counter-reset: number;
+      padding-left: 6px;
+      margin: 0;
+      padding: 0;
+    }
+    ol li {
+      line-height: 20px;
+      word-break: break-all;
+      padding: 10px 0;
+      padding-left: 12px;
+      text-indent: -13px;
+    }
+    ol li:before {
+      content: counters(number,".") " ";
+      counter-increment: number;
+    }
+    ol li li {
+      padding: 0;
+      padding-left: 20px;
+      text-indent: -24px;
+    }
+
+    .list {
+      width: 450px;
+    }
+
+  </style>
+</head>
+<body>
+<h1>递增序号 + 文本折行对齐</h1>
+<ol class="list">
+  <li>哈哈哈哈哈哈哈哈哈哈哈哈
+    <ol>
+      <li>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</li>
+      <li>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</li>
+      <li>哈哈哈哈哈哈哈哈哈哈哈哈</li>
+    </ol>
+  </li>
+  <li>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</li>
+  <li>哈哈哈哈哈哈哈哈</li>
+</ol>
+</body>
+</html>
