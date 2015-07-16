@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <h1 id="h1">&#8203;</h1>
+  <script>
+    var html = document.getElementById('h1').innerHTML;
+    var reg = /\u200B/g;
+    console.log(reg.test(html));
+  </script>
+</body>
+</html>

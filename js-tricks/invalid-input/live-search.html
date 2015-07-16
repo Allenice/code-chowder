@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <input type="text" id="search-input"/>
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+  <script>
+    $(function() {
+
+      var $searchInput = $('#search-input');
+
+      $searchInput.on('keyup', function(e) {
+        $.get('data.json', function(data) {
+          console.log(data);
+        });
+      });
+
+//      var $searchInput = $('#search-input'),
+//          xhr,
+//          timeId;
+//
+//      $searchInput.on('keyup', function(e) {
+//
+//        if(xhr) xhr.abort();
+//        clearTimeout(timeId);
+//
+//        timeId = setTimeout(function() {
+//          xhr = $.get('data.json', function(data) {
+//            console.log(data);
+//          });
+//        }, 400)
+//      });
+
+    });
+  </script>
+</body>
+</html>
