@@ -3,3 +3,4 @@ node_modules
 *.map
 .svn
 .sass-cache
+codemirror-5.5
