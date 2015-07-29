@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>code editor</title>
   <link rel="stylesheet" href="js/codemirror-5.5/lib/codemirror.css"/>
-  <link rel="stylesheet" href="js/codemirror-5.5/addon/fold/foldgutter.css">
   <link rel="stylesheet" href="js/codemirror-5.5/addon/dialog/dialog.css">
   <link rel="stylesheet" href="js/codemirror-5.5/addon/fold/foldgutter.css">
   <link rel="stylesheet" href="js/codemirror-5.5/theme/monokai.css">
@@ -22,6 +21,33 @@
     .CodeMirror-foldmarker {
       color: #fff;
       text-shadow: none;
+    }
+    .CodeMirror-linenumbers {
+      padding: 0 8px;
+      border-right: 1px solid #666;
+    }
+
+    .CodeMirror-foldmarker {
+      color: #aaa;
+      text-shadow: none;
+    }
+
+    .cm-jg-template {
+      color: #33a6ff;
+    }
+
+    .cm-s-monokai .CodeMirror-guttermarker-subtle {
+      color: #777;
+      font-size: 18px;
+    }
+
+    .cm-s-monokai .CodeMirror-linenumber {
+      color: #777;
+    }
+
+    .CodeMirror-linenumbers {
+      border: 0;
+      background-color: #333;
     }
   </style>
 </head>
@@ -44,11 +70,36 @@
 <script src="js/codemirror-5.5/addon/fold/comment-fold.js"></script>
 <script src="js/codemirror-5.5/mode/javascript/javascript.js"></script>
 <script src="js/codemirror-5.5/keymap/sublime.js"></script>
+<script src="js/codemirror-5.5/addon/mode/overlay.js"></script>
 <script>
+
+  var template = '[\n  \'{{repeat(5, 7)}}\',\n  {\n    _id: \'{{objectId()}}\',\n    index: \'{{index()}}\',\n    guid: \'{{guid()}}\',\n    isActive: \'{{bool()}}\',\n    balance: \'{{floating(1000, 4000, 2, \"$0,0.00\")}}\',\n    picture: \'http:\/\/placehold.it\/32x32\',\n    age: \'{{integer(20, 40)}}\',\n    eyeColor: \'{{random(\"blue\", \"brown\", \"green\")}}\',\n    name: \'{{firstName()}} {{surname()}}\',\n    gender: \'{{gender()}}\',\n    company: \'{{company().toUpperCase()}}\',\n    email: \'{{email()}}\',\n    phone: \'+1 {{phone()}}\',\n    address: \'{{integer(100, 999)}} {{street()}}, {{city()}}, {{state()}}, {{integer(100, 10000)}}\',\n    about: \'{{lorem(1, \"paragraphs\")}}\',\n    registered: \'{{date(new Date(2014, 0, 1), new Date(), \"YYYY-MM-ddThh:mm:ss Z\")}}\',\n    latitude: \'{{floating(-90.000001, 90)}}\',\n    longitude: \'{{floating(-180.000001, 180)}}\',\n    tags: [\n      \'{{repeat(7)}}\',\n      \'{{lorem(1, \"words\")}}\'\n    ],\n    friends: [\n      \'{{repeat(3)}}\',\n      {\n        id: \'{{index()}}\',\n        name: \'{{firstName()}} {{surname()}}\'\n      }\n    ],\n    greeting: function (tags) {\n      return \'Hello, \' + this.name + \'! You have \' + tags.integer(1, 10) + \' unread messages.\';\n    },\n    favoriteFruit: function (tags) {\n      var fruits = [\'apple\', \'banana\', \'strawberry\'];\n      return fruits[tags.integer(0, fruits.length - 1)];\n    }\n  }\n]';
+
+
+  CodeMirror.defineMode("jg-template", function(a, b) {
+        var c = {
+          token: function(a, b) {
+            var c;
+            if (a.match("{{")) {
+              while (null  != (c = a.next()))
+                if ("}" == c && "}" == a.next())
+                  break;
+              return a.eat("}"),
+                  "jg-template"
+            }
+            while (null  != a.next() && !a.match("{{", !1))
+              ;
+            return null
+          }
+        };
+        return CodeMirror.overlayMode(CodeMirror.getMode(a, b.backdrop || "javascript"), c)
+      }
+  );
+
   var editor = CodeMirror(document.getElementById('container'), {
-    value: 'function myScript(){\n\treturn 100;\n}\n',
+    value: template,
     lineNumbers: true,
-    mode: "javascript",
+    mode: "jg-template",
     keyMap: "sublime",
     autoCloseBrackets: true,
     matchBrackets: true,
