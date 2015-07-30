@@ -1,6 +1,10 @@
-@import "compass";
-@import "common/common";
+/* @import "compass"; */
+/* @import "common/common"; */
 
 .test {
   color: red;
+
+  a {
+    color: blue;
+  }
 }

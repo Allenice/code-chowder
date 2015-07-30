@@ -6,6 +6,8 @@ var imagemin = require('gulp-imagemin');
 var sourcemaps = require('gulp-sourcemaps');
 var compass = require('gulp-for-compass');
 var del = require('del');
+var postcss = require('gulp-postcss');
+var precss = require('precss');
 
 var paths = {
   scripts: ['client/js/**/*.coffee', '!client/external/**/*.coffee'],
@@ -45,6 +47,13 @@ gulp.task('compass', function () {
       sassDir: 'client/sass/',
       cssDir: 'client/css'
     }));
+});
+
+// postcss
+gulp.task('postcss', function(){
+  gulp.src('client/sass/**/*.scss')
+    .pipe(postcss([precss()]))
+    .pipe(gulp.dest('build/css'));
 });
 
 // Rerun the task when a file changes

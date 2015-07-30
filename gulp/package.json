@@ -15,7 +15,9 @@
     "gulp-concat": "^2.5.2",
     "gulp-for-compass": "0.0.2",
     "gulp-imagemin": "^2.2.1",
+    "gulp-postcss": "^5.1.10",
     "gulp-sourcemaps": "^1.5.2",
-    "gulp-uglify": "^1.2.0"
+    "gulp-uglify": "^1.2.0",
+    "precss": "^0.3.0"
   }
 }
