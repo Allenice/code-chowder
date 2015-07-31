@@ -1,0 +1,50 @@
+$blue: #056ef0;
+$column: 200px;
+
+@define-mixin icon $name {
+  padding-left: 16px;
+
+  &::after {
+    content: "";
+    background-url: url(/icons/$(name).png);
+  }
+}
+
+@define-extend bg-green {
+  background: green;
+}
+
+@define-extend bg-yellow {
+  background: yellow;
+}
+
+.search {
+  @mixin icon search;
+
+  @extend bg-green;
+
+  display: inline-block;
+}
+
+.menu {
+  background: color($blue blackness(20%));
+  width: calc(4 * $column);
+}
+
+.notice {
+  @if 3 < 5 {
+    @extend bg-green;
+  } @else {
+    @extend bg-yellow;
+  }
+}
+
+@for $i from 10 to 30 by 10 {
+.col-$i { width: $i%; }
+}
+
+@each $icon in (foo, bar, baz) {
+  .icon-$(icon) {
+  background: url(icons/$icon.png);
+}
+}

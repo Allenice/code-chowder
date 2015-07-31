@@ -1,0 +1,56 @@
+.search,
+.notice {
+  background: green;
+}
+
+.search {
+  padding-left: 16px;
+
+  display: inline-block;
+}
+
+.search::after {
+  content: "";
+  background-url: url(/icons/search.png);
+}
+
+.menu {
+  background: rgb(5, 95, 204);
+  width: calc(4 * 200px);
+}
+
+.notice {
+}
+
+.col-10 {
+  width: 10%;
+}
+
+.col-20 {
+  width: 20%;
+}
+
+.col-30 {
+  width: 30%;
+}
+
+.icon-foo {
+  background: url(icons/foo.png);
+}
+
+.icon-bar {
+  background: url(icons/bar.png);
+}
+
+.icon-baz {
+  background: url(icons/baz.png);
+}
+
+.test {
+  color: red;
+}
+
+.test .sub-test {
+  color: blue
+}
+/*# sourceMappingURL=maps/app.css.map */

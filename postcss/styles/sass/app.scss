@@ -1,0 +1,9 @@
+@import "common/_common.scss";
+
+.test {
+  color: red;
+
+  .sub-test {
+    color: blue
+  }
+}
