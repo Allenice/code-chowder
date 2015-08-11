@@ -1,0 +1,12 @@
+.disabled {
+  background-color: #ccc !important;
+  color: #999;
+  cursor: default;
+}
+
+button {
+  border: 0;
+  color: white;
+  cursor: pointer;
+  outline: none;
+}

@@ -5,3 +5,4 @@ node_modules
 .sass-cache
 codemirror-5.5
 report
+bower_components

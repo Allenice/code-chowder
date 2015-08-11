@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>rivets</title>
+  <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+
+<section id="auction" style="display: none">
+  <h3>{{ auction.product.name }}</h3>
+  <p> Current bid: {{ auction.currentBid | money }}</p>
+
+  <button rv-color="auction.color" rv-toggle="auction.toggle">button1</button>
+  <button rv-color="auction.color" rv-toggle="auction.toggle">button2</button>
+  <button rv-color="auction.color" rv-toggle="auction.toggle">button3</button>
+  <button rv-color="auction.color" rv-toggle="auction.toggle">button4</button>
+
+  <div>{{ auction.currency | currency }}</div>
+
+  <input type="text" rv-value="auction.currency | currency"/>
+
+  <h4 rv-if="auction.show" rv-color="auction.color">
+    Hurry up! There is {{ auction.timeLeft | time }} left.
+  </h4>
+</section>
+
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/rivets/dist/rivets.bundled.min.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>
