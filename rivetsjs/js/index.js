@@ -41,6 +41,7 @@
     },
 
     publish: function(value) {
+      console.log('publish');
       return Math.round(parseFloat(value) * 100);
     }
   };
@@ -54,7 +55,7 @@
     color: 'red',
     toggle: true,
     timeLeft: 150,
-    currency: '12345'
+    currency: 12345
   };
 
   var view = rivets.bind($('#auction').show(), {auction: auction});
@@ -64,6 +65,8 @@
     if(auction.timeLeft <= 140) auction.show = true;
 
     if(auction.timeLeft <= 130) auction.color = 'blue';
+
+    auction.currency--;
   }, 1000);
   
 })();

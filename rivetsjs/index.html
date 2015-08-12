@@ -16,7 +16,7 @@
   <button rv-color="auction.color" rv-toggle="auction.toggle">button3</button>
   <button rv-color="auction.color" rv-toggle="auction.toggle">button4</button>
 
-  <div>{{ auction.currency | currency }}</div>
+  <div>{{ auction.currency | currency 'fff' | money }}</div>
 
   <input type="text" rv-value="auction.currency | currency"/>
 
