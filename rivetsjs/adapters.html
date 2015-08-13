@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>adapters</title>
+</head>
+<body>
+
+<div id="app">
+  <h1>My name is { user:name }, I'm { user:age } years old!</h1>
+  <div>
+    <ul>
+      <li rv-each-tag="tags">
+        { tag }
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/sightglass/index.js"></script>
+<script src="../bower_components/rivets/dist/rivets.js"></script>
+<script src="../bower_components/underscore/underscore.js"></script>
+<script src="../bower_components/backbone/backbone.js"></script>
+<script src="js/adapters.js"></script>
+</body>
+</html>
