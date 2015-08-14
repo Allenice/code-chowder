@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>angular inherit</title>
+  <link rel="stylesheet" href="css/inherit.css"/>
+</head>
+<body>
+
+<div class="spicy">
+  <div ng-controller="MainController">
+    <p>Good {{timeOfDay}}, {{name}}!</p>
+    <p>{{obj.p1}}</p>
+
+    <div ng-controller="ChildController">
+      <p>Good {{timeOfDay}}, {{name}}!</p>
+      <p>{{obj.p1}}</p>
+
+      <div ng-controller="GrandChildController">
+        <p>Good {{timeOfDay}}, {{name}}!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../bower_components/angular/angular.js"></script>
+<script src="js/inherit.js"></script>
+</body>
+</html>
