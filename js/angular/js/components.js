@@ -8,7 +8,7 @@ var paneTpl = document.getElementById('tpl-pane').innerHTML;
 var components = angular.module('components', []);
 
 
-components.directive('tabs', function() {
+components.directive('myTabs', function() {
   return {
     restrict: 'E',
     transclude: true,
@@ -38,7 +38,7 @@ components.directive('tabs', function() {
 
 components.directive('pane', function() {
   return {
-    require: '^tabs',
+    require: '^myTabs',
     restrict: 'E',
     transclude: true,
     scope: {title: '@'},
