@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+
+<script src="zepto.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
+<script>
+
+  var d1 = $.Deferred();
+  var d2 = $.Deferred();
+
+  $.when.apply($, [d1, d2]).always(function ( v1, v2 ) {
+    console.log( v1 ); // "Fish"
+    console.log( v2 ); // "Pizza"
+  });
+
+  d1.resolve( "Fish" );
+  setTimeout(function() {
+    d2.reject( "Pizza" );
+  }, 3000);
+
+</script>
+</body>
+</html>
