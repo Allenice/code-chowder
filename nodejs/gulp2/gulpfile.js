@@ -5,6 +5,7 @@ function prefixText(text) {
     return through.obj(function(file, en, cb) {
         console.log(file.isStream());
         console.log(file.isBuffer());
+        
         cb();
     });
 }

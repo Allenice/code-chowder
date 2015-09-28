@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1, user-scalable=no">
+
+  <title>angular touch</title>
+  <style>
+    .touch {
+      width: 100px; height: 100px; line-height: 100px; background-color: red; text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div ng-controller="TouchController">
+  <div id="container" class="touch">
+    {{name}}
+  </div>
+</div>
+
+<script src="../../bower_components/angular/angular.js"></script>
+<script>
+
+  (function() {
+
+    var app = angular.module('app', []);
+
+    app.controller('TouchController', ['$scope', function($scope) {
+
+      $scope.name = 'touch';
+
+      $scope.touchstart = function(e) {
+        console.log('touchstart', e);
+      }
+
+      $scope.touchmove = function(e) {
+        console.log('touchmove', e);
+      }
+
+      $scope.touchend = function(e) {
+        console.log('touchend', e);
+      }
+      
+      var el = document.getElementById('container');
+      
+      el.ontouchstart = function(e) {
+        console.log(e);
+      }
+
+    }]);
+    
+
+  })();
+
+</script>
+
+</body>
+</html>

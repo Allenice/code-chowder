@@ -65,6 +65,13 @@ gulp.task('watch', function() {
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['watch', 'scripts', 'images']);
 
+gulp.task('test', function() {
+  gulp.src('client/sass/**/*.scss')
+    .pipe(function() {
+
+    });
+});
+
 //gulp.task('task1', function(cb) {
 //  console.log('task1');
 //  cb();

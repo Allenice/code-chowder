@@ -1,0 +1,9 @@
+{
+  "name": "ohana-example",
+  "version": "0.0.1",
+  "dependencies": {
+    "madoka": "^1.0.2",
+    "mockjs": "^0.1.10",
+    "ohana": "^1.0.1"
+  }
+}

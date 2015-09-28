@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>scroll insert demo1</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../../bower_components/underscore/underscore-min.js"></script>
+   </head>
+<body>
+    <div class="container">
+        <div id="list" class="list">
+            
+        </div>
+    </div>
+    <script>
+        $(function() {
+            console.log();
+            var data = [],
+                length = 98,
+                template = _.template('<div class="item"><%= item %></div>'),
+                html = '',
+                page = 1;
+
+            for(var i = 0; i < length; i++) {
+                data.push('item' + (i + 1));
+            }
+
+            function add() {
+                var d = data.slice((page-1) * 10, page * 10),
+                    html = '';
+
+
+                if(d.length < 10) {
+                    $(document).off('scroll');
+                }
+
+                if(d.length <= 0) {
+                    return;
+                }
+
+                page++;
+                d.forEach(function(item) {
+                    html += template({item: item});
+                });
+
+                $('#list').append(html);
+                console.log(d);
+            }
+
+            add();
+
+            var timeId;
+            $(document).on('scroll', function() {
+                clearTimeout(timeId);
+                timeId = setTimeout(function() {
+                    if($(window).scrollTop() + $(window).height() > $(document).height() - 50) {
+                        add();
+                    }
+                }, 400);
+            });
+        });
+    </script>
+</body>
+</html>

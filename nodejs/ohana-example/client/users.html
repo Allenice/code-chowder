@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>用户列表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+
+  <div class="container-fluid">
+
+    <div id="user-list" class="user-list"></div>
+
+  </div>
+
+<script id="tpl" type="text/template">
+  <% list.forEach(function(item) { %>
+    <div class="list-item row">
+      <div class="col-xs-4 avatar">
+        <img src="<%= item.avatar %>" alt=""/>
+      </div>
+      <div class="col-xs-9">
+        <div class="info">
+          <span><em><%= item.name %></em></span>
+          <span><%= item.age %></span>
+          <span><%= item.gender %></span>
+        </div>
+        <div class="email"><%= item.email %></div>
+      </div>
+      <div class="col-xs-12 extra">
+        <div><em>Greet: </em><%= item.sefIntro %></div>
+        <div><em>Address: </em><%= item.address %></div>
+      </div>
+    </div>
+  <% }) %>
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.6/zepto.min.js"></script>
+<script src="js/template.js"></script>
+<script>
+  $(function() {
+    var tpl = $('#tpl').html();
+    var template = _.template(tpl);
+    $.get('http://localhost:4005/user/', function(data) {
+      $('#user-list').html(template({list: data}));
+    });
+  });
+</script>
+</body>
+</html>
