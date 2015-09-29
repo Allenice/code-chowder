@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <input id="btn" type="button" value="click">
+    <div id="log"></div>
+    <script>
+        if(window.Worker) {
+            var worker = new Worker('./worker-test.js');
+            worker.onmessage = function(e) {
+                console.log(e);
+            }
+
+            worker.postMessage(10000000);
+        }
+
+        var btn = document.getElementById('btn'),
+            log = document.getElementById('log'),
+            i = 0;
+
+        btn.onclick = function() {
+            log.innerHTML = (i++);
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script src="../../../bower_components/jquery/dist/jquery.js"></script>
+    <script>
+
+        var data = [],
+            len = 1000;
+
+        for(var i = 0; i < len; i++) {
+            data.push({
+                id: i,
+                name: 'Allenice' + i,
+                age: i
+            });
+        }
+
+        // fileter
+        console.time('filter');
+        data.filter(function(item) {
+            return item.id === len / 2;
+        });
+        console.timeEnd('filter');
+
+        // filter worker 
+        if(window.Worker) {
+            console.time('filterworker');
+            var worker = new Worker('./worker.js');
+            worker.onmessage = function(e) {
+                console.log(e);
+                console.timeEnd('filterworker');
+            }
+            worker.postMessage([data, len]);
+
+        }
+
+        // each
+        console.time('each');
+        $.each(data, function(i, v) {
+            if(v.id === len / 2) {
+                return false;
+            }
+        });
+        console.timeEnd('each');
+
+    </script>
+</body>
+</html>
