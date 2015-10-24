@@ -1,0 +1,488 @@
+/**
+ * 通用组件
+ */
+
+@import "bourbon";
+
+/* 局部变量 */
+// checkbox 大小
+$c-size: 16px;
+
+/* 按钮  */
+
+// 默认按钮
+.btn {
+    display: inline-block;
+    min-width: 80px;
+    padding: 8px 24px;
+    border: 0;
+    border-radius: 3px;
+    text-align: center;
+    box-sizing: border-box;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    font-weight: $font-light;
+    background-color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-full{
+    width: 100%;
+}
+
+// 红色的按钮
+.btn-red {
+    background-color: $color-red;
+    color: #fff;
+    border-radius: 3px;
+
+    &:hover {
+        background-color: lighten($color-red, 8%);
+    }
+}
+
+// 上传按钮
+uploader{
+    position: relative;
+
+    .webuploader-container {
+        position: relative;
+    }
+    .webuploader-element-invisible {
+        position: absolute !important;
+        clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+        clip: rect(1px,1px,1px,1px);
+    }
+    .webuploader-pick {
+        //position: relative;
+        display: inline-block;
+        cursor: pointer;
+       
+        text-align: center;
+        overflow: hidden;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+    }
+    .webuploader-pick-hover {
+        //background-color: lighten($color-red, 8%);
+    }
+
+    .webuploader-pick-disable {
+        opacity: 0.6;
+        pointer-events:none;
+    }
+    
+}
+
+// 绿色的按钮
+.btn-green {
+    background-color: $color-green;
+    color: #fff;
+
+    &:hover {
+        background-color: lighten($color-green, 8%);
+    }
+}
+
+// 蓝色的按钮
+.btn-blue {
+    background-color: $color-blue;
+    color: #fff;
+
+    &:hover {
+        background-color: lighten($color-blue, 8%);
+    }
+
+}
+
+// 白色的按钮
+.btn-white {
+    background-color: $color-white;
+    border: 1px solid #D7D7D7;
+    border-radius: 3.51px;
+    color: #4A4A4A;
+
+    &:hover {
+        background-color: #ebebeb;
+    }
+
+}
+
+// 禁用按钮(灰色)
+.btn-gray,
+.btn[disabled] {
+    background-color: $color-gray;
+    color: #fff;
+    cursor: default;
+
+    &:hover {
+        background-color: $color-gray;
+    }
+}
+
+// checkbox
+.checkbox {
+    display: inline-block;
+    width: $c-size;
+    height: $c-size;
+    position: relative;
+    border: 1px solid #6F6F6F;
+    border-color: #999 #999 #6F6F6F #6F6F6F;
+    vertical-align: top;
+    margin-right: 10px; 
+
+    input[type="checkbox"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: $c-size;
+        height: $c-size;
+        margin: 0;
+        padding: 0;
+        visibility: hidden;
+        z-index: 3;
+
+        &:checked {
+            & ~ i {
+                display: block;
+            }
+        }
+    }
+
+    i {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: $c-size;
+        height: $c-size;
+        z-index: 2;
+        display: none;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background-color: #fff;
+            z-index: 1;
+        }
+
+        &:after {
+            content: '\e606';
+            position: absolute;
+            top: -4px;
+            right: -5px;
+            font-size: 16px;
+            color: #6F6F6F;
+            z-index: 2;
+            font-family: 'iconfont';
+        }
+    }
+}
+
+
+/* 表格 */
+
+.table-header {
+    overflow: hidden;
+    padding: 20px 25px 15px 0;
+    border-bottom: 1.4px solid rgba(#1D1D26, 0.05);
+
+    .title {
+        float: left;
+        font-size: 16px;
+        color: #000000;
+        line-height: 19px;
+        position: relative;
+        top: 5px;
+    }
+
+    .action {
+        float: right;
+        text-decoration: none;
+        color: #b3b3b3;
+        font-size: 19px;
+
+        .iconfont {
+            font-size: 12px;
+        }
+
+        &:hover {
+            color: $color-red;
+        }
+    }
+}
+
+.table {
+    width: 100%;
+    font-size: 14px;
+    color: #1D1D26;
+    font-weight: $font-light;
+
+    td {
+        height: 65px;
+        font-size: 14px;
+        border-bottom: 1.4px solid $line-color;
+        font-weight: $font-light;
+    }
+
+}
+
+/* 提示框 */
+.popover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin:0;
+    background: $color-red;
+    color: #fff;
+    display: none;
+    font-size: 14px;
+    z-index: 900;
+    opacity: 0;
+    cursor: pointer;
+
+    &.active {
+        display: block!important;
+        opacity: 1;
+    }
+
+    &:hover {
+        background-color: lighten($color-red, 8%);
+
+        .popover-inner {
+            background-color: lighten($color-red, 8%);
+        }
+
+        .popover-caret {
+            border-bottom: 8px solid lighten($color-red, 8%);
+        }
+
+    }
+
+
+}
+
+.popover-inner {
+    position: relative;
+    background: $color-red;
+    padding: 8px 16px;
+    z-index: 110;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 0.7em;
+
+}
+
+.popover-caret {
+    position: absolute;
+    left: 5px;
+    top: 0;
+    z-index: 100;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-bottom: 8px solid $color-red;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-top: 0 dotted;
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+    overflow: hidden;
+}
+
+.popover-bottom .popover-caret {
+    top: -8px;
+}
+
+.popover-top .popover-caret {
+    top: auto;
+    bottom: -8px;
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+// 模态弹窗
+.mode-win {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(#000, 0.44);
+    z-index: 310;
+    display: none;
+
+    .win {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 300px;
+        height: 200px;
+        margin-top: -100px;
+        margin-left: -150px;
+        background: #fff;
+        border-radius: 3px;
+    }
+}
+
+// 数据表格，用户中心那种
+.data-table {
+    width: 100%;
+    border: 1px solid #dcdcdc;
+    border-width: 0 1px;
+
+    th,
+    td {
+        border: 1px solid #dcdcdc;
+        border-width: 1px 0;
+    }
+
+    th {
+        height: 35px;
+        line-height: 35px;
+        padding: 0 10px;
+        font-size: 14px;
+        color: #4A4A4A;
+        background-color: #f7f7f7;
+    }
+
+    td {
+        padding: 30px 10px;
+        font-size: 14px;
+        line-height: 20px;
+        color: #4A4A4A;
+        font-weight: $font-light;
+        background-color: #fff;
+    }
+
+    .expand {
+        text-decoration: none;
+        cursor: pointer;
+        position: relative;
+        top: -1px;
+        i {
+            color: #b3b3b3;
+            font-size: 12px;
+        }
+    }
+
+    .expand-tr {
+        display: none;
+
+        td {
+            position: relative;
+            top: -1px;
+            border-top: 0;
+            background-color: #fcfcfc;
+        }
+
+        .loading {
+            text-align: center;
+
+            .loading-wrap {
+                width: 60px;
+                height: 60px;
+                overflow: hidden;
+                display: inline-block;
+
+                > div {
+                    margin-top: 25px;
+                }
+            }
+        }
+    }
+
+}
+
+// 表单
+.uc-form {
+
+    .form-group {
+        overflow: hidden;
+        margin-bottom: 23px;
+    }
+
+    .form-label,
+    .form-input {
+        line-height: 33px;
+        font-weight: $font-light;
+        font-size: 14px;
+        color: #4a4a4a;
+    }
+
+    .form-label {
+        display: inline-block;
+        width: 140px;
+    }
+
+    .form-input {
+        width: 325px;
+        height: 33px;
+        padding: 0 10px;
+        border: 1px solid #dcdcdc;
+        outline: none;
+        color: lighten(#4A4A4A, 20%);
+        font-family: $font-family;
+        box-sizing: border-box;
+
+        &:focus{
+            border-color: $color-red;
+        }
+    }
+
+    select.form-select {
+        height: 33px;
+        line-height: 33px;
+        border: 1px solid #dcdcdc;
+        background-color: #fff;
+        outline: none;
+        border-radius: 0;
+        font-family: $font-family;
+        box-sizing: border-box;
+
+        &:focus{
+            border-color: $color-red;
+        }
+
+    }
+
+    .action {
+
+        margin-top: 20px;
+
+        .btn {
+            line-height: 20px;
+        }
+    }
+
+    &.inline-form {
+        .form-group {
+            float: left;
+        }
+    }
+}
+
+.credit-card{
+    display: inline-block;
+    width: 39px;
+    height: 25px;
+
+    &.Visa{
+        background: image-url('visa.png');
+    }
+
+    &.Master{
+        background: image-url('master.png');
+    }
+}

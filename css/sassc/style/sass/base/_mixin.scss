@@ -1,0 +1,57 @@
+/**
+ * mixins
+ */
+
+@mixin cf {
+    overflow: hidden;
+}
+
+// 省略号
+@mixin ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin box-size( $width , $height) {
+    width: $width;
+    height: $height;
+    line-height: $height;
+}
+
+@mixin iconfont {
+    font-family: "iconfont";
+    font-style: normal;
+    cursor: default;
+    -webkit-font-smoothing: antialiased;
+}
+
+@mixin transition( $time ) {
+    -webkit-transition: $time;
+    transition: $time;
+}
+
+@mixin square( $len ) {
+    width: $len;
+    height: $len;
+}
+
+i {
+    @include iconfont;
+}
+
+// keyframes mixin
+@mixin keyframes($name) {
+    @-webkit-keyframes #{$name} {
+        $browser: '-webkit-'; @content;
+    }
+    @-moz-keyframes #{$name} {
+        $browser: '-moz-'; @content;
+    }
+    @-o-keyframes #{$name} {
+        $browser: '-o-'; @content;
+    }
+    @keyframes #{$name} {
+        $browser: ''; @content;
+    }
+} $browser: null;

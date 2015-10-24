@@ -1,0 +1,587 @@
+/**
+ * 用户中心
+ */
+
+.user-center {
+    // 用户中心主体宽度
+    $content-width: 1440px;
+
+    // retina 屏幕图片
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.5){ 
+        .logo {
+            background-image: image-url('retina/mmf@2x.png') !important;
+        }
+    }
+
+    // 重新头部提示样式
+    .ask-line {
+        .ask-con {
+            width: auto;
+            max-width: $content-width;
+            padding-left: 20px;
+        }
+    }
+
+    // 重写按钮样式
+    .content {
+        .btn {
+            height: 28px;
+            line-height: 28px;
+            border-radius: 4px;
+            padding: 0px 30px;
+        }
+    }
+
+    // header
+    .uc-header {
+        height: 80px;
+        background-color: #000;
+
+        .header-con {
+            max-width: $content-width;
+            margin: 0 auto;
+        }
+
+        .left {
+            float: left;
+            height: 80px;
+            font-size: 0;
+            overflow: hidden;
+        }
+
+        .right {
+            height: 80px;
+            line-height: 80px;
+            float: right;
+            margin-right: 45px;
+        }
+
+        .logo {
+            display: inline-block;
+            width: 67px;
+            height: 26px;
+            background-image: image-url('retina/mmf.png');
+            background-size: contain;
+            margin: 27px 18px 0 28px;
+        }
+
+        .txt {
+            display: inline-block;
+            height: 26px;
+            line-height: 26px;
+            vertical-align: top;
+            font-size: 17px;
+            font-weight: $font-light;
+            color: #fff;
+            margin-top: 27px;
+            padding-left: 18px;
+            border-left: 1px solid #fff;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            vertical-align: middle;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+
+        .name {
+            font-size: 15px;
+            color: #fff;
+            font-weight: $font-light;
+        }
+    }
+
+    // main
+    .main {
+        max-width: $content-width;
+        margin: 0 auto;
+        padding-left: 270px;
+        background-color: #fcfcfc;
+        box-sizing: border-box;
+        border-left: 1px solid #EBEBEB;
+        overflow: hidden;
+    }
+
+    // begin sidebar
+    .sidebar {
+        width: 270px;
+        min-height: 800px;
+        float: left;
+        margin-left: -270px;
+
+        .profile {
+            background-color: #fff;
+            padding: 38px 10px 38px 28px;
+            border-bottom: 1px solid #EBEBEB;
+        }
+
+        .avatar {
+            width: 68px;
+            height: 68px;
+            float: left;
+            border-radius: 50%;
+            border: 1px solid #979797;
+
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+            }
+        }
+
+        .name,
+        .sub {
+            float: left;
+            width: 135px;
+            margin: 10px 0 0 24px;
+            @include ellipsis;
+        }
+
+        .name {
+            
+            font-size: 19px;
+            color: #000000;
+            line-height: 23px;
+        }
+
+        .sub {
+            opacity: 0.5;
+            font-size: 14px;
+            color: #1D1D26;
+            line-height: 16.79px;
+        }
+
+        .nav {
+            margin-top: 25px;
+
+            li {
+                height: 45px;
+
+                a {
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    line-height: 45px;
+                    font-size: 14px;
+                    color: #4A4A4A;
+
+                    &:hover {
+                        color: $color-green;
+                    }
+
+
+                }
+
+                span {
+                    display: inline-block;
+                    height: 18px;
+                    line-height: 18px;
+                    padding-left: 28px;
+                    border-left: 4px solid transparent;
+                }
+
+                &.cur {
+                    span {
+                        color: $color-green;
+                        border-color: currentColor;
+                    }
+                }
+
+            }
+        }
+    }
+    // end sidebar
+
+
+    .content {
+        width: 100%;
+        min-height: 800px;
+        float: left;
+        background: #fff;
+        padding-bottom: 100px;
+        border-left: 1px solid #EBEBEB;
+    }
+
+    .content-inner {
+        padding: 10px 40px 10px 34px;
+    }
+
+    .title-s1,
+    .title-s2 {
+        font-size: 18px;
+        color: #1D1D26;
+        line-height: 21px;
+        margin: 40px 0 35px 0;
+    }
+
+    .title-s2 {
+        margin-bottom: 20px;
+    }
+
+    .empty-tips {
+        font-size: 14px;
+        color: #959595;
+        line-height: 16px;
+        font-weight: $font-light;
+
+        a {
+            color: $color-red;
+        }
+    }
+
+    // begin app-table
+    .app-table {
+
+        tr {
+            cursor: pointer;
+
+            &.expand-tr,
+            &:first-child {
+                cursor: default;
+            }
+            
+        }
+
+        th:last-child {
+            text-align: center;
+        }
+
+        td {
+            padding: 10px;
+            height: 70px;
+
+            &:last-child {
+                text-align: center;
+            }
+
+            h1,
+            div.sub {
+                margin-left: 60px;
+                margin-top: 7px;
+            }
+
+            h1 {
+                font-size: 15.35px;
+                color: #1D1D26;
+                line-height: 18px;
+                font-weight: 400;
+            }
+
+            div.sub {
+                opacity: 0.5;
+                font-size: 13px;
+                font-weight: $font-light;
+                color: #1D1D26;
+                line-height: 12px;
+            }
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            float: left;
+            border-radius: 50%;
+        }
+
+        .expand-tr {
+            td {
+                padding: 30px 0 20px 0;
+                min-height: 180px;
+            }
+
+            h2 {
+                font-size: 15.35px;
+                font-weight: 400;
+                color: #1D1D26;
+                line-height: 15px;
+                margin-bottom: 20px;
+            }
+
+            .col {
+                float: left;
+                margin-right: 10%;
+            }
+
+            .col-1 {
+                width: 20%;
+                display: block;
+            }
+
+            .col-2 {
+                width: 25%;
+            }
+
+            .col-3 {
+                width: 25%;
+                margin-right: 0;
+            }
+            
+            .store {
+                font-size: 15px;
+                font-weight: $font-light;
+                margin-bottom: 5px;
+                color: #6F6F6F;
+            }
+
+            .stylist {
+                white-space: nowrap;
+            }
+
+            .address {
+                font-size: 12px;
+                font-weight: $font-light;
+                color: #6F6F6F;
+            }
+
+            .name {
+                margin-left: 15px;
+                line-height: 40px;
+                font-weight: 400;
+                color: #1D1D26;
+            }
+
+        }
+
+        .price-item {
+            margin-bottom: 5px;
+
+            label, span{
+                display: inline-block;
+                // text-align: right;
+                font-size: 14px;
+                line-height: 20px;
+            }
+
+            label {
+                width: 50%;
+                padding-right: 5px;
+                color: #6F6F6F;
+                font-weight: $font-light;
+            }
+
+            span {
+                width: 40%;
+                font-weight: 400;
+            }
+
+        }
+
+        .line {
+            width: 100%;
+            border-bottom: 1px solid #E5E5E5;
+            margin-bottom: 5px;
+        }
+
+        .tips {
+            margin-top: 20px;
+            opacity: 0.44;
+            font-size: 14px;
+            color: #1D1D26;
+            line-height: 16px;
+            font-weight: $font-light;
+        }
+
+        .action {
+            text-align: center;
+            .btn {
+                padding: 0;
+                width: 106px;
+                height: 27px;
+                line-height: 27px;
+                margin-bottom: 10px;
+            }
+        }
+    }
+    // end app-table
+
+    .uc-form {
+        border-top: 1px solid #dcdcdc;
+        padding-top: 30px;
+
+        .form-group {
+            font-size: 0;
+        }
+    }
+
+    // profile info
+    .info-form {
+        .form-group {
+            width: 44%;
+            margin-right: 12%;
+
+            &:nth-child(2n) {
+                margin-right: 0;
+            }
+        }
+
+        .form-label {
+            width: 30%;
+        }
+
+        .form-input {
+            width: 70%;
+        }
+
+        .action {
+            clear: both;
+        }
+    }
+
+    // 编辑头像
+    .photo {
+        border-top: 1px solid #dcdcdc;
+        padding-top: 30px;
+
+        img {
+            width: 68px;
+            height: 68px;
+            border: 1px solid #979797;
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        .btn {
+            vertical-align: middle;
+            margin-left: 40px;
+        }
+    }
+
+    // 修改密码表单
+    .pwd-form {
+        .form-group {
+            width: auto;
+            margin-right: 74px;
+        }
+
+        .form-label {
+            width: 138px;
+            padding-right: 8px;
+        }
+
+        .form-input {
+            width: 165px;
+        }
+
+        .action {
+            margin-top: 3px;
+        }
+    }
+
+    // 社交账号绑定
+    .connect {
+        border-top: 1px solid #dcdcdc;
+        padding-top: 30px;
+
+        .item {
+            float: left;
+            width: 50%;
+            font-size: 0;
+        }
+
+        .social {
+            display: inline-block;
+            width: 43px;
+            height: 43px;
+            background: no-repeat center/contain;
+            vertical-align: middle;
+        }
+
+        .fb-gray {
+            background-image: image-url('fb-gray.png');
+        }
+
+        .g-plus-gray {
+            background-image: image-url('g-plus-gray.png');
+        }
+
+        .fb {
+            background-image: image-url('fb.png');
+        }
+
+        .g-plus {
+            background-image: image-url('g-plus.png');
+        }
+
+
+        .name {
+            display: inline-block;
+            font-size: 14px;
+            color: #4A4A4A;
+            font-weight: $font-light;
+            line-height: 16px;
+            vertical-align: middle;
+            margin: 0 25px;
+        }
+
+        .btn {
+            vertical-align: middle;
+        }
+    }
+
+    // 支付方式
+    .pay-table {
+        th,td {
+            &:first-child {
+                padding-left: 30px;
+            }
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        .img {
+            width: 40px;
+            height: 35px;
+            background-color: #c0c0c0;
+        }
+    }
+
+    .add-pay {
+        text-align: right;
+        margin-top: 15px;
+
+        .btn {
+            padding: 0 15px;
+            font-size: 15px;
+            color: #4A4A4A;
+            line-height: 18px;
+        }
+
+        i {
+            font-size: 14px;
+            color: #979797;
+            margin-right: 10px;
+        }
+    }
+
+    // 提醒设置
+    .notify-setting {
+
+        .form-group {
+            label {
+                display: inline-block;
+            }
+        }
+
+        .checkbox {
+            margin-right: 12px;
+            margin-top: 5px;
+        }
+
+        .txt {
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 14px;
+            color: #6F6F6F;
+            line-height: 20px;
+            font-weight: $font-light;
+        }
+
+        .action {
+            margin-top: 50px;
+        }
+    }
+}
