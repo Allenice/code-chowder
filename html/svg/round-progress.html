@@ -5,8 +5,8 @@
     <title>round path</title>
     <style>
 /* Load animation */
-@-webkit-keyframes load{0%{stroke-dashoffset:0}}
-@keyframes load{0%{stroke-dashoffset:0}}
+@-webkit-keyframes load{0%{stroke-dashoffset:629}}
+@keyframes load{0%{stroke-dashoffset:629}}
 /* Container */
 .progress {
     position: relative;
@@ -48,20 +48,22 @@
     position: absolute;
     left: 0;
     top: 0;
-    transform: rotate(-90deg);
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
+    transform: rotate(-270deg);
+    -webkit-transform: rotate(-270deg);
+    -moz-transform: rotate(-270deg);
+    -ms-transform: rotate(-270deg);
 }
 .progress svg:nth-child(1) circle {
     fill: none;
-    stroke: #50D2C2;
+    stroke: #f1f1f1;
 }
-.progress svg:nth-child(2) path {
+.progress svg:nth-child(2) path,
+.progress svg:nth-child(2) circle {
     fill: none;
     stroke-width: 10;
     stroke-dasharray: 629;
-    stroke: #F1F1F1;
+    stroke: #50D2C2;
+    stroke-linecap: round;
     -webkit-animation: load 2s;
     -moz-animation: load 2s;
     -o-animation: load 2s;
@@ -73,14 +75,16 @@
     <!--  Container  -->
 <ul class="progress">
     <!--  Item  -->
-    <li data-name="SVG Skill" data-percent="13%">
+    <li data-name="SVG Skill" data-percent="50%">
         <svg viewBox="-10 -10 220 220">
             <g fill="none" stroke-width="9" transform="translate(100,100)">
                 <circle cx="0" cy="0" r="100" />
             </g>
         </svg>
         <svg viewBox="-10 -10 220 220">
-            <path d="M200,100 C200,44.771525 155.228475,0 100,0 C44.771525,0 0,44.771525 0,100 C0,155.228475 44.771525,200 100,200 C155.228475,200 200,155.228475 200,100 Z" stroke-dashoffset="82"></path>
+            <g transform="translate(100,100)">
+                <circle cx="0" cy="0" r="100" stroke-dashoffset="314.5" />
+            </g>
         </svg>
     </li>
 </ul>
