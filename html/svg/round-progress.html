@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>round path</title>
+    <style>
+/* Load animation */
+@-webkit-keyframes load{0%{stroke-dashoffset:0}}
+@keyframes load{0%{stroke-dashoffset:0}}
+/* Container */
+.progress {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    text-align: center;
+}
+/* Item */
+.progress>li {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+    color: #93A2AC;
+    font-family: Lato;
+    font-weight:100;
+    margin: 2rem;
+}
+.progress>li:before {
+    content: attr(data-name);
+    position: absolute;
+    width: 100%;
+    bottom: -2rem;
+    font-weight:400;
+}
+.progress>li:after {
+    content: attr(data-percent);
+    position: absolute;
+    width: 100%;
+    top: 3.7rem;
+    left: 0;
+    font-size: 2rem;
+    text-align: center;
+}
+.progress svg {
+    width: 10rem;
+    height: 10rem;
+}
+.progress svg:nth-child(2) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+}
+.progress svg:nth-child(1) circle {
+    fill: none;
+    stroke: #50D2C2;
+}
+.progress svg:nth-child(2) path {
+    fill: none;
+    stroke-width: 10;
+    stroke-dasharray: 629;
+    stroke: #F1F1F1;
+    -webkit-animation: load 2s;
+    -moz-animation: load 2s;
+    -o-animation: load 2s;
+    animation: load 2s;
+}
+    </style>
+</head>
+<body>
+    <!--  Container  -->
+<ul class="progress">
+    <!--  Item  -->
+    <li data-name="SVG Skill" data-percent="13%">
+        <svg viewBox="-10 -10 220 220">
+            <g fill="none" stroke-width="9" transform="translate(100,100)">
+                <circle cx="0" cy="0" r="100" />
+            </g>
+        </svg>
+        <svg viewBox="-10 -10 220 220">
+            <path d="M200,100 C200,44.771525 155.228475,0 100,0 C44.771525,0 0,44.771525 0,100 C0,155.228475 44.771525,200 100,200 C155.228475,200 200,155.228475 200,100 Z" stroke-dashoffset="82"></path>
+        </svg>
+    </li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>Keyup event on mobile</title>
+    <style>
+        .input {
+            width: 300px;
+            height: 30px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script src="../../../bower_components/jquery/dist/jquery.js"></script>
+    <script>
+        $(function() {
+            $('.input').keyup(function(e) {
+                alert(e.keyCode)
+            });
+        });
+    </script>
+</head>
+<body>
+    <input class="input" type="text">
+    <div class="input" contenteditable>content</div>
+</body>
+</html>

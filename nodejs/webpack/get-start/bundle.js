@@ -49,6 +49,8 @@
 
 	document.write('<div class="'+ style.header +'">'+ content +'</div>');
 
+	console.log(style);
+
 	var btnShow = document.getElementById('btn-show'),
 	    btnHide = document.getElementById('btn-hide'),
 	    pop = document.getElementById('pop');
