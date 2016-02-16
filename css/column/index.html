@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>css column</title>
+    <style>
+        ul {
+            list-style: none;
+            -webkit-columns: 2 100px;
+            -webkit-column-gap: 1em;
+            -webkit-column-fill: balance;
+        }
+
+        li {
+            padding: 0 10px;
+            height: 30px;
+            line-height: 30px;
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <ul class="list">
+            <li>item1</li>
+            <li>item2</li>
+            <li>item3</li>
+            <li>item4</li>
+        </ul>
+    </div>
+</body>
+</html>
