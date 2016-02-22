@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            background: #efefef;
+            padding: 0;
+            margin: 0;
+        }
+
+        canvas {
+            width: 1000px;
+            height: 300px;
+            display: block;
+            box-shadow: 0 0 3px rgba(0,0,0, .3);
+            margin: 10px auto;
+            border-radius: 3px;
+            padding: 20px;
+            background: #fff;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="1000" height="300"></canvas>
+    <canvas id="canvas2" width="1000" height="300"></canvas>
+    <canvas id="canvas3" width="1000" height="300"></canvas>
+    <canvas id="canvas4" width="1000" height="300"></canvas>
+
+    <script>
+        var pi = Math.PI;
+
+        function getContext(canvasId) {
+            var dpi = window.devicePixelRatio,
+                canvas = document.getElementById(canvasId),
+                ctx = canvas.getContext('2d');
+
+            canvas.height = canvas.height * dpi;
+            canvas.width = canvas.width * dpi;
+            ctx.scale(dpi, dpi);
+
+            return ctx;
+        }
+
+        (function() {
+            var ctx = getContext('canvas1');
+
+            ctx.fillStyle = 'green';
+            ctx.fillRect(10, 10, 100, 100);
+
+            ctx.fillStyle = 'black';
+            ctx.fillRect(150, 150, 100, 100);
+
+            ctx.save();
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(10, 150, 100, 100);
+            ctx.clearRect(175, 175, 50, 50);
+
+            ctx.restore();
+            ctx.beginPath();
+            ctx.arc(175,75, 50, 0, pi * 2, true);
+            ctx.moveTo(210, 75);
+            ctx.arc(175, 75, 35, 0, pi, false);
+            ctx.closePath();
+            ctx.moveTo(165, 60);
+            ctx.arc(160, 60, 5, 0, pi*2, true);
+            ctx.moveTo(195, 60);
+            ctx.arc(190, 60, 5, 0, pi*2, true);
+            ctx.stroke();
+
+        })();
+
+        (function() {
+            var ctx = getContext('canvas2');
+
+            ctx.beginPath();
+            ctx.moveTo(200, 200);
+            ctx.quadraticCurveTo(250, 0, 300, 200);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(75,40);
+            ctx.bezierCurveTo(75,37,70,25,50,25);
+            ctx.bezierCurveTo(20,25,20,62.5,20,62.5);
+            ctx.bezierCurveTo(20,80,40,102,75,120);
+            ctx.bezierCurveTo(110,102,130,80,130,62.5);
+            ctx.bezierCurveTo(130,62.5,130,25,100,25);
+            ctx.bezierCurveTo(85,25,75,37,75,40);
+            ctx.fill();
+
+            if(window.Path2D) {
+                var rect = new Path2D();
+                rect.rect(300, 0, 100, 100);
+
+                var circle = new Path2D();
+                circle.arc(600, 100, 50, 0, 2*pi, true);
+                
+                ctx.stroke(rect);
+                ctx.fill(circle);
+
+            }
+
+            ctx.fillRect(800, 0, 100, 100);
+            ctx.save();
+            ctx.fillStyle = '#09f';
+            ctx.fillRect(810, 10, 80, 80);
+            ctx.save();
+
+            ctx.fillStyle = '#fff';
+            ctx.globalAlpha = .5;
+            ctx.fillRect(820, 20, 60, 60);
+
+            ctx.restore();
+            ctx.fillRect(830, 30, 40, 40);
+            ctx.restore();
+            ctx.fillRect(840, 40, 20, 20);
+        })();
+
+        (function() {
+            var ctx = getContext('canvas3');
+
+            function drawSpirograph(R,r,O){
+              var x1 = R-O;
+              var y1 = 0;
+              var i  = 1;
+              ctx.beginPath();
+              ctx.moveTo(x1,y1);
+              do {
+                if (i>20000) break;
+                var x2 = (R+r)*Math.cos(i*Math.PI/72) - (r+O)*Math.cos(((R+r)/r)*(i*Math.PI/72))
+                var y2 = (R+r)*Math.sin(i*Math.PI/72) - (r+O)*Math.sin(((R+r)/r)*(i*Math.PI/72))
+                ctx.lineTo(x2,y2);
+                x1 = x2;
+                y1 = y2;
+                i++;
+              } while (x2 != R-O && y2 != 0 );
+              ctx.stroke();
+            }
+
+            ctx.fillRect(0,0,1000,300);
+            for (var i=0;i<3;i++) {
+                for (var j=0;j<10;j++) {
+                  ctx.save();
+                  ctx.strokeStyle = "#9CFF00";
+                  ctx.translate(50+j*100,50+i*100);
+                  drawSpirograph(20*(j+2)/(j+1),-8*(i+3)/(i+1),10);
+                  ctx.restore();
+                }
+            }
+
+        })();
+
+        (function() {
+            var ctx = getContext('canvas4');
+            var sun = new Image();
+            var moon = new Image();
+            var earth = new Image();
+
+            function init(){
+              sun.src = 'https://mdn.mozillademos.org/files/1456/Canvas_sun.png';
+              moon.src = 'https://mdn.mozillademos.org/files/1443/Canvas_moon.png';
+              earth.src = 'https://mdn.mozillademos.org/files/1429/Canvas_earth.png';
+              window.requestAnimationFrame(draw);
+            }
+
+            function draw() {
+
+              ctx.globalCompositeOperation = 'destination-over';
+              ctx.clearRect(0,0,300,300); // clear canvas
+
+              ctx.fillStyle = 'rgba(0,0,0,0.4)';
+              ctx.strokeStyle = 'rgba(0,153,255,0.4)';
+              ctx.save();
+              ctx.translate(150,150);
+
+              // Earth
+              var time = new Date();
+              ctx.rotate( ((2*Math.PI)/60)*time.getSeconds() + ((2*Math.PI)/60000)*time.getMilliseconds() );
+              ctx.translate(105,0);
+              ctx.fillRect(0,-12,24,24); // Shadow
+              ctx.drawImage(earth,-12,-12);
+
+              // Moon
+              ctx.save();
+              ctx.rotate( ((2*Math.PI)/6)*time.getSeconds() + ((2*Math.PI)/6000)*time.getMilliseconds() );
+              ctx.translate(0,28.5);
+              ctx.drawImage(moon,-3.5,-3.5);
+              ctx.restore();
+
+              ctx.restore();
+              
+              ctx.beginPath();
+              ctx.arc(150,150,105,0,Math.PI*2,false); // Earth orbit
+              ctx.stroke();
+             
+              ctx.drawImage(sun,0,0,300,300);
+
+              window.requestAnimationFrame(draw);
+            }
+
+            init();
+
+        })();
+
+    </script>
+</body>
+</html>
