@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drag Drop Sort</title>
+    <style>
+        .list-box {
+            float: left;
+        }
+
+        ul {
+            min-height: 100px;
+            overflow: hidden;
+            list-style: none;
+            padding: 10px;
+            border: 1px solid transparent;
+        }
+
+        ul.drag-start {
+            /*background: red;*/
+            border: 1px dashed #ccc;
+        }
+
+        li {
+            width: 200px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #efefef;
+            text-align: center;
+            margin-top: 4px;
+            border-radius: 5px;
+        }
+
+        .test {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="list-box">
+        <ul>
+            <li draggable="true" >item1-1</li>
+            <li draggable="true" >item1-2</li>
+            <li draggable="true" >item1-3</li>
+            <li draggable="true" >item1-4</li>
+            <li draggable="true" >item1-5</li>
+        </ul>
+    </div>
+    <div class="list-box">
+        <ul>
+            <li draggable="true" >item2-1</li>
+            <li draggable="true" >item2-2</li>
+            <li draggable="true" >item2-3</li>
+            <li draggable="true" >item2-4</li>
+            <li draggable="true" >item2-5</li>
+        </ul>
+    </div>
+    <div class="list-box">
+        <ul>
+            <li draggable="true" >item3-1</li>
+            <li draggable="true" >item3-2</li>
+            <li draggable="true" >item3-3</li>
+            <li draggable="true" >item3-4</li>
+            <li draggable="true" >item3-5</li>
+        </ul>
+    </div>
+     <div class="list-box">
+        <ul>
+            <li draggable="true" >item4-1</li>
+            <li draggable="true" >item4-2</li>
+            <li draggable="true" >item4-3</li>
+            <li draggable="true" >item4-4</li>
+            <li draggable="true" >item4-5</li>
+        </ul>
+    </div>
+    <div id="test" class="test"></div>
+    <script src="../../bower_components/jquery/dist/jquery.js"></script>
+    <script>
+        (function() {
+            var $drop = $('.list-box ul'),
+                $test = $('#test'),
+                $el;
+
+            $drop.on('dragstart', 'li', function(e) {
+                var dt = e.originalEvent.dataTransfer;
+                $el = $(e.target);
+                dt.effectAllowed = 'move';
+                $drop.addClass('drag-start');
+            })
+            .on('dragend', 'li', function(e) {
+                $drop.removeClass('drag-start');
+            })
+            .on('drop', function(e) {
+                e.preventDefault();
+                var $target = $(e.target),
+                    $currentTarget = $(e.currentTarget),
+                    pos = {
+                        x: e.originalEvent.clientX,
+                        y: e.originalEvent.clientY
+                    }
+
+                // 如果位置不变，不处理
+                if($target[0] === $el[0]) {
+                    return;
+                }
+
+                // console.log(document.elementFromPoint(pos.x, pos.y));
+                
+                // 如果不相等，表示 target 是 li 元素，否则是 ul
+                if($target[0] !== $currentTarget[0]) {
+                    if(pos.y - $target.offset().top  > $target.height()/2) {
+                        $el.insertAfter($target);
+                    } else {
+                        $el.insertBefore($target);
+                    }
+                } else {
+                    var find = false;
+                    $currentTarget.find('li').each(function() {
+                        if(pos.y - $(this).offset().top <= 0) {
+                            $el.insertBefore($(this));
+                            find = true;
+                            return false;
+                        }
+                    });
+
+                    if(!find) {
+                        $currentTarget.append($el);
+                    }
+                }
+            })
+            .on('dragover', function(e) {
+                e.preventDefault();
+            });
+
+
+        })();
+    </script>
+</body>
+</html>
