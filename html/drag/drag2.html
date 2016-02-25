@@ -9,6 +9,7 @@
         }
 
         ul {
+            width: 200px;
             min-height: 100px;
             overflow: hidden;
             list-style: none;
@@ -89,8 +90,9 @@
 
             $drop.on('dragstart', 'li', function(e) {
                 var dt = e.originalEvent.dataTransfer;
-                $el = $(e.target);
                 dt.effectAllowed = 'move';
+
+                $el = $(e.target);
                 $drop.addClass('drag-start');
             })
             .on('dragend', 'li', function(e) {
