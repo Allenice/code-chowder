@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue - Get Start</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{ message }}</p>
+        <input type="text" v-model="message">
+
+        <ul>
+            <li v-for="todo in todos">
+                {{ todo.text }}
+            </li>
+        </ul>
+        <button v-on:click="addTodo">add</button>
+
+    </div>
+
+    <div id="todo-app">
+        <input type="text" v-model="newTodo" v-on:keyup.enter="addTodo">
+        <ul v-bind:class="classObj">
+            <li v-for="todo in todos">
+                <span>{{ todo.text }}</span>
+                <button @click="removeTodo($index, todo)">X</button>
+            </li>
+        </ul>
+    </div>
+
+    <script src="../../../bower_components/vue/dist/vue.min.js"></script>
+    <script>
+        (function() {
+            var i = 3,
+                todos = [
+                    { text: 'Allenice1' },
+                    { text: 'Allenice2' },
+                    { text: 'Allenice3' },
+                ];
+
+            new Vue({
+                el: '#app',
+                data: {
+                    message: 'Hello world!',
+                    todos: todos
+                },
+                methods: {
+                    addTodo: function() {
+                        todos.push({
+                            text: 'Allenice' + (++i)
+                        });
+                    }
+                }
+            });
+        })();
+
+        (function() {
+            new Vue({
+                el: '#todo-app',
+                data: {
+                    newTodo: '',
+                    todos: [
+                        {text: 'Allenice1'}
+                    ],
+                    classObj: {
+                        a: true,
+                        b: false
+                    }
+                },
+                methods: {
+                    addTodo: function() {
+                        var text = this.newTodo.trim();
+                        if(text) {
+                            this.todos.push({text: text});
+                            this.newTodo = '';
+                        }
+                    },
+                    removeTodo: function(index, todo) {
+                        console.log(todo);
+                        this.todos.splice(index, 1);
+                    }
+                }
+            });
+        })();
+
+
+    </script>
+</body>
+</html>
