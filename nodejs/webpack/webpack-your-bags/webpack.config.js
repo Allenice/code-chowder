@@ -6,12 +6,18 @@
 */
 
 var webpack = require('webpack');
+var path = require('path');
 var CleanPlugin = require('clean-webpack-plugin');
 var ExtractPlugin = require('extract-text-webpack-plugin');
 var production = process.env.NODE_ENV === 'production';
 
 var plugins = [
-    new ExtractPlugin('bundle.css')
+    new ExtractPlugin('style/app.css')
+    // function () {
+    //     this.plugin('done', function(stats) {
+    //         console.log(stats);
+    //     });
+    // }
 ];
 
 if (production) {
@@ -59,7 +65,7 @@ if (production) {
     ]);
 } else {
     plugins = plugins.concat([
-         new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
+        new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
         // new CleanPlugin('dev/')
     ]);
 }
@@ -73,10 +79,10 @@ config = {
     },
 
     output: {
-        path: 'dev',
+        path: path.join(__dirname, './dev'),
         filename: 'app.js',
         chunkFilename: '[name].js',
-        publicPath: 'dev/'
+        publicPath: '/dev/'
     },
 
     module: {
@@ -94,6 +100,7 @@ config = {
             {
                 test: /\.scss$/,
                 loader: ExtractPlugin.extract('style', 'css!sass')
+                // loader: "style!css!sass"
             },
 
             {
@@ -103,7 +110,11 @@ config = {
 
             {
                 test: /\.(png|gif|jpe?g|svg)$/i,
-                loader: 'url?limit=100'
+                loader: 'url',
+                query: {
+                    limit: 1000,
+                    name: 'img/[name].[ext]'
+                }
             }
         ]
     },
@@ -114,9 +125,9 @@ config = {
 
 if (production) {
     config.output = {
-        path: 'dist',
+        path: path.join(__dirname, './dist'),
         filename: 'app.[hash].js',
-        publicPath: 'dist/',
+        publicPath: '/dist/',
         chunkFilename: '[name].[hash].js'
     }
 }

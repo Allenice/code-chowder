@@ -24,6 +24,8 @@
     "webpack": "^1.12.14"
   },
   "scripts": {
+    "dev": "open http://localhost:3003 && webpack-dev-server --port 3003 --hot --inline",
+    "production": "NODE_ENV=production webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "allenice <994298628@qq.com> (http://blog.allenice233.com/)",

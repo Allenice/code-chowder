@@ -10,7 +10,9 @@ export default class Button {
 
     onClick(e) {
         e.preventDefault();
-        alert(this.link);
+        // alert(this.link);
+        var h1 = document.querySelectorAll('h1')[0];
+        h1.style.fontSize = "100px";
     }
 
     render(node) {
