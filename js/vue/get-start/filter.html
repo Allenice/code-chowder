@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue Filter</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="price | currencyDisplay">
+        <p>{{ price | currencyDisplay }}</p>
+    </div>
+    <script src="../../../bower_components/vue/dist/vue.js"></script>
+    <script>
+        
+        (function() {
+            Vue.filter('currencyDisplay', {
+                read: function(val) {
+                    return '$' + val.toFixed(2);
+                },
+
+                write: function(val, oldVal) {
+                    var number = +val.replace(/[^\d.]/g, '');
+                    return isNaN(number) ? 0 : parseFloat(number.toFixed(2));
+                }
+            });
+
+            new Vue({
+                el: '#app',
+                data: {
+                    price: 123.45
+                }
+            });
+        })();
+
+    </script>
+</body>
+</html>
