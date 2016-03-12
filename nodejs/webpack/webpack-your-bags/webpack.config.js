@@ -12,12 +12,13 @@ var ExtractPlugin = require('extract-text-webpack-plugin');
 var production = process.env.NODE_ENV === 'production';
 
 var plugins = [
-    new ExtractPlugin('style/app.css')
+    new ExtractPlugin('style/app.css'),
+
     // function () {
     //     this.plugin('done', function(stats) {
     //         console.log(stats);
     //     });
-    // }
+    // },
 ];
 
 if (production) {
