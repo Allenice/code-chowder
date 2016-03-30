@@ -1,0 +1,6 @@
+{
+    "name": "task",
+    "scripts": {
+        "echo": "echo"
+    }
+}
