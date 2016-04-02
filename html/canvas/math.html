@@ -58,7 +58,7 @@
             ;
 
         // 网格
-        ctx.strokeStyle = '#999';
+        ctx.strokeStyle = '#ccc';
         ctx.lineWidth = 1;
         ctx.fillStyle = '#000';
         ctx.textBaseline = 'middle';
@@ -70,7 +70,7 @@
                 ctx.strokeStyle = '#000';
                 ctx.lineWidth = 2;
             } else {
-                ctx.strokeStyle = '#999';
+                ctx.strokeStyle = '#ccc';
                 ctx.lineWidth = 1;
             }
 
@@ -90,85 +90,57 @@
             ctx.fillText((xAxes[0] + i * 0.5) + 'π', x, height - offset/2);
         }
 
-        /*// sin
-        ctx.fillStyle = '#f00';
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = '#f00';
-        ctx.beginPath();
-        for(var x = xAxes[0]; x <= xAxes[1] + 0.05;) {
-             y = Math.sin(x * pi);
-            cx = 2*x * (width - 2*offset)/gridCount + width/2;
-            cy =  height/2 - 2*y * (height - 2*offset)/gridCount;
-            // ctx.arc(cx, cy, 3, 0, 2*pi);
-            // ctx.fill();
-            if (x == xAxes[0]) {
-                ctx.moveTo(cx, cy);
-            } else {
-                ctx.lineTo(cx, cy);
-                ctx.stroke();
-            }
-
-            x+= 0.05;
-        }
-
-        // cos
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = '#0f0';
-        ctx.beginPath();
-        for(var x = xAxes[0]; x <= xAxes[1] + 0.05;) {
-
-             y = Math.cos(x * pi);
-            cx = 2*x * (width - 2*offset)/gridCount + width/2;
-            cy =  height/2 - 2*y * (height - 2*offset)/gridCount;
-            // ctx.arc(cx, cy, 3, 0, 2*pi);
-            // ctx.fill();
-            if (x == xAxes[0]) {
-                ctx.moveTo(cx, cy);
-            } else {
-                ctx.lineTo(cx, cy);
-                ctx.stroke();
-            }
-
-            x+= 0.05;
-        }*/
-
-
         var x = xAxes[0];
         var steps = 0.05;
         sinPrevPoint = {x: null, y: null};
         cosPrevPoint = {x: null, y: null};
         ctx.globalCompositeOperation = 'screen';
+
+        var mathData = {
+            sin: {
+                color: '#f00',
+                prev: {
+                    x: null,
+                    y: null
+                }
+            },
+            cos: {
+                color: '#0f0',
+                prev: {
+                    x: null,
+                    y: null
+                }
+            },
+
+            tan: {
+                color: '#00f',
+                prev: {
+                    x: null,
+                    y: null
+                }
+            }
+        }
+
         function draw() {
             ctx.lineWidth = 5;
+            for (var method in mathData) {
+                var prev = mathData[method].prev;
 
-            // sin
-            y1 = Math.sin(x * pi);
-            cx1 = 2*x * (width - 2*offset)/gridCount + width/2;
-            cy1 =  height/2 - 2*y1 * (height - 2*offset)/gridCount;
+                y = Math[method](x * pi);
+                cx =  2*x * (width - 2*offset)/gridCount + width/2;
+                cy = height/2 - 2*y * (height - 2*offset)/gridCount;
 
-            // cos
-            y2 = Math.cos(x * pi);
-            cx2 = 2*x * (width - 2*offset)/gridCount + width/2;
-            cy2 =  height/2 - 2*y2 * (height - 2*offset)/gridCount;
+                if(prev.x) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = mathData[method].color;
+                    ctx.moveTo(prev.x, prev.y);
+                    ctx.lineTo(cx, cy);
+                    ctx.stroke();
+                }
 
-            ctx.beginPath(); 
-            ctx.strokeStyle = '#f00';
-            if (sinPrevPoint.x) {
-                ctx.moveTo(sinPrevPoint.x, sinPrevPoint.y);
-                ctx.lineTo(cx1, cy1);
-                ctx.stroke();
+                prev.x = cx;
+                prev.y = cy;
             }
-
-            sinPrevPoint = {x: cx1, y: cy1};
-
-            ctx.beginPath(); 
-            ctx.strokeStyle = '#0f0';
-            if (cosPrevPoint.x) {
-                ctx.moveTo(cosPrevPoint.x, cosPrevPoint.y);
-                ctx.lineTo(cx2, cy2);
-                ctx.stroke();
-            }
-            cosPrevPoint = {x: cx2, y: cy2};
 
             x+= steps;
             if (x <= xAxes[1] + steps) {
