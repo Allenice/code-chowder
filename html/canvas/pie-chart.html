@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>饼图</title>
+    <style>
+        body {
+            background: #efefef;
+            padding: 0;
+            margin: 0;
+        }
+
+        canvas {
+            width: 600px;
+            height: 600px;
+            display: block;
+            box-shadow: 0 0 3px rgba(0,0,0, .3);
+            margin: 10px auto;
+            border-radius: 3px;
+            padding: 20px;
+            background: #fff;
+        }
+
+        @media (max-width: 640px) {
+            canvas {
+                width: 300px;
+                height: 300px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="600"></canvas>
+    
+    <script>
+        var pi = Math.PI;
+
+        function getContext(canvasId) {
+            var dpi = window.devicePixelRatio,
+                canvas = document.getElementById(canvasId),
+                ctx = canvas.getContext('2d');
+
+            canvas.height = canvas.height * dpi;
+            canvas.width = canvas.width * dpi;
+            ctx.scale(dpi, dpi);
+
+            return ctx;
+        }
+
+        var ctx = getContext('canvas1');
+        var config = {
+            radius: 300,
+            fontSize: '28',
+            fontFamily: 'Arial',
+            percentageInnerCutout: 60,
+            labelOffset: 4/5,
+            offset: 0,
+            data: [
+                {
+                    value: 300,
+                    color:"#A175F7"
+                },
+                {
+                    value: 260,
+                    color: "#8FDD89"
+                },
+                {
+                    value: 100,
+                    color: "#00ADEE"
+                },
+                {
+                    value: 90,
+                    color: "#FFA65C"
+                },
+                {
+                    value: 50,
+                    color: "#FC7E93"
+                },
+            ]
+        };
+
+        var size = 600;
+        var cx = cy = size / 2;
+        var total = 0;
+        config.data.forEach(function(v) {
+            total+= v.value;
+        });
+
+        function draw(maxAngle) {
+
+            ctx.clearRect(0,0,600,600); // clear canvas
+            var startAng = endAng = config.offset;
+
+            ctx.globalCompositeOperation='destination-over';
+            ctx.beginPath();
+            ctx.arc(cx, cy, config.radius * config.percentageInnerCutout / 100, 0, 2*Math.PI);
+            ctx.closePath();
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+
+            config.data.forEach(function(v) {
+                v.percent = v.value / total;
+                v.label = (v.percent * 100).toFixed(2) + '%';
+
+                endAng = startAng + maxAngle * v.percent;
+                v.angle = (endAng - startAng)/2 + startAng;
+
+                ctx.beginPath();
+                ctx.fillStyle = v.color;
+                ctx.arc(cx, cy, config.radius, startAng, endAng);
+                ctx.lineTo(cx, cy);
+                ctx.closePath();
+                ctx.fill();
+                startAng = endAng;
+            });
+
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            // ctx.font = '24px ' + config.fontFamily;
+            // ctx.fillStyle = '#000';
+            // ctx.fillText('Sevices', cx, cy);
+
+            var lr = config.radius * config.labelOffset;
+            ctx.fillStyle = '#fff';
+            ctx.font = config.fontSize + 'px ' + config.fontFamily;
+            config.data.forEach(function(v) {
+                var x = cx + lr * Math.cos(v.angle);
+                var y = cy + lr * Math.sin(v.angle);
+                ctx.fillText(v.label, x, y);
+            });
+        }
+
+        var maxDeg = 360;
+        var deg = 0;
+        function animateDraw() {
+            var angle = deg * Math.PI / 180;
+            draw(angle);
+            if(deg < maxDeg ) {
+                window.requestAnimationFrame(animateDraw);
+            }
+            deg += 10;
+        }
+        window.requestAnimationFrame(animateDraw);
+    </script>
+</body>
+</html>

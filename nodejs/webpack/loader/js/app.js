@@ -75,19 +75,19 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	
+	module.exports = "<h1>Hello base</h1>";
 
 /***/ },
 /* 3 */
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
+	module.exports = "<h1>Hello, , Allenice2</h1>\n";
 
 /***/ },
 /* 4 */
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
+	module.exports = "<h1>list</h1>\n<h1>Hello base</h1>";
 
 /***/ }
 /******/ ]);

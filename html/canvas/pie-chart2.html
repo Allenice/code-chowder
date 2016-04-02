@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>饼图</title>
+    <style>
+        body {
+            background: #efefef;
+            padding: 0;
+            margin: 0;
+        }
+
+        canvas {
+            width: 600px;
+            height: 600px;
+            display: block;
+            box-shadow: 0 0 3px rgba(0,0,0, .3);
+            margin: 10px auto;
+            border-radius: 3px;
+            padding: 20px;
+            background: #fff;
+        }
+        
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="600"></canvas>
+    <script src="Chart.min.js"></script>
+    <script>
+        var data = [
+            {
+                value: 300,
+                color:"#A175F7"
+            },
+            {
+                value: 260,
+                color: "#8FDD89"
+            },
+            {
+                value: 100,
+                color: "#00ADEE"
+            },
+            {
+                value: 90,
+                color: "#FFA65C"
+            },
+            {
+                value: 50,
+                color: "#FC7E93"
+            },
+        ];
+
+        var total = 0;
+        data.forEach(function(v) {
+            total += v.value;
+        });
+
+        data.forEach(function(v) {
+            v.percent = v.value / total;
+            v.label = (v.percent * 100).toFixed(2) + '%';
+            v.labelColor = '#fff';
+            v.labelFontSize = '14';
+        });
+
+        var pie = new Chart(document.getElementById('canvas1').getContext('2d')).Pie(data, {
+            segmentShowStroke: false,
+            animationSteps: 100,
+            // showTooltips: false,
+            // tooltipTemplate: '<%=value%>',
+            percentageInnerCutout: 50,
+            animationEasing: 'easeInOutQuart'
+        });
+    </script>
+</body>
+</html>

@@ -17,7 +17,8 @@ config = {
         loaders: [
             {
                 test: /\.swig$/,
-                loader: path.resolve(__dirname, './index'),
+                // loader: path.resolve(__dirname, './index'),
+                loader: "swig-loader",
                 query: {
                     locals: {
                         name2: 'Allenice2'

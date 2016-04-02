@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
+    <title>三角函数图</title>
+    <style>
+        body {
+            background: #efefef;
+            padding: 0;
+            margin: 0;
+        }
+
+        canvas {
+            width: 1200px;
+            height: 600px;
+            display: block;
+            box-shadow: 0 0 3px rgba(0,0,0, .3);
+            margin: 10px auto;
+            border-radius: 3px;
+            background: #fff;
+        }
+
+        @media (max-width: 640px) {
+            canvas {
+                width: 600px;
+                height: 300px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="1200" height="600"></canvas>
+    <script>
+        var pi = Math.PI;
+
+        function getContext(canvasId) {
+            var dpi = window.devicePixelRatio,
+                canvas = document.getElementById(canvasId),
+                ctx = canvas.getContext('2d');
+
+            canvas.height = canvas.height * dpi;
+            canvas.width = canvas.width * dpi;
+            ctx.scale(dpi, dpi);
+
+            return ctx;
+        }
+
+        var ctx = getContext('canvas1'),
+            width = ctx.canvas.offsetWidth,
+            height = ctx.canvas.offsetHeight,
+            offset = 50,
+            xAxes = [-2, 2],
+            yAxes = [2, -2],
+            gridCount = (xAxes[1] - xAxes[0]) * 2
+            ;
+
+        // 网格
+        ctx.strokeStyle = '#999';
+        ctx.lineWidth = 1;
+        ctx.fillStyle = '#000';
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = 'center';
+        ctx.font = '14px Arial';
+        for(var i = 0; i <= gridCount; i++) {
+            ctx.beginPath();
+            if (i == gridCount/2) {
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+            } else {
+                ctx.strokeStyle = '#999';
+                ctx.lineWidth = 1;
+            }
+
+            var y = offset + i * (height - 2 * offset) / gridCount;
+            var x = offset + i * (width - 2 * offset) / gridCount;
+
+            ctx.moveTo(offset, y);
+            ctx.lineTo(width - offset, y);
+            ctx.stroke();
+
+            ctx.moveTo(x, offset);
+            ctx.lineTo(x, height - offset);
+            ctx.stroke();
+
+            // 坐标轴 Label
+            ctx.fillText(yAxes[0] - i * 0.5 , offset/2, y);
+            ctx.fillText((xAxes[0] + i * 0.5) + 'π', x, height - offset/2);
+        }
+
+        /*// sin
+        ctx.fillStyle = '#f00';
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = '#f00';
+        ctx.beginPath();
+        for(var x = xAxes[0]; x <= xAxes[1] + 0.05;) {
+             y = Math.sin(x * pi);
+            cx = 2*x * (width - 2*offset)/gridCount + width/2;
+            cy =  height/2 - 2*y * (height - 2*offset)/gridCount;
+            // ctx.arc(cx, cy, 3, 0, 2*pi);
+            // ctx.fill();
+            if (x == xAxes[0]) {
+                ctx.moveTo(cx, cy);
+            } else {
+                ctx.lineTo(cx, cy);
+                ctx.stroke();
+            }
+
+            x+= 0.05;
+        }
+
+        // cos
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = '#0f0';
+        ctx.beginPath();
+        for(var x = xAxes[0]; x <= xAxes[1] + 0.05;) {
+
+             y = Math.cos(x * pi);
+            cx = 2*x * (width - 2*offset)/gridCount + width/2;
+            cy =  height/2 - 2*y * (height - 2*offset)/gridCount;
+            // ctx.arc(cx, cy, 3, 0, 2*pi);
+            // ctx.fill();
+            if (x == xAxes[0]) {
+                ctx.moveTo(cx, cy);
+            } else {
+                ctx.lineTo(cx, cy);
+                ctx.stroke();
+            }
+
+            x+= 0.05;
+        }*/
+
+
+        var x = xAxes[0];
+        var steps = 0.05;
+        sinPrevPoint = {x: null, y: null};
+        cosPrevPoint = {x: null, y: null};
+        ctx.globalCompositeOperation = 'screen';
+        function draw() {
+            ctx.lineWidth = 5;
+
+            // sin
+            y1 = Math.sin(x * pi);
+            cx1 = 2*x * (width - 2*offset)/gridCount + width/2;
+            cy1 =  height/2 - 2*y1 * (height - 2*offset)/gridCount;
+
+            // cos
+            y2 = Math.cos(x * pi);
+            cx2 = 2*x * (width - 2*offset)/gridCount + width/2;
+            cy2 =  height/2 - 2*y2 * (height - 2*offset)/gridCount;
+
+            ctx.beginPath(); 
+            ctx.strokeStyle = '#f00';
+            if (sinPrevPoint.x) {
+                ctx.moveTo(sinPrevPoint.x, sinPrevPoint.y);
+                ctx.lineTo(cx1, cy1);
+                ctx.stroke();
+            }
+
+            sinPrevPoint = {x: cx1, y: cy1};
+
+            ctx.beginPath(); 
+            ctx.strokeStyle = '#0f0';
+            if (cosPrevPoint.x) {
+                ctx.moveTo(cosPrevPoint.x, cosPrevPoint.y);
+                ctx.lineTo(cx2, cy2);
+                ctx.stroke();
+            }
+            cosPrevPoint = {x: cx2, y: cy2};
+
+            x+= steps;
+            if (x <= xAxes[1] + steps) {
+                window.requestAnimationFrame(draw);
+            }
+        }
+
+        window.requestAnimationFrame(draw);
+    </script>
+</body>
+</html>
