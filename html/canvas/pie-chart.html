@@ -11,7 +11,7 @@
             margin: 0;
         }
 
-        canvas {
+        .wrap {
             width: 600px;
             height: 600px;
             display: block;
@@ -32,7 +32,10 @@
     </style>
 </head>
 <body>
-    <canvas id="canvas1" width="600" height="600"></canvas>
+    
+    <div class="wrap">
+        <canvas id="canvas1" width="600" height="600"></canvas>
+    </div>
     
     <script>
         var pi = Math.PI;
@@ -41,7 +44,7 @@
             var dpi = window.devicePixelRatio,
                 canvas = document.getElementById(canvasId),
                 ctx = canvas.getContext('2d');
-
+       
             canvas.height = canvas.height * dpi;
             canvas.width = canvas.width * dpi;
             ctx.scale(dpi, dpi);
@@ -56,11 +59,12 @@
             fontFamily: 'Arial',
             percentageInnerCutout: 60,
             labelOffset: 4/5,
-            offset: 0,
+            offset: -pi/2,
             data: [
                 {
                     value: 300,
-                    color:"#A175F7"
+                    color:"#A175F7",
+                    'hightlight': 'rgba(0,0,0, 0.5)'
                 },
                 {
                     value: 260,
@@ -92,10 +96,16 @@
 
             ctx.clearRect(0,0,600,600); // clear canvas
             var startAng = endAng = config.offset;
+            var innerRadius = config.radius * config.percentageInnerCutout / 100;
 
             ctx.globalCompositeOperation='destination-over';
             ctx.beginPath();
-            ctx.arc(cx, cy, config.radius * config.percentageInnerCutout / 100, 0, 2*Math.PI);
+            ctx.arc(cx, cy, 10, 0, 2*pi);
+            ctx.fillStyle = '#000';
+            ctx.fill();
+            ctx.closePath();
+            ctx.beginPath();
+            ctx.arc(cx, cy, innerRadius, 0, 2*Math.PI);
             ctx.closePath();
             ctx.fillStyle = '#fff';
             ctx.fill();
@@ -103,12 +113,19 @@
             config.data.forEach(function(v) {
                 v.percent = v.value / total;
                 v.label = (v.percent * 100).toFixed(2) + '%';
+                v.fillColor = v.fillColor || v.color;
 
                 endAng = startAng + maxAngle * v.percent;
                 v.angle = (endAng - startAng)/2 + startAng;
+                v.startAng = startAng;
+                v.endAng = endAng;
+                v.x = cx;
+                v.y = cy;
+                v.outerRadius = config.radius;
+                v.innerRadius = innerRadius;
 
                 ctx.beginPath();
-                ctx.fillStyle = v.color;
+                ctx.fillStyle = v.fillColor;
                 ctx.arc(cx, cy, config.radius, startAng, endAng);
                 ctx.lineTo(cx, cy);
                 ctx.closePath();
@@ -144,6 +161,90 @@
             deg += 10;
         }
         window.requestAnimationFrame(animateDraw);
+
+        // 获取某点相对于 centrePoint 的角度
+        function getAngleFromPoint(centrePoint, anglePoint) {
+            var distanceFromXCenter = anglePoint.x - centrePoint.x,
+                distanceFromYCenter = anglePoint.y - centrePoint.y,
+                radialDistanceFromCenter = Math.sqrt( distanceFromXCenter * distanceFromXCenter + distanceFromYCenter * distanceFromYCenter);
+
+
+            var angle = Math.PI * 2 + Math.atan2(distanceFromYCenter, distanceFromXCenter);
+
+            //If the segment is in the top left quadrant, we need to add another rotation to the angle
+            if (distanceFromXCenter < 0 && distanceFromYCenter < 0){
+                angle += Math.PI*2;
+            }
+
+            return {
+                angle: angle,
+                distance: radialDistanceFromCenter
+            };
+        }
+
+        function getRelativePosition(evt) {
+            var mouseX, mouseY;
+            var e = evt.originalEvent || evt,
+                canvas = evt.currentTarget || evt.srcElement,
+                boundingRect = canvas.getBoundingClientRect();
+
+            if (e.touches){
+                mouseX = e.touches[0].clientX - boundingRect.left;
+                mouseY = e.touches[0].clientY - boundingRect.top;
+
+            }
+            else{
+                mouseX = e.clientX - boundingRect.left;
+                mouseY = e.clientY - boundingRect.top;
+            }
+
+            return {
+                x : mouseX,
+                y : mouseY
+            };
+        }
+
+        function inRange(segment, point) {
+            var pointRelativePosition = getAngleFromPoint(segment, point);
+
+            // debugger;
+
+            // Normalize all angles to 0 - 2*PI (0 - 360°)
+            var pointRelativeAngle = pointRelativePosition.angle % (Math.PI * 2),
+                startAngle = (Math.PI * 2 + segment.startAng) % (Math.PI * 2),
+                endAngle = (Math.PI * 2 + segment.endAng) % (Math.PI * 2) || 360;
+
+            // Calculate wether the pointRelativeAngle is between the start and the end angle
+            var betweenAngles = (endAngle < startAngle) ?
+                pointRelativeAngle <= endAngle || pointRelativeAngle >= startAngle:
+                pointRelativeAngle >= startAngle && pointRelativeAngle <= endAngle;
+
+            //Check if within the range of the open/close angle
+            var withinRadius = (pointRelativePosition.distance >= segment.innerRadius && pointRelativePosition.distance <= segment.outerRadius);
+
+            return (betweenAngles && withinRadius);
+            //Ensure within the outside of the arc centre, but inside arc outer
+        }
+
+        // 添加事件
+        var timeId = 0;
+        ctx.canvas.addEventListener('mousemove', function(e) {
+            clearTimeout(timeId);
+            timeId = setTimeout(function() {
+                var point = getRelativePosition(e);
+                
+                config.data.forEach(function(v) {
+                    if(inRange(v, point)) {
+                        v.fillColor = v.hightlight || 'red';
+                    } else {
+                        v.fillColor = v.color;
+                    }
+                });
+
+                draw(2*pi);
+            }, 100);
+        });
+
     </script>
 </body>
 </html>
