@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #canvas {
+            /*background: red;*/
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="600" height="300"></canvas>
+    <script>
+        // console.profile('begin profile');
+        var canvas = document.getElementById('canvas'),
+            ctx = canvas.getContext('2d'),
+            FONT_HEIGHT = 15,
+            MARGIN = 35,
+            HAND_TRUNCATION = canvas.width / 25,
+            HOUR_HAND_TRUNCATION = canvas.width / 10,
+            NUMBER_SPACING = 20,
+            RADIUS = canvas.height/2 - MARGIN,
+            HAND_RADIUS = RADIUS + NUMBER_SPACING
+        ;
+
+        function drawCircle() {
+            ctx.beginPath();
+            ctx.arc(canvas.width/2, canvas.height/2, RADIUS, 0, Math.PI * 2, true);
+            ctx.stroke();
+        }
+
+        function drawNumberals() {
+            var numberals = [1,2,3,4,5,6,7,8,9,10,11,12],
+                angle = 0,
+                numberalWidth = 0
+            ;
+
+            numberals.forEach(function(numberal) {
+                angle = Math.PI/6 * (numberal-3);
+                numberalWidth = ctx.measureText(numberal).width;
+                ctx.fillText(numberal,
+                    canvas.width/2 + Math.cos(angle) * (HAND_RADIUS),
+                    canvas.height/2 + Math.sin(angle) * (HAND_RADIUS)
+                );
+            });
+        }
+
+        function drawCenter() {
+            ctx.beginPath();
+            ctx.arc(canvas.width/2, canvas.height/2, 0, 2*Math.PI, true);
+            ctx.fill();
+        }
+
+        function drawHand(loc, isHour) {
+            var angle = (2*Math.PI) * (loc/60) - Math.PI/2,
+                handRaduis = isHour ? RADIUS - HAND_TRUNCATION - HOUR_HAND_TRUNCATION : RADIUS - HAND_TRUNCATION
+            ;
+
+            ctx.moveTo(canvas.width/2, canvas.height/2);
+            ctx.lineTo(canvas.width/2 + Math.cos(angle)*handRaduis, canvas.height/2 + Math.sin(angle)*handRaduis);
+            ctx.stroke();
+        }
+
+        function drawHands() {
+            var date = new Date(),
+                hour = date.getHours()
+            ;
+
+            hour = hour > 12 ? hour - 12 : hour;
+
+            drawHand(hour*5 + (date.getMinutes()/60)*5, true);
+            drawHand(date.getMinutes(), false);
+            drawHand(date.getSeconds(), false);
+        }
+
+        function drawClock() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            drawCircle();
+            drawCenter();
+            drawHands();
+            drawNumberals();
+        }
+
+        ctx.font = FONT_HEIGHT + 'px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.lineWidth = 2;
+        loop = setInterval(drawClock, 1000);
+
+
+        // console.profileEnd();
+    </script>
+</body>
+</html>

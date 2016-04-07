@@ -20,10 +20,16 @@
             border-radius: 3px;
             padding: 20px;
             background: #fff;
+            box-sizing: border-box;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
         }
 
         @media (max-width: 640px) {
-            canvas {
+            .wrap {
                 width: 300px;
                 height: 300px;
             }
@@ -34,7 +40,7 @@
 <body>
     
     <div class="wrap">
-        <canvas id="canvas1" width="600" height="600"></canvas>
+        <canvas id="canvas1"></canvas>
     </div>
     
     <script>
@@ -44,18 +50,20 @@
             var dpi = window.devicePixelRatio,
                 canvas = document.getElementById(canvasId),
                 ctx = canvas.getContext('2d');
-       
-            canvas.height = canvas.height * dpi;
-            canvas.width = canvas.width * dpi;
+
+            canvas.height = canvas.offsetHeight * dpi;
+            canvas.width = canvas.offsetWidth * dpi;
             ctx.scale(dpi, dpi);
 
             return ctx;
         }
 
         var ctx = getContext('canvas1');
+        var size = ctx.canvas.offsetWidth;
+
         var config = {
-            radius: 300,
-            fontSize: '28',
+            radius: size / 2,
+            fontSize:  14,
             fontFamily: 'Arial',
             percentageInnerCutout: 60,
             labelOffset: 4/5,
@@ -85,7 +93,8 @@
             ]
         };
 
-        var size = 600;
+        console.log(config.fontSize);
+
         var cx = cy = size / 2;
         var total = 0;
         config.data.forEach(function(v) {
@@ -94,7 +103,7 @@
 
         function draw(maxAngle) {
 
-            ctx.clearRect(0,0,600,600); // clear canvas
+            ctx.clearRect(0,0,size,size); // clear canvas
             var startAng = endAng = config.offset;
             var innerRadius = config.radius * config.percentageInnerCutout / 100;
 
@@ -147,6 +156,7 @@
                 var x = cx + lr * Math.cos(v.angle);
                 var y = cy + lr * Math.sin(v.angle);
                 ctx.fillText(v.label, x, y);
+                // ctx.strokeText(v.label, x, y);
             });
         }
 
@@ -226,24 +236,30 @@
             //Ensure within the outside of the arc centre, but inside arc outer
         }
 
+        function onEventTrigger(e) {
+            var point = getRelativePosition(e);
+            config.data.forEach(function(v) {
+                if(inRange(v, point)) {
+                    v.fillColor = v.hightlight || 'red';
+                } else {
+                    v.fillColor = v.color;
+                }
+            });
+
+            draw(2*pi);
+        }
+
         // 添加事件
         var timeId = 0;
         ctx.canvas.addEventListener('mousemove', function(e) {
             clearTimeout(timeId);
             timeId = setTimeout(function() {
-                var point = getRelativePosition(e);
-                
-                config.data.forEach(function(v) {
-                    if(inRange(v, point)) {
-                        v.fillColor = v.hightlight || 'red';
-                    } else {
-                        v.fillColor = v.color;
-                    }
-                });
-
-                draw(2*pi);
+                onEventTrigger(e);
             }, 100);
         });
+
+        ctx.canvas.addEventListener('touchstart', onEventTrigger);
+        // ctx.canvas.addEventListener('click', onEventTrigger);
 
     </script>
 </body>
