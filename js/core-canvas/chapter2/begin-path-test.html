@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Begin Path</title>
+    <style>
+        body {
+            background: #f8f8f8;
+        }
+        
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 0 5px #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="300"></canvas>
+    <script>
+
+        var canvas = document.getElementById('canvas1'),
+            ctx = canvas.getContext('2d')
+        ;
+
+        // ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.rect(10, 10, 100, 100);
+
+        // ctx.beginPath();
+        ctx.rect(50, 50, 100, 100);
+
+
+        ctx.stroke();
+    </script>
+</body>
+</html>

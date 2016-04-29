@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>line chart</title>
+    <style>
+        body {
+            background: #efefef;
+            padding: 0;
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+            box-shadow: 0 0 3px rgba(0,0,0, .3);
+            margin: 10px auto;
+            border-radius: 3px;
+            background: #fff;
+        }
+        
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="1000" height="400"></canvas>
+    <script src="Chart.js/src/Chart.core.js"></script>
+    <!-- <script src="Chart.js/src/Chart.Line.js"></script> -->
+    <script src="custom/Chart.IceLineScale.js"></script>
+    <script src="custom/Chart.IceLine.js"></script>
+    <script>
+        var ctx = document.getElementById('canvas1').getContext('2d');
+
+        var labels = ['10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '6PM', '7PM', '8PM'];
+        var data = [0, 100, 40, 60, 200, 80, 94, 37, 98, 100];
+
+        labels = labels.concat(labels);
+        data = data.concat(data);
+
+        var dataset = {
+            labels: labels,
+            datasets: [
+                {
+                    fillColor: 'rgba(0, 175,238, .06)',
+                    strokeColor: '#00AFEE',
+                    pointColor: '#fff',
+                    pointStrokeColor: '#00AFEE',
+                    data: data
+                }
+            ]
+        }
+
+        var lineChart = new Chart(ctx).IceLine(dataset, {
+
+        });
+
+
+        // setTimeout(function() {
+        //     lineChart.addData([10], '9PM');
+        // }, 2000);
+    </script>
+</body>
+</html>

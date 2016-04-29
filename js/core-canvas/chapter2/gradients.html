@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gradients</title>
+    <style>
+        body {
+            background: #f8f8f8;
+        }
+        
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 0 5px #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="300"></canvas>
+    <canvas id="canvas2" width="600" height="300"></canvas>
+    <canvas id="canvas3" width="600" height="300"></canvas>
+    <script>
+
+        // 线性渐变
+        // createLinearGradient(double x0, double y0, double x1, double y1)
+
+        var canvas = document.getElementById('canvas1'),
+            ctx = canvas.getContext('2d'),
+            gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+
+        gradient.addColorStop(0, 'blue');
+        gradient.addColorStop(0.25, 'white');
+        gradient.addColorStop(1, 'yellow');
+
+        ctx.fillStyle = gradient;
+        ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.fill();
+
+         var canvas = document.getElementById('canvas2'),
+            ctx = canvas.getContext('2d'),
+            gradient = ctx.createLinearGradient(canvas.width/2, 0, canvas.width/2, canvas.height);
+
+        gradient.addColorStop(0, 'blue');
+        gradient.addColorStop(1, 'rgba(0, 0, 255, 0)');
+
+        ctx.fillStyle = gradient;
+        // ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.arc(canvas.width/2, canvas.height/2, 100, 0, 2*Math.PI);
+        ctx.fill();
+
+        // 径向渐变
+        // createRadialGradient(double x0, double y0, double r0, double x1, double y1, double r1)
+         var canvas = document.getElementById('canvas3'),
+            ctx = canvas.getContext('2d'),
+            gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, 100);
+
+        gradient.addColorStop(0, 'blue');
+        gradient.addColorStop(0.25, 'white');
+        gradient.addColorStop(0.5, 'rgba(255, 0, 0, .5)');
+        gradient.addColorStop(0.75, '#fff');
+        gradient.addColorStop(1, '#000');
+
+        ctx.fillStyle = gradient;
+        ctx.rect(0, 0, canvas.width, canvas.height);
+        // ctx.arc(canvas.width/2, canvas.height/2, 100, 0, 2*Math.PI);
+        ctx.fill();
+        
+    </script>
+</body>
+</html>

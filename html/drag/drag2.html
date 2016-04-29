@@ -46,7 +46,7 @@
 <body>
     <div class="list-box">
         <ul>
-            <li draggable="true" >item1-1</li>
+            <li draggable="true" >item1-1 <span>fff</span></li>
             <li draggable="true" >item1-2</li>
             <li draggable="true" >item1-3</li>
             <li draggable="true" >item1-4</li>
@@ -89,6 +89,7 @@
                 $el;
 
             $drop.on('dragstart', 'li', function(e) {
+                console.log('start');
                 var dt = e.originalEvent.dataTransfer;
                 dt.effectAllowed = 'move';
 

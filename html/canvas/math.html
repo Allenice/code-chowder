@@ -81,7 +81,7 @@
             ctx.lineTo(width - offset, y);
             ctx.stroke();
 
-            ctx.moveTo(x, offset);
+            ctx.moveTo(x+0.5, offset);
             ctx.lineTo(x, height - offset);
             ctx.stroke();
 
@@ -154,7 +154,6 @@
                 window.requestAnimationFrame(draw);
             }
         }
-
         window.requestAnimationFrame(draw);
     </script>
 </body>

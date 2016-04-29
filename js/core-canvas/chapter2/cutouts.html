@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cutouts</title>
+    <style>
+        body {
+            background: #f8f8f8;
+        }
+        
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 0 5px #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="300"></canvas>
+    <script>
+
+        var canvas = document.getElementById('canvas1'),
+            ctx = canvas.getContext('2d')
+        ;
+
+        function drawTwoArcs() {
+            ctx.beginPath();
+            ctx.arc(canvas.width/2, canvas.height/2, 80, 0, Math.PI*2, true);
+            ctx.arc(canvas.width/2, canvas.height/2, 100, 0, Math.PI*2, false);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+
+            ctx.shadowColor = 'rgba(0,0,0,.8)';
+            ctx.shadowOffsetX = 12;
+            ctx.shadowOffsetY = 12;
+            ctx.shadowBlur = 15;
+
+            drawTwoArcs();
+            ctx.restore();
+        }
+
+        ctx.fillStyle = 'rgba(100,140, 230, .5)';
+        ctx.strokeStyle = ctx.fillStyle;
+        draw();
+    </script>
+</body>
+</html>

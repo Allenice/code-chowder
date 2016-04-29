@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shadows</title>
+    <style>
+        body {
+            background: #f8f8f8;
+        }
+        
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 0 5px #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="300"></canvas>
+    <canvas id="canvas2" width="600" height="300"></canvas>
+    <!-- <canvas id="canvas3" width="600" height="300"></canvas> -->
+    <script>
+
+        var canvas = document.getElementById('canvas1'),
+            ctx = canvas.getContext('2d')
+        ;
+
+        ctx.fillStyle = 'white';
+        ctx.shadowColor = 'rgba(0,0,0,.5)';
+        ctx.shadowOffsetX = '1';
+        ctx.shadowOffsetY = '1';
+        ctx.shadowBlur = '5';
+        ctx.arc(canvas.width/2, canvas.height/2, 100, 0, 2*Math.PI);
+        ctx.fill();
+
+        var canvas = document.getElementById('canvas2'),
+            ctx = canvas.getContext('2d')
+        ;
+
+        ctx.strokeStyle = 'red';
+        ctx.shadowColor = 'rgba(0,0,0,1)';
+        ctx.shadowOffsetX = '-5';
+        ctx.shadowOffsetY = '-5';
+        ctx.shadowBlur = '5';
+        ctx.arc(canvas.width/2, canvas.height/2, 100, 0, 2*Math.PI);
+        ctx.stroke();
+    </script>
+</body>
+</html>

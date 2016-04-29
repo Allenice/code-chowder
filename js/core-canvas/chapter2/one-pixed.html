@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>one pixed</title>
+    <style>
+        body {
+            background: #f8f8f8;
+        }
+        
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 0 5px #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="300"></canvas>
+    <canvas id="canvas2" width="600" height="300"></canvas>
+    <script>
+
+        var canvas = document.getElementById('canvas1'),
+            ctx = canvas.getContext('2d')
+        ;
+
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(50, 10);
+        ctx.lineTo(450, 10);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(50.5, 50.5);
+        ctx.lineTo(450.5, 50.5);
+        ctx.stroke();
+
+        ctx.setLineDash([3, 10]);
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(50, 10);
+        ctx.lineTo(50, 150);
+        ctx.stroke();
+
+        var canvas = document.getElementById('canvas2'),
+            ctx = canvas.getContext('2d')
+        ;
+
+        function drawGrid(ctx, color, stepx, stepy) {
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1;
+
+            for (var i = stepx + 0.5; i < ctx.canvas.width; i+=stepx) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, ctx.canvas.height);
+                ctx.stroke();
+            }
+
+            for(var i =  stepy + 0.5; i < ctx.canvas.height; i+=stepy) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(ctx.canvas.width, i);
+                ctx.stroke();
+            }
+            ctx.restore();
+
+        }
+
+        drawGrid(ctx, 'red', 50, 50);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ArcTo Round Rect</title>
+    <style>
+        body {
+            background: #f8f8f8;
+        }
+        
+        canvas {
+            display: block;
+            margin: 20px auto;
+            background: #fff;
+            box-shadow: 0 0 5px #ccc;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas1" width="600" height="300"></canvas>
+    <script src="../common.js"></script>
+    <script>
+
+        var canvas = document.getElementById('canvas1'),
+            ctx = canvas.getContext('2d')
+        ;
+
+        drawGrid(ctx, 'red', 100, 100);
+
+        function roundRect(x, y, width, height, radius) {
+            if (width > 0) {
+                ctx.moveTo(x + radius, y);
+            } else {
+                ctx.moveTo(x - radius, y);
+            }
+
+            ctx.arcTo(x + width, y, x + width, y + height, radius);
+            ctx.arcTo(x + width, y + height, x, y + height, radius);
+            ctx.arcTo(x, y + height, x , y, radius);
+
+            if (width > 0) {
+                ctx.arcTo(x, y, x + radius, y, radius);
+            } else {
+                ctx.arcTo(x, y, x - radius, y, radius);
+            }
+        }
+
+        function drawRoundedRect(strokeStyle, fillStyle, x, y, width, height, radius){
+            ctx.beginPath();
+            roundRect(x, y, width, height, radius);
+            ctx.strokeStyle = strokeStyle;
+            ctx.fillStyle = fillStyle;
+            ctx.stroke();
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(x + width, y, 5, 0, Math.PI*2);
+            ctx.fillStyle = '#000';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(x + width, y + height, 5, 0, Math.PI*2);
+            ctx.fillStyle = 'blue';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(x, y + height, 5, 0, Math.PI*2);
+            ctx.fillStyle = 'green';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI*2);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(x + radius, y, 5, 0, Math.PI*2);
+            ctx.fillStyle = '#ccc';
+            ctx.fill();
+            
+        }
+
+        ctx.lineWidth = 3;
+        drawRoundedRect('blue', 'yellow', 80, 80, 200, 100, 20);
+
+        ctx.beginPath();
+        ctx.strokeStyle = '#000';
+        ctx.moveTo(400, 100);
+        ctx.arcTo(500, 100, 500, 130, 30);
+        ctx.stroke();
+
+    </script>
+</body>
+</html>
