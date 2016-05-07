@@ -1,0 +1,32 @@
+body {
+    .header {
+        height: 100px;
+        background: #fff;
+        color: #000;
+    }
+}
+
+:local(.btn-primary) {
+    background: #fff;
+
+    span {
+        color: #000;
+    }
+}
+
+:local(.btn-red) { 
+    background: red;
+
+    span {
+        color: #fff;
+    }
+}
+
+:global(.btn-primary) {
+    background: blue;
+
+    span {
+        color: green;
+    }
+}
+

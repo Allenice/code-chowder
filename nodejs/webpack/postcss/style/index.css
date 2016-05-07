@@ -1,0 +1,17 @@
+body {
+    background-color: red;
+    color: #fff;
+    text-shadow: 1px 1px 4px #000;
+}
+
+:local(.btn-primary) {
+    background: #fff;
+}
+
+:local(.btn-red) { 
+    background: red;
+}
+
+:global(.btn-primary) {
+    background: blue;
+}
