@@ -15,3 +15,7 @@ body {
 :global(.btn-primary) {
     background: blue;
 }
+
+.calender {
+    background: svg-load('./images/calender.svg'， stroke: red);
+}

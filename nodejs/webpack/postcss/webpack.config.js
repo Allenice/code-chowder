@@ -4,6 +4,8 @@ var path = require('path');
 
 var autoprefixer = require('autoprefixer');
 var precss = require('precss');
+var inlineSvg = require('postcss-inline-svg');
+var svgo = require('postcss-svgo');
 
 var plugins = [
     new ExtractPlugin('style/app.css')
@@ -36,7 +38,7 @@ var config = {
     },
 
     postcss: function () {
-        return [autoprefixer, precss];
+        return [autoprefixer, precss, inlineSvg, svgo];
     },
 
     plugins: plugins
