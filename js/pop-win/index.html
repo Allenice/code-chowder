@@ -74,6 +74,10 @@
 				win.show();
 			});
 
+			$.post('http://localhost:4000/article/', {title: 'title'}, function(res) {
+				console.log(res);
+			}, 'json');
+
 		});
 	</script>
 </body>

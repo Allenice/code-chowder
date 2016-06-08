@@ -63,14 +63,14 @@
 
         var config = {
             radius: size / 2,
-            fontSize:  14,
+            fontSize:  24,
             fontFamily: 'Arial',
             percentageInnerCutout: 60,
             labelOffset: 4/5,
             offset: -pi/2,
             data: [
                 {
-                    value: 300,
+                    value: 10,
                     color:"#A175F7",
                     'hightlight': 'rgba(0,0,0, 0.5)'
                 },
@@ -92,8 +92,6 @@
                 },
             ]
         };
-
-        console.log(config.fontSize);
 
         var cx = cy = size / 2;
         var total = 0;
@@ -255,7 +253,7 @@
             clearTimeout(timeId);
             timeId = setTimeout(function() {
                 onEventTrigger(e);
-            }, 100);
+            }, 0);
         });
 
         ctx.canvas.addEventListener('touchstart', onEventTrigger);
