@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IndexedDB</title>
+</head>
+<body>
+    <h1>Hello IndexedDB</h1>
+    <script>
+       
+
+
+        var app = {
+            run: function (db){
+                this.db = db;
+                console.log(this.db);
+            },
+
+            init: function() {
+                
+            }
+        }
+
+        // In the following line, you should include the prefixes of implementations you want to test.
+        window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+        // DON'T use "var indexedDB = ..." if you're not in a function.
+        // Moreover, you may need references to some window.IDB* objects:
+        window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+        window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange
+        // (Mozilla has never prefixed these objects, so we don't need window.mozIDB*)
+        
+        if (!indexedDB) {
+            alert('Your browser doesn\'t support a stable version of IndexedDB. Such and such feature will not be available.');
+        }
+
+        // 打开数据库
+        var request = window.indexedDB.open('MyTestDB', 8);
+
+        const customerData = [
+          { ssn: "444-44-4444", name: "Bill", age: 35, email: "bill@company.com" },
+          { ssn: "555-55-5555", name: "Donna", age: 32, email: "donna@home.org" }
+        ];
+
+        request.onupgradeneeded = function (event) {
+            var db = event.target.result;
+            // db.deleteObjectStore('name');
+            // db.deleteObjectStore('customers');
+            // db.deleteObjectStore('names');
+            var objectStore = db.createObjectStore('name', {keyPath: 'myKey'});
+            
+            var customerStore = db.createObjectStore('customers', {keyPath: 'ssn'});
+            customerStore.createIndex('name', 'name', {unique: false});
+            customerStore.createIndex('email', 'email', {unique: true});
+
+            // createXXX 都是异步的，监听 oncomplete 事件，保证 complete 之后才能操作这个 object store 的内容
+            customerStore.transaction.oncomplete = function (e) {
+                var customerObjectStore = db.transaction('customers', 'readwrite').objectStore('customers');
+                for (var i in customerData) {
+                    customerObjectStore.add(customerData[i]);
+                }
+            }
+            
+            var nameStore = db.createObjectStore('names', {autoIncrement: true});
+            for (var i in customerData) {
+                nameStore.add(customerData[i].name);
+            }
+        }
+
+        request.onerror = function (event) {
+            console.log('error');
+            console.log(event);
+        }
+
+        request.onsuccess = function (event) {
+            console.log('success');
+            var db = request.result;
+            app.run(db);
+        }
+    </script>
+</body>
+</html>
