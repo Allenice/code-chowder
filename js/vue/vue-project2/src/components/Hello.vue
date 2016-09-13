@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1 v-on:click="click">{{ msg }}</h1>
   </div>
 </template>
 
@@ -14,12 +14,23 @@ export default {
       // its initial state.
       msg: 'Hello World!'
     }
+  },
+
+  methods: {
+    click (msg, e) {
+      console.log(msg, e)
+    }
   }
 }
 </script>
 
-<style lang="css">
-  .hello {
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+.hello {
+  color: #42b983;
+
+  h1 {
     color: blue;
   }
+}
 </style>

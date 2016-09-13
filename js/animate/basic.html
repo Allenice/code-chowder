@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="el1" style="width:120px; height: 120px; position: relative; background: red;"></div>
+    <script src="./js/animate.js"></script>
+
+    <script>
+        animate({
+            delay: 1000/60,
+            duration: 1000,
+            delta: (progress) => {
+                return progress;
+            },
+            step: (delta)=> {
+                console.log(delta);
+            }
+        });
+
+        function move(el, delta, duration) {
+            let to = 800;
+
+            animate({
+                delay: 1000/60,
+                duration: duration || 1000,
+                delta: delta || ((p)=> {return Math.pow(p, 2)}),
+                step: (delta)=> {
+                    x = to * delta + "px";
+                    el.style.transform = "translateX("+ x +")";
+                }
+            });
+        }
+
+        move(document.querySelector('#el1'), null, 1000);
+
+    </script>
+</body>
+</html>

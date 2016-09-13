@@ -11,3 +11,5 @@ phonecat
 nodejs/webpack/webpack-your-bags/dist
 nodejs/webpack/webpack-your-bags/dev
 nodejs/webpack/webpack-your-bags/stats.json
+*.sublime-workspace
+.vscode
