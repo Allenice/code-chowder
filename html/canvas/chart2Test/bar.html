@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            background: #efefef;
+            padding: 0;
+            margin: 0;
+        }
+
+        .canvas-wrap {
+            width: 488px;
+            height: 400px;
+            display: block;
+            box-shadow: 0 0 3px rgba(0,0,0, .3);
+            margin: 10px auto;
+            padding: 20px;
+            border-radius: 3px;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-wrap">
+        <canvas id="canvas1" width="488" height="400"></canvas>
+    </div>
+
+    <script src="../Chart.js-2.3.0/dist/Chart.js"></script>
+    <script>
+    (function(){
+        'use strict';
+
+        var ctx = document.getElementById('canvas1').getContext('2d');
+        var helpers = Chart.helpers;
+        var PI = Math.PI;
+
+        var data = {
+            labels: ['洗剪吹', '烫染', '护理', '其他'],
+            datasets: [
+                {
+                    data: [10, 2, 3, 4],
+                    hoverBorderColor: '#fff',
+                    backgroundColor: ['#6AA3FF', '#BD7EFF', '#FF7CA2', '#FFDB53']
+                }
+            ]
+        };
+
+
+        var barDotScaleDefault = Chart.scaleService.getScaleDefaults('linear');
+        var LinearScale = Chart.scaleService.getScaleConstructor('linear');
+        var BarDotScale = LinearScale.extend({
+            draw: function(chartArea) {
+                var ctx = this.ctx,
+                    lineCount = this.ticksAsNumbers.length,
+                    tl = this.options.gridLines.tickMarkLength,
+                    tx1 = 0
+                ;
+
+                LinearScale.prototype.draw.apply(this, arguments);
+
+                if (!this.isHorizontal()) {
+                    tx1 = this.right - tl;
+
+                    ctx.save();
+
+                    for (var i = 0; i < lineCount; i++) {
+                        ctx.fillStyle = i == this.zeroLineIndex ? this.options.gridLines.zeroLineColor : '#E7EAF1';
+                        ctx.beginPath();
+                        ctx.arc(tx1, this.getPixelForTick(i), 2, 0, 2 * PI);
+                        ctx.fill();
+                    }
+
+                    ctx.restore();
+                }
+            }
+        });
+
+        Chart.scaleService.registerScaleType('barDotScale', BarDotScale, barDotScaleDefault);
+
+        
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                tooltips: {
+                    enabled: false
+                },
+
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            lineWidth: 0,
+                            color: 'rgba(0,0,0,0)',
+                            display: false,
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            fontColor: '#999999',
+                            fontSize: 12
+                        },
+                        barPercentage: 0.9,
+                        ticks: {
+                          fontColor: '#999'
+                        }
+                    }],
+                    yAxes: [{
+                        type: 'barDotScale',
+                        gridLines: {
+                            drawBorder: false,
+                            color: '#f3f5fa',
+                            zeroLineColor: '#97d3f3'
+                        },
+                        ticks: {
+                            beginAtZero:true,
+                            fontColor: '#999999',
+                            callback: function(value){
+                                if(value >= 1000){
+                                    return value/1000 + 'k    ';
+                                }else{
+                                    return value + '    ';
+                                }
+                            }
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                }
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
