@@ -52,12 +52,14 @@
         Chart.controllers.zoomDoughnut = Chart.controllers.doughnut.extend({
             draw: function(ease) {
                 var elements = this.getMeta().data;
+                let totalCircumference = 0;
 
                 // hover 时候放大
                 elements.forEach(function(arc) {
                     arc._zoom = arc._zoom || 1;
                     arc._view.outerRadius = arc._model.outerRadius = 140 * (1 + (arc._zoom - 1) * ease);
                     arc._view.innerRadius = arc._model.innerRadius = 40;
+                    totalCircumference += arc._view.circumference;
                 });
 
                 // 调用原来的 draw 把圆环画出来
@@ -67,6 +69,10 @@
                 elements.forEach(function(arc) {
                     arc._view.outerRadius = arc._model.outerRadius = 140;
                 });
+
+                if (ease < 0.8 && totalCircumference < 3/4 * PI) {
+                    return;
+                }
 
                 this._afterDraw(elements, ease);
 

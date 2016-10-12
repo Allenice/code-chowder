@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            background: #efefef;
+            padding: 0;
+            margin: 0;
+        }
+
+        .canvas-wrap {
+            width: 488px;
+            height: 400px;
+            display: block;
+            box-shadow: 0 0 3px rgba(0,0,0, .3);
+            margin: 10px auto;
+            padding: 20px;
+            border-radius: 3px;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-wrap">
+        <canvas id="canvas1" width="488" height="400"></canvas>
+    </div>
+
+    <script src="../Chart.js-2.3.0/dist/Chart.js"></script>
+    <script>
+    (function(){
+        'use strict';
+
+        var ctx = document.getElementById('canvas1').getContext('2d');
+        var helpers = Chart.helpers;
+        var PI = Math.PI;
+
+        var data = {
+            labels: ['发型师', '技师', '收银', '财务', '行政', '助理'],
+            datasets: [{
+                data: [40, 30, 40, 37, 30, 48],
+                backgroundColor: 'rgba(106, 163, 255, 1)',
+                borderColor: 'rgba(106, 163, 255, 1)',
+                pointBackgroundColor: 'rgba(255, 255, 255, 0)',
+                pointBorderColor: 'rgba(255, 255, 255, 0)',
+                pointHoverBackgroundColor: 'rgba(106, 163, 255, 1)',
+                pointHoverBorderColor: '#FFFFFF',
+
+            }]
+        };
+
+        let globalDefaults = Chart.defaults.global;
+        let radarScaleDefault = Chart.scaleService.getScaleDefaults('radialLinear');
+        let LinearScale = Chart.scaleService.getScaleConstructor('radialLinear');
+
+        radarScaleDefault.pointLabels.activeColor = '#6AA3FF';
+
+        let RadarScale = LinearScale.extend({
+            draw: function(chartArea) {
+                let me = this;
+                let chart = this.chart;
+                let ctx = this.ctx;
+                let opts = this.options;
+                let gridLineOpts = opts.gridLines;
+                let tickOpts = opts.ticks;
+                let angleLineOpts = opts.angleLines;
+                let pointLabelOpts = opts.pointLabels;
+                let getValueOrDefault = helpers.getValueOrDefault;
+                let index = this.ticks.length - 1;
+                let yCenterOffset = this.getDistanceFromCenterForValue(this.ticksAsNumbers[index]);
+                let yHeight = this.yCenter - yCenterOffset;
+
+                // 将 labels 设为空， 缓存之前的 labels， Label 自己画
+                let labels = [];
+
+                this.pointLabels.forEach((value, index)=> {
+                    labels.push(value);
+                    this.pointLabels[index] = '';
+                });
+
+                LinearScale.prototype.draw.apply(this, arguments);
+
+                if (gridLineOpts.display && index !== 0 && !opts.lineArc) {
+                    ctx.save();
+
+                    ctx.globalAlpha = 0.2;
+                    ctx.fillStyle = helpers.getValueAtIndexOrDefault(gridLineOpts.color, index - 1);
+                    ctx.beginPath();
+                    for (let i = 0; i < this.getValueCount(); i++) {
+                        let pointPosition = this.getPointPosition(i, yCenterOffset);
+                        if (i === 0) {
+                            ctx.moveTo(pointPosition.x, pointPosition.y);
+                        } else {
+                            ctx.lineTo(pointPosition.x, pointPosition.y);
+                        }
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.restore();
+                }
+
+                // 显示 label
+                if (!opts.lineArc) {
+                    ctx.lineWidth = angleLineOpts.lineWidth;
+                    ctx.strokeStyle = angleLineOpts.color;
+
+                    let outerDistance = me.getDistanceFromCenterForValue(opts.reverse ? me.min : me.max);
+
+                    // Point Label Font
+                    let pointLabelFontSize = getValueOrDefault(pointLabelOpts.fontSize, globalDefaults.defaultFontSize);
+                    let pointLabeFontStyle = getValueOrDefault(pointLabelOpts.fontStyle, globalDefaults.defaultFontStyle);
+                    let pointLabeFontFamily = getValueOrDefault(pointLabelOpts.fontFamily, globalDefaults.defaultFontFamily);
+                    let pointLabeFont = helpers.fontString(pointLabelFontSize, pointLabeFontStyle, pointLabeFontFamily);
+
+                    chart.__rect = [];
+                    for (let i = me.getValueCount() - 1; i >= 0; i--) {
+                        if (angleLineOpts.display) {
+                            let outerPosition = me.getPointPosition(i, outerDistance);
+                            ctx.beginPath();
+                            ctx.moveTo(me.xCenter, me.yCenter);
+                            ctx.lineTo(outerPosition.x, outerPosition.y);
+                            ctx.stroke();
+                            ctx.closePath();
+                        }
+                        // Extra 3px out for some label spacing
+                        let pointLabelPosition = me.getPointPosition(i, outerDistance + 5);
+
+                        // Keep this in loop since we may support array properties here
+                        let pointLabelFontColor = getValueOrDefault(pointLabelOpts.fontColor, globalDefaults.defaultFontColor);
+
+                        if (chart.__activeIndex == i) {
+                            pointLabelFontColor = opts.pointLabels.activeColor;
+                        }
+
+                        ctx.font = pointLabeFont;
+                        ctx.fillStyle = pointLabelFontColor;
+
+                        let pointLabels = labels;
+                        let labelWidth = ctx.measureText(pointLabels[i]).width;
+                        let rect = {
+                            index: i,
+                            x: pointLabelPosition.x,
+                            y: pointLabelPosition.y,
+                            width: labelWidth,
+                            height: pointLabelFontSize
+                        }
+
+                        // Add quarter circle to make degree 0 mean top of circle
+                        let angleRadians = this.getIndexAngle(i) + (Math.PI / 2);
+                        let angle = (angleRadians * 360 / (2 * Math.PI)) % 360;
+
+                        if (angle === 0 || angle === 180) {
+                            ctx.textAlign = 'center';
+                            rect.x = rect.x - 1/2 * rect.width;
+                        } else if (angle < 180) {
+                            ctx.textAlign = 'left';
+                        } else {
+                            ctx.textAlign = 'right';
+                            rect.x = rect.x - rect.width;
+                        }
+
+                        // Set the correct text baseline based on outer positioning
+                        if (angle === 90 || angle === 270) {
+                            ctx.textBaseline = 'middle';
+                            rect.y = rect.y - 1/2 * rect.height;
+                        } else if (angle > 270 || angle < 90) {
+                            ctx.textBaseline = 'bottom';
+                            rect.y = rect.y - rect.height;
+                        } else {
+                            ctx.textBaseline = 'top';
+                        }
+
+                        ctx.fillText(pointLabels[i] ? pointLabels[i] : '', pointLabelPosition.x, pointLabelPosition.y);
+
+                        
+                        rect.x = rect.x - 3;
+                        rect.y = rect.y - 3;
+                        rect.width = rect.width + 6;
+                        rect.height = rect.height + 6;
+
+                        // ctx.fillStyle = 'rgba(255, 0, 0, .5)';
+                        // ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+
+                        // 存储 Label 显示的位置
+                        chart.__rect.push(rect);
+                        
+                    }
+                }
+                
+
+                // 还原 labels
+                this.pointLabels.forEach((value, index)=> {
+                    this.pointLabels[index] = labels[index];
+                });
+
+            }
+        });
+
+        Chart.scaleService.registerScaleType('radarScale', RadarScale, radarScaleDefault);
+
+        var chart = new Chart(ctx, {
+            type: 'radar',
+            data: data,
+            options: {
+                onClick: function(e) {
+                    let index;
+                    let elements = this.getElementsAtEvent(e);
+
+                    if (elements.length <= 0) {
+                        let pos = helpers.getRelativePosition(e, this.chart);
+                        if (Array.isArray(this.__rect)) {
+                            this.__rect.every((rect)=>{
+                                if (pos.x >= rect.x &&
+                                    pos.x <= rect.x + rect.width &&
+                                    pos.y >= rect.y &&
+                                    pos.y <= rect.y + rect.height
+                                ) {
+                                    index = rect.index;
+                                    return false;
+                                }
+                                return true;
+                            });
+                        }
+                    } else {
+                        index = elements[0]._index;
+                    }
+
+                    if (index >= 0) {
+                        this.__activeIndex = index;
+
+                        this.render();
+                        
+                        console.log({
+                            chart: this,
+                            index: index,
+                            label: this.data.labels[index],
+                            value: this.data.datasets[0].data[index]
+                        });
+                    }
+
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: false
+                },
+                scale: {
+                    type: 'radarScale',
+                    backgroundColor: '#BDD6FF',
+                    ticks: {
+                        beginAtZero: true,
+                        display: false,
+                        stepSize: 10
+                    },
+                    gridLines: {
+                        color: ['#BDD6FF','#BDD6FF','#BDD6FF','#BDD6FF','#6AA3FF']
+                    },
+                    angleLines: {
+                        color: '#BDD6FF'
+                    },
+                    pointLabels: {
+                        fontColor: '#333333',
+                        fontSize: 14
+                    }
+                }
+
+            }
+        });
+    })();
+    </script>
+</body>
+</html>
