@@ -36,42 +36,47 @@
         var helpers = Chart.helpers;
 
         var data = {
-            labels: ['洗剪吹', '烫染', '护理', '其他'],
+            labels: ['洗剪吹', '烫染', '护理', '其他', '预约', '现金', '银联', '支付宝', '微信', '团购'],
             datasets: [
                 {
-                    data: [40, 1, 1, 80],
+                    data: [1, 1, 10, 1, 96, 44, 9, 1, 1, 30],
                     hoverBorderColor: '#fff',
-                    backgroundColor: ['#6AA3FF', '#BD7EFF', '#FF7CA2', '#FFDB53']
+                    backgroundColor: ['#FA7F93', '#22C9E4', '#8FDD89', '#F6B4FA', '#6c70ea','#FA7F93', '#22C9E4', '#8FDD89', '#F6B4FA', '#6c70ea']
                 }
             ]
         };
 
-        var fontSize = 14;
+        let fontSize = 14
+        let outerRadius = 130
+        let innerRadius = 56
+        let textPadding = 10
 
         Chart.defaults.zoomDoughnut = Chart.helpers.clone(Chart.defaults.doughnut);
         Chart.controllers.zoomDoughnut = Chart.controllers.doughnut.extend({
             draw: function(ease) {
-                var elements = this.getMeta().data;
-                let totalCircumference = 0;
+                let ctx = this.chart.chart.ctx
+                let elements = this.getMeta().data
+                let totalCircumference = 0
 
-                // hover 时候放大
+                // 画外圈
+                ctx.save()
+                ctx.globalAlpha = 0.15
                 elements.forEach(function(arc) {
-                    arc._zoom = arc._zoom || 1;
-                    arc._view.outerRadius = arc._model.outerRadius = 140 * (1 + (arc._zoom - 1) * ease);
-                    arc._view.innerRadius = arc._model.innerRadius = 40;
+                    arc._view.outerRadius = arc._model.outerRadius = outerRadius;
+                    arc._view.innerRadius = arc._model.innerRadius = innerRadius;
                     totalCircumference += arc._view.circumference;
+                    arc.transition(ease).draw()
                 });
+                ctx.restore()
 
-                // 调用原来的 draw 把圆环画出来
-                Chart.controllers.doughnut.prototype.draw.apply(this, arguments);
-
-                // 之前放大的还原原来的大小，防止 label 也跟着放大
+                // 画内圈
                 elements.forEach(function(arc) {
-                    arc._view.outerRadius = arc._model.outerRadius = 140;
+                    arc._view.outerRadius = arc._model.outerRadius = outerRadius - 10;
+                    arc.transition(ease).draw()
                 });
 
-                if (ease < 0.8 && totalCircumference < 3/4 * PI) {
-                    return;
+                if (ease <= 0.8 && totalCircumference < 3/4 * PI) {
+                    return
                 }
 
                 this._afterDraw(elements, ease);
@@ -89,6 +94,7 @@
 
                 // 计算百分比
                 elements.forEach(function(arc, i) {
+                    let ctx = _this.chart.chart.ctx;
                     var label = data.labels[arc._index];
                     var dataset = data.datasets[arc._datasetIndex];
                     var d = parseInt(dataset.data[arc._index]);
@@ -115,22 +121,86 @@
                 });
 
                 // 画 label
-                var labelMeta;
+                var labelMeta
+                var labelMetas = {
+                    quad1: [],
+                    quad2: [],
+                    quad3: [],
+                    quad4: []
+                }
                 metaData.forEach(function(m, i) {
-                    ctx = _this.chart.chart.ctx;
                     labelMeta = _this._getLabelMeta(ctx, m.vm, m.label, m.percentage, labelMeta, ease);
+                    
+                    // 按象限分组
+                    if (labelMeta.isLeft && labelMeta.isTop) {
+                        labelMetas.quad1.push(labelMeta)
 
-                    _this._drawLabel(ctx, labelMeta);
+                    } else if (!labelMeta.isLeft && labelMeta.isTop) {
+                        labelMetas.quad2.push(labelMeta)
+
+                    } else if (!labelMeta.isLeft && !labelMeta.isTop) {
+                        labelMetas.quad3.push(labelMeta)
+
+                    } else if (labelMeta.isLeft && !labelMeta.isTop) {
+                        labelMetas.quad4.push(labelMeta)
+                    }
                     
                 });
 
+                let offset = 0
+                labelMetas.quad1.forEach((labelMeta, i)=> {
+                    if (!labelMeta.find) {
+                        offset += 20
+                    }
+
+                    this._updateLabelMeta(labelMeta, offset)
+
+                    this._drawLabel(ctx, labelMeta)
+                })
+
+                offset = 0
+                labelMetas.quad2.reverse().forEach((labelMeta, i)=> {
+                    if (!labelMeta.find || i == labelMetas.quad2.length - 1) {
+                        this._updateLabelMeta(labelMeta, offset)
+                        offset += 20
+                    }
+
+                    this._drawLabel(ctx, labelMeta)
+                })
+
+                offset = 0
+                labelMetas.quad3.forEach((labelMeta)=> {
+                    if (!labelMeta.find) {
+                        offset -= 20
+                        this._updateLabelMeta(labelMeta, offset)
+                    }
+
+                    this._drawLabel(ctx, labelMeta)
+                })
+
+                offset = 0
+                labelMetas.quad4.forEach((labelMeta)=> {
+                    if (!labelMeta.find) {
+                        offset -= 20
+                        this._updateLabelMeta(labelMeta, offset)
+                    }
+
+                    this._drawLabel(ctx, labelMeta)
+                })
+
+            },
+
+            _updateLabelMeta(labelMeta, offset) {
+                labelMeta.point2.y -= offset
+                labelMeta.point3.y -= offset
+                labelMeta.textPos.y -= offset
             },
 
             // 获取 Label 相关信息
             _getLabelMeta: function(ctx, vm, label, percentage, prevMeta, ease) {
                 var _this = this,
                     text = label + ' ' + percentage + '%',
-                    textWidth = ctx.measureText(text).width,
+                    textWidth = ctx.measureText(text).width + textPadding * 2,
                     chartWidth = this.chart.chart.width,
                     sA = vm.startAngle,
                     eA = vm.endAngle,
@@ -146,7 +216,7 @@
                     point3 = {}
                 ;
 
-                var textX, r, x, y, xSign = 1, ySign = 1;
+                var textX, textY, r, x, y, xSign = 1, ySign = 1;
 
                 ctx.save();
 
@@ -154,34 +224,52 @@
                 ctx.font = fontSize + 'px';
 
                 // 查找文字不会被遮住的点
-                let find = false;
+                var find = false;
+                var rotateA = 1/4 * PI
+                for (var i = 1; i < splitCount; i++) {
 
-                function findByAngle(rotateA, radiusDelta) {
-                    point2.x = point1.x + radiusDelta * Math.cos(rotateA * PI) * xSign;
-                    point2.y = point1.y + radiusDelta * Math.sin(rotateA * PI) * ySign;
+                    cA = (step * i) + sA;
+                    isLeft = Math.abs(cA) >= 1/2 * PI;
+                    isTop = (cA >= -0.5*PI && cA <= 0) || (cA > PI && cA < 1.5 * PI);
 
-                    point3.x = point2.x + 20 * xSign;
+                    r = vm.outerRadius;
+                    x = vm.x + r * Math.cos(cA);
+                    y = vm.y + r * Math.sin(cA);
+
+                    xSign = isLeft ? -1 : 1;
+                    ySign = isTop ? -1 : 1;
+
+                    // 计算折线的三个点
+                    point1.x = x;
+                    point1.y = y;
+
+                    point2.x = point1.x + 20 * Math.cos(rotateA) * xSign;
+                    point2.y = point1.y + 20 * Math.sin(rotateA) * ySign;
+
+                    point3.x = point2.x + textWidth * xSign;
                     point3.y = point2.y;
 
                     // 判断文字是否超出边界或者重叠
                     let _x;
-                    textX = isLeft ? point3.x - 10 : point3.x + 10;
-                    _x = textX + textWidth * xSign;
+                    textX = point2.x + textPadding * xSign;
+                    textY = point3.y - fontSize + 5
+
+                    _x = point3.x;
 
                     if (_x > 0 && _x < chartWidth) {
                         if (!prevMeta) {
                             find = true;
                         } else {
                             let rect1 = {
-                                x: isLeft ? textX - textWidth : textX,
-                                y: point3.y - fontSize/2 - 5,
+                                x: isLeft ? point3.x : point2.x,
+                                y: point3.y - fontSize - 5,
                                 height: fontSize + 10,
                                 width: textWidth
                             }
 
                             let rect2 = {
-                                x: isLeft ? prevMeta.textPos.x - textWidth : prevMeta.textPos.x,
-                                y: prevMeta.textPos.y - fontSize/2 - 5,
+                                x: isLeft ? prevMeta.point3.x : prevMeta.point2.x,
+                                y: prevMeta.point3.y - fontSize - 5,
                                 height: fontSize + 10,
                                 width: prevMeta.textWidth
                             }
@@ -192,39 +280,13 @@
                             }
                         }
                     }
-                }
-
-                for (var i = 1; i < splitCount; i++) {
-                    cA = (step * i) + sA;
-                    isLeft = Math.abs(cA) >= 1/2 * PI;
-                    isTop = (cA >= -0.5*PI && cA <= 0) || (cA > PI && cA < 1.5 * PI);
-
-                    r = vm.outerRadius - 25;
-                    x = vm.x + r * Math.cos(cA);
-                    y = vm.y + r * Math.sin(cA);
-
-                    xSign = isLeft ? -1 : 1;
-                    ySign = isTop ? -1 : 1;
-
-                    // 计算折线的三个点
-                    point1.x = x + 2 * xSign;
-                    point1.y = y + 2 * ySign;
-
-                    [1/4, 1/8, 3/8].forEach(function(rotateA) {
-                        if (find) return false;
-                        findByAngle(rotateA, 40)
-                        
-                    });
 
                     if (find) {
                         break;
                     }
+
                 }
 
-                // 如果还没有找点合适的位置，尝试提升位置
-                if (!find) {
-                    findByAngle(3/8, 55)
-                }
 
                 ctx.restore();
 
@@ -236,12 +298,12 @@
                     point1: point1,
                     point2: point2,
                     point3: point3,
+                    lineColor: vm.backgroundColor,
                     textPos: {
                         x: textX,
-                        y: point3.y
+                        y: textY
                     },
-                    x: x,
-                    y: y
+                    find: find
                 }
             },
 
@@ -259,25 +321,13 @@
                 ctx.textBaseline = 'middle';
                 ctx.font = fontSize + 'px';
 
-                // 画白色的点
-                ctx.beginPath();
-                ctx.fillStyle = '#fff';
-                ctx.arc(metaData.x, metaData.y, 3, 0, 2 * PI);
-                ctx.fill();
-
                 // 画折线
                 ctx.beginPath();
                 ctx.moveTo(metaData.point1.x, metaData.point1.y);
                 ctx.lineTo(metaData.point2.x, metaData.point2.y);
                 ctx.lineTo(metaData.point3.x, metaData.point3.y);
-                ctx.strokeStyle = '#A1C5FF';
+                ctx.strokeStyle = metaData.lineColor;
                 ctx.stroke();
-
-                // 在第三个点画点
-                ctx.beginPath();
-                ctx.fillStyle = '#A1C5FF';
-                ctx.arc(metaData.point3.x, metaData.point3.y, 3, 0, 2 * PI);
-                ctx.fill();
 
                 // 画文字
                 ctx.fillStyle = '#333';
@@ -297,6 +347,11 @@
             options: {
                 tooltips: {
                     enabled: false
+                },
+                elements: {
+                    arc: {
+                        borderWidth: 0
+                    }
                 },
                 hover: {
                     onHover: function(elements) {
@@ -318,15 +373,15 @@
             
         });
 
-        setInterval(function() {
-            var data = [];
-            for (var i = 0; i < 4; i++) {
-                data.push(parseInt(Math.random() * 100));
-            }
-            chart.data.datasets[0].data = data;
-            chart.update();
-            // console.log(data);
-        }, 3000);
+        // setInterval(function() {
+        //     var d = [];
+        //     for (var i = 0; i < data.labels.length; i++) {
+        //         d.push(parseInt(Math.random() * 100));
+        //     }
+        //     chart.data.datasets[0].data = d;
+        //     chart.update();
+        //     // console.log(data);
+        // }, 3000);
     })();
     </script>
 </body>
