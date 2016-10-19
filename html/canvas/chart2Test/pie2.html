@@ -39,7 +39,7 @@
             labels: ['洗剪吹', '烫染', '护理', '其他', '预约', '现金', '银联', '支付宝', '微信', '团购'],
             datasets: [
                 {
-                    data: [1, 1, 10, 1, 96, 44, 9, 1, 1, 30],
+                    data: [1, 1, 1, 10, 10, 10, 10, 10, 10, 10],
                     hoverBorderColor: '#fff',
                     backgroundColor: ['#FA7F93', '#22C9E4', '#8FDD89', '#F6B4FA', '#6c70ea','#FA7F93', '#22C9E4', '#8FDD89', '#F6B4FA', '#6c70ea']
                 }
@@ -147,24 +147,30 @@
                     
                 });
 
+                let lineHeight = 20
                 let offset = 0
                 labelMetas.quad1.forEach((labelMeta, i)=> {
                     if (!labelMeta.find) {
-                        offset += 20
+                        offset += lineHeight
                     }
 
                     this._updateLabelMeta(labelMeta, offset)
-
                     this._drawLabel(ctx, labelMeta)
                 })
 
                 offset = 0
-                labelMetas.quad2.reverse().forEach((labelMeta, i)=> {
-                    if (!labelMeta.find || i == labelMetas.quad2.length - 1) {
-                        this._updateLabelMeta(labelMeta, offset)
-                        offset += 20
+                labelMetas.quad2.forEach((labelMeta, i)=> {
+                    offset = 0
+                    for (let j = i + 1; j < labelMetas.quad2.length; j++) {
+                        let nextMeta = labelMetas.quad2[j]
+                        if (!nextMeta || nextMeta.find) {
+                            break;
+                        }
+
+                        offset += lineHeight
                     }
 
+                    this._updateLabelMeta(labelMeta, offset)
                     this._drawLabel(ctx, labelMeta)
                 })
 
@@ -179,12 +185,18 @@
                 })
 
                 offset = 0
-                labelMetas.quad4.forEach((labelMeta)=> {
-                    if (!labelMeta.find) {
-                        offset -= 20
-                        this._updateLabelMeta(labelMeta, offset)
+                labelMetas.quad4.forEach((labelMeta, i)=> {
+                    offset = 0
+                    for (let j = i + 1; j < labelMetas.quad4.length; j++) {
+                        let nextMeta = labelMetas.quad4[j]
+                        if (!nextMeta || nextMeta.find) {
+                            break;
+                        }
+
+                        offset -= lineHeight
                     }
 
+                    this._updateLabelMeta(labelMeta, offset)
                     this._drawLabel(ctx, labelMeta)
                 })
 
