@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: #efefef;
+            padding: 0;
+            margin: 0;
+        }
+
+        .canvas-wrap {
+            position: relative;
+            width: 80%;
+            display: block;
+            box-shadow: 0 0 3px rgba(0,0,0, .3);
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 3px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .canvas {
+            position: relative;
+            width: 100%;
+            height: 360px;
+            background: transparent;
+            z-index: 100;
+        }
+
+        canvas {
+            background: transparent;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="canvas-wrap">
+        <div class="canvas">
+            <canvas id="canvas1" width="1130" height="360"></canvas>
+        </div>
+    </div>
+
+    <script src="../Chart.js-2.3.0/dist/Chart.js"></script>
+    <script src="moment.js"></script>
+    <script>
+    (function(){
+        'use strict';
+
+        const PI = Math.PI;
+        var ctx = document.getElementById('canvas1').getContext('2d');
+        var helpers = Chart.helpers;
+
+        function max(numbers) {
+            let max = numbers[0]
+            numbers.forEach((v)=> {
+                if (v > max) max = v
+            })
+            return max
+        }
+
+        function min(numbers) {
+            let min = numbers[0]
+            numbers.forEach((v)=> {
+                if (v < min) min = v
+            })
+
+            return min
+        }
+
+        let labels = []
+        let _data1 = []
+        let _data2 = []
+
+        for (let i = 0; i < 31; i++) {
+            labels.push(moment('2016-05-01').add(i, 'days').format('YYYY-MM-DD'))
+            _data1.push(parseInt(Math.random() * 600 + 1000))
+            _data2.push(parseInt(Math.random() * 600 + 1800))
+        }
+
+        let max1 = max(_data1)
+        let max2 = max(_data2)
+        let max3 = max([max1, max2])
+
+        let blue = ctx.createLinearGradient(0, 360, 0, parseInt(360 - 360 * max2 / max3))
+        let red = ctx.createLinearGradient(0, 360, 0, parseInt(360 - 360 * max1 / max3))
+
+        blue.addColorStop(0, 'rgba(42, 174, 255, 0.3)')
+        blue.addColorStop(1, 'rgba(214, 245, 255, 0.3)')
+
+        red.addColorStop(0, 'rgba(255, 106, 139, 0.5)')
+        red.addColorStop(1, 'rgba(255, 232, 235, 0.45)')
+
+        var data = {
+            labels: labels,
+            datasets: [
+                
+                {
+                    label: 'Products',
+                    data: _data1,
+                    hoverBorderColor: '#fff',
+                    backgroundColor: red,
+                    borderColor: '#FC7E93',
+                    pointBackgroundColor: '#fff',
+                    pointHoverBackgroundColor: '#fff'
+                },
+                {
+                    label: 'Service',
+                    data: _data2,
+                    hoverBorderColor: '#fff',
+                    backgroundColor: blue,
+                    borderColor: '#2AAEFF',
+                    pointBackgroundColor: '#fff',
+                    pointHoverBackgroundColor: '#fff'
+                }
+            ]
+        };
+
+
+
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                tooltips: {
+                    enabled: true,
+                    bodyFontSize: 14,
+                    backgroundColor: '#2AAEFF',
+                    xPadding: 8,
+                    yPadding: 8,
+                    titleSpacing: 0,
+                    callbacks: {
+                        title: function(items, data) {
+                            let item = items[0]
+                            // return data.datasets[item.datasetIndex].label
+                            return ''
+                        },
+                        label: function(tooltipItem, data) {
+                            let d = moment(data.labels[tooltipItem.index]).format('MMM DD')
+                            let val = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+                            return `${d}: $${val}`
+                        }
+                    }
+                },
+
+                scales: {
+                    xAxes: [{
+                        type: 'category',
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            fontColor: '#4A4A4A',
+                            fontSize: 14,
+                            fontFamily: 'Roboto',
+                            callback: function(label, index, data) {
+                                return moment(label).format('DD')
+                            }
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            borderDash: [2, 2], 
+                            drawBorder: true,
+                            tickMarkLength: 0,
+                            color: '#DCDCDC',
+                            zeroLineColor: 'rgba(0,0,0,0)'
+                        },
+                        ticks: {
+                            // beginAtZero: true,
+                            suggestedMax: max3 + max3 / 5,
+                            suggestedMin: min(_data1.concat(_data2)) - min(_data1.concat(_data2)) / 5 ,
+                            fontColor: '#4A4A4A',
+                            fontSize: 13,
+                            fontFamily: 'Roboto',
+                            callback: function(value){
+                                return '$' + value
+                            }
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+
+                elements: {
+                    line: {
+                        tension: 0,
+                        borderWidth: 1
+                    },
+                    point: {
+                        borderWidth: 2,
+                        hoverBorderWidth: 2,
+                        radius: 4
+                    }
+                }
+            }
+        });
+        
+    })();
+    </script>
+</body>
+</html>

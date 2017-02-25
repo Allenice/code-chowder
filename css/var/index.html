@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Css Variable</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        .container {
+            width:  calc(100% * var(--mouse-x, 0));
+            height: calc(100vh * var(--mouse-y, 0));
+            margin: 0;
+            background-color: var(--color);
+        }
+    </style>
+</head>
+<body>
+    <div id="container" class="container">
+        
+    </div>
+
+    <script>
+        var root = document.documentElement
+
+        document.addEventListener('mousemove', e => {
+            let x = e.clientX / window.innerWidth
+            let y = e.clientY / window.innerHeight
+
+            root.style.setProperty('--mouse-x', x)
+            root.style.setProperty('--mouse-y', y)
+            root.style.setProperty('--color', `rgba(${parseInt(255 * x)}, ${parseInt(255 * y)}, 255, 1)`)
+        })
+    </script>
+</body>
+</html>

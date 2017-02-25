@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body {
+            background: #efefef;
+            padding: 0;
+            margin: 0;
+        }
+
+        .canvas-wrap {
+            width: 240px;
+            height: 240px;
+            display: block;
+            box-shadow: 0 0 3px rgba(0,0,0, .3);
+            margin: 10px auto;
+            border-radius: 3px;
+            padding: 100px;
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-wrap">
+        <canvas id="canvas1" width="240" height="240"></canvas>
+    </div>
+
+    <script src="../Chart.js-2.3.0/dist/Chart.js"></script>
+    <script>
+    (function(){
+        'use strict';
+
+        const PI = Math.PI;
+        var ctx = document.getElementById('canvas1').getContext('2d');
+        var helpers = Chart.helpers;
+
+        var data = {
+            labels: ['洗剪吹', '烫染', '护理', '其他', '微信'],
+            datasets: [
+                {
+                    // data: [0, 0, 0, 0, 0],
+                    data: [10, 30, 30, 5, 25],
+                    hoverBorderColor: '#fff',
+                    backgroundColor: ['#A175F7', '#FA7F93', '#22C9E4', '#FD992E', '#8FDD89']
+                }
+            ]
+        };
+
+        var fontSize = 14;
+
+        Chart.defaults.mmfDoughnut = Chart.helpers.clone(Chart.defaults.doughnut);
+        Chart.controllers.mmfDoughnut = Chart.controllers.doughnut.extend({
+            draw: function(ease) {
+                let ctx = this.chart.chart.ctx
+                let elements = this.getMeta().data
+                let totalCircumference = 0
+                const center = {
+                    x: this.chart.chart.width / 2,
+                    y: this.chart.chart.height / 2
+                }
+
+                elements.forEach(function(arc) {
+                    totalCircumference += arc._view.circumference;
+                });
+
+                if (totalCircumference == 0 && ease >= 0.8) {
+                    ctx.beginPath()
+                    ctx.fillStyle = '#efefef'
+                    ctx.arc(center.x, center.y, this.outerRadius, 0, 2*Math.PI)
+                    ctx.arc(center.x, center.y, this.innerRadius, 2*Math.PI, 0, true)
+                    ctx.fill()
+                    return false
+                }
+
+                // 调用原来的 draw 把圆环画出来
+                Chart.controllers.doughnut.prototype.draw.apply(this, arguments);
+
+
+                // 绘制文字
+                ctx.save()
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#fff'
+                ctx.font = '14px Roboto'
+
+
+                 // 计算百分比
+                let total = this.getMeta().total
+                let totalPercent = 0
+                let data = this.chart.data
+
+                elements.forEach(function(arc, i) {
+                    let vm = arc._view
+                    let sA = vm.startAngle
+                    let eA = vm.endAngle
+                    let cA = (eA - sA) / 2 + sA
+                    let lr = (vm.outerRadius - vm.innerRadius) / 2 + vm.innerRadius
+                    let x = vm.x + lr * Math.cos(cA)
+                    let y = vm.y + lr * Math.sin(cA)
+
+                    let label = data.labels[arc._index];
+                    let dataset = data.datasets[arc._datasetIndex];
+                    let d = parseFloat(dataset.data[arc._index]);
+                    let p = d / total * 100;
+
+                    if (dataset.percentages && dataset.percentages[arc._index]) {
+                        p = parseFloat(dataset.percentages[arc._index]);
+                    } else {
+                         // 百分比总和不是 100% 的话，凑成 100%
+                        totalPercent += p;
+                        if (i >= elements.length - 1 && p != 100) {
+                            p += (100 - totalPercent);
+                        }
+
+                        p = parseFloat(p.toFixed(2))
+                    }
+
+                   if (p >= 5) {
+                        ctx.fillText(p + '%', x, y)
+                   }
+                    
+                })
+
+                ctx.restore()
+            }
+
+        });
+
+        var chart = new Chart(ctx, {
+            type: 'mmfDoughnut',
+            data: data,
+            options: {
+                elements: {
+                    arc: {
+                        borderWidth: 0
+                    }
+                },
+                hover: {
+                    onHover: function(elements) {
+                        if (this.lastActive.length > 0) {
+                            this.lastActive.forEach(function(el){ el._zoom = 1; });
+                        }
+
+                        if (elements.length > 0) {
+                            elements.forEach(function(el) {el._zoom = 1.072;});
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                rotation: -3/8 * PI,
+                cutoutPercentage: 58,
+            }
+            
+        });
+
+        setInterval(function() {
+            var d = [];
+            for (var i = 0; i < data.labels.length; i++) {
+                d.push(parseInt(Math.random() * 100));
+            }
+            chart.data.datasets[0].data = d;
+            chart.update();
+        }, 3000);
+    })();
+    </script>
+</body>
+</html>

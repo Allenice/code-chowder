@@ -40,11 +40,13 @@
             labels: ['洗剪吹', '烫染', '护理', '其他'],
             datasets: [
                 {
+                    label: 'Product',
                     data: [10, 2, 3, 4],
                     hoverBorderColor: '#fff',
                     backgroundColor: '#6AA3FF'
                 },
                 {
+                    label: 'Service',
                     data: [30, 20, 6, 4],
                     hoverBorderColor: '#fff',
                     backgroundColor: '#FFDB53'
@@ -113,8 +115,9 @@
                     yAxes: [{
                         type: 'barDotScale',
                         gridLines: {
+                            borderDash: [2, 2], 
                             drawBorder: false,
-                            color: '#f3f5fa',
+                            color: 'red',
                             zeroLineColor: '#97d3f3'
                         },
                         ticks: {

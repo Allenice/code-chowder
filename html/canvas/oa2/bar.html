@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: #efefef;
+            padding: 0;
+            margin: 0;
+        }
+
+        .canvas-wrap {
+            position: relative;
+            width: 80%;
+            display: block;
+            box-shadow: 0 0 3px rgba(0,0,0, .3);
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 3px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .canvas {
+            position: relative;
+            width: 100%;
+            height: 360px;
+            background: transparent;
+            z-index: 100;
+        }
+
+        canvas {
+            background: transparent;
+        }
+
+
+        .x-scale {
+            position: relative;
+            top: -14px;
+            width: 100%;
+            height: 80px;
+            z-index: 1;
+            /*background: rgba(255, 0, 0, .5);*/
+        }
+
+        .x-label {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            text-align: center;
+            font-size: 14px;
+            font-family: 'Roboto';
+            color: #4a4a4a;
+            z-index: 1;
+        }
+
+        .x-label.cur:before,
+        .x-label.cur:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .x-label.cur:before {
+            height: 1000px;
+            background: rgba(0, 173, 238, .06);
+        }
+
+        .x-label.cur:after {
+            box-sizing: border-box;
+            content: attr(data-tips);
+            padding: 8px;
+            color: #fff;
+            font-size: 14px;
+            background-color: rgba(0, 173, 238, .5);
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas-wrap">
+        <div class="canvas">
+            <canvas id="canvas1" width="1130" height="360"></canvas>
+        </div>
+        <div id="html" class="x-scale">
+            
+        </div>
+    </div>
+
+    <script src="../Chart.js-2.3.0/dist/Chart.js"></script>
+    <script>
+    (function(){
+        'use strict';
+
+        const PI = Math.PI;
+        var ctx = document.getElementById('canvas1').getContext('2d');
+        var helpers = Chart.helpers;
+
+        var data = {
+            labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUNE', 'JULY', 'AUG', 'SEPT', 'OCT', 'NOV', 'DEC'],
+            datasets: [
+                {
+                    label: 'Service',
+                    data: [100, 20, 30, 40, 300, 50, 120, 340, 170, 34, 59, 654],
+                    hoverBorderColor: '#fff',
+                    backgroundColor: '#00ADEE'
+                },
+                {
+                    label: 'Products',
+                    data: [50, 120, 80, 100, 200, 100, 20, 40, 70, 98, 234, 89],
+                    hoverBorderColor: '#fff',
+                    backgroundColor: '#FD98A9'
+                }
+            ]
+        };
+
+
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                tooltips: {
+                    enabled: true,
+                    backgroundColor: '#2AAEFF'
+                },
+
+                scales: {
+                    xAxes: [{
+                        type: 'category',
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            fontColor: 'transparent',
+                            fontSize: 14,
+                            fontFamily: 'Roboto'
+                        },
+                        barThickness: 21,
+                        barPercentage: 0.9,
+                        categoryPercentage: 0.66,
+                        afterUpdate: function(xAxes) {
+                            setTimeout(()=>{
+                                let me = xAxes
+                                let chartArea = me.chart.chartArea
+                                var options = me.options;
+                                if (!options.display) {
+                                    return;
+                                }
+
+                                var optionTicks = options.ticks;
+                                var gridLines = options.gridLines;
+
+                                var isRotated = me.labelRotation !== 0;
+                                var skipRatio;
+                                var useAutoskipper = optionTicks.autoSkip;
+                                var isHorizontal = me.isHorizontal();
+
+                                // figure out the maximum number of gridlines to show
+                                var maxTicks;
+                                if (optionTicks.maxTicksLimit) {
+                                    maxTicks = optionTicks.maxTicksLimit;
+                                }
+
+                                var tl = gridLines.tickMarkLength;
+
+                                var labelRotationRadians = helpers.toRadians(me.labelRotation);
+                                var cosRotation = Math.cos(labelRotationRadians);
+                                var longestRotatedLabel = me.longestLabelWidth * cosRotation;
+                                // Make sure we draw text in the correct color and font
+
+                                var itemsToDraw = [];
+
+                                if (isHorizontal) {
+                                    skipRatio = false;
+
+                                    // Only calculate the skip ratio with the half width of longestRotateLabel if we got an actual rotation
+                                    // See #2584
+                                    if (isRotated) {
+                                        longestRotatedLabel /= 2;
+                                    }
+
+                                    if ((longestRotatedLabel + optionTicks.autoSkipPadding) * me.ticks.length > (me.width - (me.paddingLeft + me.paddingRight))) {
+                                        skipRatio = 1 + Math.floor(((longestRotatedLabel + optionTicks.autoSkipPadding) * me.ticks.length) / (me.width - (me.paddingLeft + me.paddingRight)));
+                                    }
+
+                                    // if they defined a max number of optionTicks,
+                                    // increase skipRatio until that number is met
+                                    if (maxTicks && me.ticks.length > maxTicks) {
+                                        while (!skipRatio || me.ticks.length / (skipRatio || 1) > maxTicks) {
+                                            if (!skipRatio) {
+                                                skipRatio = 1;
+                                            }
+                                            skipRatio += 1;
+                                        }
+                                    }
+
+                                    if (!useAutoskipper) {
+                                        skipRatio = false;
+                                    }
+                                }
+
+                                helpers.each(me.ticks, function(label, index) {
+                                    // If the callback returned a null or undefined value, do not draw this line
+                                    if (label === undefined || label === null) {
+                                        return;
+                                    }
+
+                                    var isLastTick = me.ticks.length === index + 1;
+
+                                    // Since we always show the last tick,we need may need to hide the last shown one before
+                                    var shouldSkip = (skipRatio > 1 && index % skipRatio > 0) || (index % skipRatio === 0 && index + skipRatio >= me.ticks.length);
+                                    if (shouldSkip && !isLastTick || (label === undefined || label === null)) {
+                                        return;
+                                    }
+
+                                    // Common properties
+                                    var labelX, labelY;
+                                    var textAlign = 'middle';
+                                    var textBaseline = 'middle';
+
+                                    if (!isRotated) {
+                                        textBaseline = options.position === 'top' ? 'bottom' : 'top';
+                                    }
+
+                                    textAlign = isRotated ? 'right' : 'center';
+
+                                    labelX = me.getPixelForTick(index, gridLines.offsetGridLines) + optionTicks.labelOffset; // x values for optionTicks (need to consider offsetLabel option)
+                                    labelY = (isRotated) ? me.top + 12 : options.position === 'top' ? me.bottom - tl : me.top + tl;
+
+
+                                    itemsToDraw.push({
+                                        labelX: labelX,
+                                        labelY: labelY,
+                                        rotation: -1 * labelRotationRadians,
+                                        label: label,
+                                        textBaseline: textBaseline,
+                                        textAlign: textAlign
+                                    });
+                                });
+
+                                renderXAxes(itemsToDraw)
+
+                            }, 0)
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            borderDash: [2, 2], 
+                            drawBorder: true,
+                            tickMarkLength: 0,
+                            color: '#DCDCDC',
+                            zeroLineColor: 'rgba(0,0,0,0)'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: '#4A4A4A',
+                            fontSize: 13,
+                            padding: 30,
+                            fontFamily: 'Roboto',
+                            callback: function(value){
+                                return '$' + value
+                            }
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                }
+            }
+        });
+        
+        let timeId = 0
+        function renderXAxes(ticks) {
+            if (ticks.length <= 1) return false
+
+            clearTimeout(timeId)
+            timeId = setTimeout(()=>{
+                let html = ''
+                let maxWidth = ticks[1].labelX - ticks[0].labelX
+
+                if (maxWidth > 100) maxWidth = 100
+
+                let month = new Date().getMonth()
+
+                ticks.forEach((v, ix)=> {
+                    let isCur = ix === month
+                    html += `
+                        <div class="x-label ${isCur ? 'cur': ''}" style="left: ${v.labelX}px; width: ${maxWidth}px; margin-left: -${maxWidth / 2}px" data-tips="THIS MONTH">${v.label}</div>
+                    `
+                })
+                document.getElementById('html').innerHTML = html
+            }, 50)
+        }
+        
+    })();
+    </script>
+</body>
+</html>

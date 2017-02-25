@@ -35,16 +35,27 @@
         var ctx = document.getElementById('canvas1').getContext('2d');
         var helpers = Chart.helpers;
 
+        
+
         var data = {
-            labels: ['洗剪吹', '烫染', '护理', '其他'],
+            labels: [],
             datasets: [
                 {
-                    data: [40, 1, 1, 80],
+                    data: [],
                     hoverBorderColor: '#fff',
-                    backgroundColor: ['#6AA3FF', '#BD7EFF', '#FF7CA2', '#FFDB53']
+                    backgroundColor: []
                 }
             ]
         };
+
+        for (let i = 1; i <= 10; i++) {
+            data.labels.push('Label' + i)
+            data.datasets[0].data.push(i)
+            let red = Math.ceil(Math.random() * 255)
+            let green = Math.ceil(Math.random() * 255)
+            let blue = Math.ceil(Math.random() * 255)
+            data.datasets[0].backgroundColor.push(`rgba(${red}, ${green}, ${blue},1)`)
+        }
 
         var fontSize = 14;
 
@@ -91,7 +102,7 @@
                 elements.forEach(function(arc, i) {
                     var label = data.labels[arc._index];
                     var dataset = data.datasets[arc._datasetIndex];
-                    var d = parseInt(dataset.data[arc._index]);
+                    var d = parseFloat(dataset.data[arc._index]);
                     var p = parseFloat((d / total * 100).toFixed(1));
 
                     if (dataset.percentages && dataset.percentages[arc._index]) {
@@ -104,144 +115,155 @@
                         p += (100 - totalPercent);
                     }
 
-                    p = p.toFixed(1);
+                    p = parseFloat(p.toFixed(1));
 
-                    metaData.push({
-                        vm: arc._view,
-                        label: label,
-                        percentage: parseFloat(p)
-                    });
+                    if (p > 0) {
+                        metaData.push({
+                            vm: arc._view,
+                            label: label,
+                            percentage: p
+                        });
+                    }
                     
                 });
 
                 // 画 label
                 var labelMeta;
+                let labelMetas = []
                 metaData.forEach(function(m, i) {
                     ctx = _this.chart.chart.ctx;
-                    labelMeta = _this._getLabelMeta(ctx, m.vm, m.label, m.percentage, labelMeta, ease);
+                    labelMeta = _this._getLabelMeta(ctx, m.vm, m.label, m.percentage)
+                    if (!Array.isArray(labelMetas[labelMeta.quad])) {
+                        labelMetas[labelMeta.quad] = []
+                    }
 
-                    _this._drawLabel(ctx, labelMeta);
-                    
+                    labelMetas[labelMeta.quad].push(labelMeta)
                 });
+
+                let rotateDeg = []
+                for (let i = 30; i <= 90;) {
+                    rotateDeg.push(i)
+                    i = i + 5
+                }
+
+                labelMetas.forEach((list, quad)=> {
+                    if (quad === 2 || quad == 4) {
+                        list.reverse()
+                    }
+
+                    let drawed = []
+                    let radiusDelta = 30
+
+                    list.forEach((meta1, ix1)=> {
+                        let find = rotateDeg.every((deg)=> {
+                            this._updateMetaByDeg(meta1, deg, radiusDelta)
+
+                            let isCollide = !drawed.every((meta2, ix2)=> {
+                                return !this._isCollide(meta1.rect, meta2.rect)
+                            })
+                            return isCollide
+                        })
+
+                        radiusDelta = radiusDelta + 10
+                        drawed.push(meta1)
+                        this._drawLabel(ctx, meta1)
+                    })
+                })
 
             },
 
             // 获取 Label 相关信息
-            _getLabelMeta: function(ctx, vm, label, percentage, prevMeta, ease) {
-                var _this = this,
-                    text = label + ' ' + percentage + '%',
-                    textWidth = ctx.measureText(text).width,
-                    chartWidth = this.chart.chart.width,
-                    sA = vm.startAngle,
-                    eA = vm.endAngle,
-                    cA,
-                    isLeft = true,
-                    isTop = true,
-                    splitA = PI * 1/6,
-                    splitCount = Math.ceil(vm.circumference / splitA) + 1,
+            _getLabelMeta: function(ctx, vm, label, percentage) {
+                const rotateA = 1/4 * PI
+                let _this = this
+                let sA = vm.startAngle
+                let eA = vm.endAngle
+                let splitA = PI * 1/6
+                let splitCount = Math.ceil(vm.circumference / splitA) + 1
+                let cA
+                let chartWidth = this.chart.chart.width
+                let step = (eA - sA) / splitCount
 
-                    step = (eA - sA) / splitCount,
-                    point1 = {},
-                    point2 = {},
-                    point3 = {}
-                ;
-
-                var textX, r, x, y, xSign = 1, ySign = 1;
-
-                ctx.save();
-
-                ctx.textBaseline = 'middle';
-                ctx.font = fontSize + 'px';
-
-                // 查找文字不会被遮住的点
-                let find = false;
-
-                function findByAngle(rotateA, radiusDelta) {
-                    point2.x = point1.x + radiusDelta * Math.cos(rotateA * PI) * xSign;
-                    point2.y = point1.y + radiusDelta * Math.sin(rotateA * PI) * ySign;
-
-                    point3.x = point2.x + 20 * xSign;
-                    point3.y = point2.y;
-
-                    // 判断文字是否超出边界或者重叠
-                    let _x;
-                    textX = isLeft ? point3.x - 10 : point3.x + 10;
-                    _x = textX + textWidth * xSign;
-
-                    if (_x > 0 && _x < chartWidth) {
-                        if (!prevMeta) {
-                            find = true;
-                        } else {
-                            let rect1 = {
-                                x: isLeft ? textX - textWidth : textX,
-                                y: point3.y - fontSize/2 - 5,
-                                height: fontSize + 10,
-                                width: textWidth
-                            }
-
-                            let rect2 = {
-                                x: isLeft ? prevMeta.textPos.x - textWidth : prevMeta.textPos.x,
-                                y: prevMeta.textPos.y - fontSize/2 - 5,
-                                height: fontSize + 10,
-                                width: prevMeta.textWidth
-                            }
-
-                            // 判断文字是否重叠
-                            if (!_this._isCollide(rect1, rect2)) {
-                                find = true;
-                            }
-                        }
-                    }
+                let meta = {
+                    text: label + ' ' + percentage + '%',
+                    textWidth: 0,
+                    isLeft: false,
+                    isTop: false,
+                    radius: vm.outerRadius - 25,
+                    beginPoint: {
+                        x: 0,
+                        y: 0
+                    },
+                    point1: {},
+                    point2: {},
+                    point3: {},
+                    rect: null,
+                    textX: 0,
+                    textY: 0,
+                    quad: 1
                 }
 
-                for (var i = 1; i < splitCount; i++) {
-                    cA = (step * i) + sA;
-                    isLeft = Math.abs(cA) >= 1/2 * PI;
-                    isTop = (cA >= -0.5*PI && cA <= 0) || (cA > PI && cA < 1.5 * PI);
 
-                    r = vm.outerRadius - 25;
-                    x = vm.x + r * Math.cos(cA);
-                    y = vm.y + r * Math.sin(cA);
+                ctx.save()
+                ctx.textBaseline = 'middle';
+                ctx.font = fontSize + 'px defaults';
 
-                    xSign = isLeft ? -1 : 1;
-                    ySign = isTop ? -1 : 1;
+                for (let i = 1; i < splitCount; i++) {
+                    cA = (step * i) + sA
+                    meta.isLeft = Math.abs(cA) >= 1/2 * PI
+                    meta.isTop = (cA >= -0.5*PI && cA <= 0) || (cA > PI && cA < 1.5 * PI)
+                    meta.textWidth = ctx.measureText(meta.text).width
+                    meta.beginPoint.x = vm.x + meta.radius * Math.cos(cA)
+                    meta.beginPoint.y = vm.y + meta.radius * Math.sin(cA)
 
-                    // 计算折线的三个点
-                    point1.x = x + 2 * xSign;
-                    point1.y = y + 2 * ySign;
+                    // 判断起点在哪个象限
+                    if (meta.isLeft && meta.isTop) {
+                        meta.quad = 1
+                    } else if (!meta.isLeft && meta.isTop) {
+                        meta.quad = 2
+                    } else if (!meta.isLeft && !meta.isTop) {
+                        meta.quad = 3
+                    } else if (meta.isLeft && !meta.isTop) {
+                        meta.quad = 4
+                    }
 
-                    [1/4, 1/8, 3/8].forEach(function(rotateA) {
-                        if (find) return false;
-                        findByAngle(rotateA, 40)
-                        
-                    });
+                    let xSign = meta.isLeft ? -1 : 1
+                    let ySign = meta.isTop ? -1 : 1
 
-                    if (find) {
+                    meta.point1.x = meta.beginPoint.x + 2 * xSign
+                    meta.point1.y = meta.beginPoint.y + 2 * ySign
+
+                    this._updateMetaByDeg(meta, 45)
+
+                    let _x = meta.textX + meta.textWidth * xSign
+
+                    if (_x > 0 && _x < chartWidth) {
                         break;
                     }
                 }
 
-                // 如果还没有找点合适的位置，尝试提升位置
-                if (!find) {
-                    findByAngle(3/8, 55)
-                }
+                return meta
+            },
 
-                ctx.restore();
+            _updateMetaByDeg: function(meta, deg, radiusDelta = 40) {
+                let rotateA = this._radians(deg)
+                let xSign = meta.isLeft ? -1 : 1
+                let ySign = meta.isTop ? -1 : 1
 
-                return {
-                    text: text,
-                    textWidth: textWidth,
-                    isTop: isTop,
-                    isLeft: isLeft,
-                    point1: point1,
-                    point2: point2,
-                    point3: point3,
-                    textPos: {
-                        x: textX,
-                        y: point3.y
-                    },
-                    x: x,
-                    y: y
+                meta.point2.x = meta.point1.x + radiusDelta * Math.cos(rotateA) * xSign
+                meta.point2.y = meta.point1.y + radiusDelta * Math.sin(rotateA) * ySign
+
+                meta.point3.x = meta.point2.x + 20 * xSign
+                meta.point3.y = meta.point2.y
+
+                meta.textX = meta.point3.x + 10 * xSign
+                meta.textY = meta.point3.y
+
+                meta.rect = {
+                    x: meta.isLeft ? meta.textX - meta.textWidth : meta.textX,
+                    y: meta.point3.y - fontSize / 2 + 2,
+                    height: fontSize + 4,
+                    width: meta.textWidth
                 }
             },
 
@@ -253,16 +275,21 @@
                    rect1.height + rect1.y > rect2.y
             },
 
+            // 角度转弧度
+            _radians: function(degrees) {
+                return degrees * Math.PI / 180
+            },
+
             _drawLabel: function(ctx, metaData) {
                 ctx.save();
 
                 ctx.textBaseline = 'middle';
-                ctx.font = fontSize + 'px';
+                ctx.font = fontSize + 'px defaults';
 
                 // 画白色的点
                 ctx.beginPath();
                 ctx.fillStyle = '#fff';
-                ctx.arc(metaData.x, metaData.y, 3, 0, 2 * PI);
+                ctx.arc(metaData.beginPoint.x, metaData.beginPoint.y, 3, 0, 2 * PI);
                 ctx.fill();
 
                 // 画折线
@@ -283,7 +310,9 @@
                 ctx.fillStyle = '#333';
                 ctx.textAlign = metaData.isLeft ? 'right' : 'left';
                 
-                ctx.fillText(metaData.text, metaData.textPos.x, metaData.textPos.y);
+                ctx.fillText(metaData.text, metaData.textX, metaData.textY);
+
+                // ctx.fillRect(metaData.rect.x, metaData.rect.y, metaData.rect.width, metaData.rect.height)
 
                 ctx.restore();
 
@@ -319,11 +348,11 @@
         });
 
         setInterval(function() {
-            var data = [];
-            for (var i = 0; i < 4; i++) {
-                data.push(parseInt(Math.random() * 100));
+            var d = [];
+            for (var i = 0; i < data.labels.length; i++) {
+                d.push(parseInt(Math.random() * 100));
             }
-            chart.data.datasets[0].data = data;
+            chart.data.datasets[0].data = d;
             chart.update();
             // console.log(data);
         }, 3000);

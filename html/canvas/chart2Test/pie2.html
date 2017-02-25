@@ -97,7 +97,7 @@
                     let ctx = _this.chart.chart.ctx;
                     var label = data.labels[arc._index];
                     var dataset = data.datasets[arc._datasetIndex];
-                    var d = parseInt(dataset.data[arc._index]);
+                    var d = parseFloat(dataset.data[arc._index]);
                     var p = parseFloat((d / total * 100).toFixed(1));
 
                     if (dataset.percentages && dataset.percentages[arc._index]) {
