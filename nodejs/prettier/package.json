@@ -17,8 +17,13 @@
         "eslint-plugin-prettier": "^3.1.4",
         "husky": "^4.2.5",
         "lint-staged": "^10.2.11",
+        "postcss": "^7.0.32",
         "prettier": "^2.0.5",
+        "sass": "^1.26.10",
+        "sass-loader": "^9.0.3",
         "stylelint": "^13.6.1",
+        "stylelint-config-standard": "^20.0.0",
+        "stylelint-order": "^4.1.0",
         "typescript": "^3.9.7"
     },
     "husky": {
@@ -27,19 +32,12 @@
         }
     },
     "lint-staged": {
-        "linters": {
-            "*.{ts,js,json,tsx}": [
-                "prettier --write",
-                "git add"
-            ],
-            "*.scss": [
-                "prettier-stylelint --write",
-                "git add"
-            ]
-        },
-        "ignore": [
-            "**/dist/**/*.js",
-            "**/old"
+        "*.{ts,js,json,tsx}": [
+            "prettier --write",
+            "git add"
+        ],
+        "*.scss": [
+            "stylelint --fix"
         ]
     }
 }
