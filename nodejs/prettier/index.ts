@@ -17,7 +17,11 @@ class D {
     public a = ''
 
     protected async test() {
-        return await sleep(100)
+        try {
+            return Promise.resolve('aa')
+        } catch (err) {
+            console.log(err)
+        }
     }
 }
 

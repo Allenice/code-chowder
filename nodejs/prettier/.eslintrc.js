@@ -20,8 +20,6 @@ module.exports = {
         'plugin:prettier/recommended',
     ],
     rules: {
-        'no-return-await': 'off',
-        '@typescript-eslint/return-await': ['error', 'never'],
         '@typescript-eslint/explicit-member-accessibility': 'off',
     },
     overrides: [
