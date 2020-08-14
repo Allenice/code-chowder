@@ -15,6 +15,7 @@
         "eslint": "^7.6.0",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-prettier": "^3.1.4",
+        "fibers": "^5.0.0",
         "husky": "^4.2.5",
         "lint-staged": "^10.2.11",
         "postcss": "^7.0.32",
