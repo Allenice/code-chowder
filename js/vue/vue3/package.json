@@ -10,6 +10,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@yzfe/vue-svgicon": "^4.0.0-alpha.3",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
     "vue": "^3.0.0-0",
@@ -33,6 +34,7 @@
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "^2.0.0-0",
+    "@yzfe/vue-cli-plugin-svgicon": "~0.0.1-alpha.2",
     "babel-plugin-component": "^1.1.1",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.3",

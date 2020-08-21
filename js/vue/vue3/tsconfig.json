@@ -19,6 +19,9 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "@icon/*": [
+        "src/assets/svg-icon/*"
       ]
     },
     "lib": [
