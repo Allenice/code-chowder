@@ -1,0 +1,20 @@
+{
+  "name": "vueapp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@yzfe/vue-svgicon": "^4.0.0-alpha.3",
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@yzfe/vue-cli-plugin-svgicon": "~0.0.1-alpha.2",
+    "vue-template-compiler": "^2.6.11"
+  }
+}
