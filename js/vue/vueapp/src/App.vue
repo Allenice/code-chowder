@@ -1,19 +1,33 @@
 <template>
   <div id="app">
+    <test name="aa" test="aaa"></test>
     <img alt="Vue logo" src="./assets/logo.png">
     <icon data="@/assets/svg-icon/vue.svg" original></icon>
     <icon data="@icon/vue.svg" original></icon>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <input type="text" @change="changeMsg">
+    <HelloWorld :msg="message"/>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import Test from './components/Test'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
+    Test
+  },
+  data() {
+    return {
+      message: 'Welcome to Your Vue.js App'
+    }
+  },
+  methods: {
+    changeMsg(e) {
+      this.message = e.target.value
+    }
   }
 }
 </script>
