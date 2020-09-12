@@ -1,0 +1,110 @@
+[
+    '{{repeat(7)}}',
+    {
+      "salon_id": '{{index() + 1}}',
+      "salon": {
+        "id": '{{ index() + 1 }}',
+        "name": "{{firstName()}} {{ lastName() }}",
+        "province_name": "{{province()}}",
+        "city_name": "{{city()}}",
+        "district_name": "{{district()}}",
+        "address": "{{ street() }}, {{ city() }}",
+        "concat": "{{firstName()}} {{surname()}}",
+        "concat_phone": '{{ phone() }}'
+      },
+      "items": [
+        '{{repeat(30)}}',
+        {
+          "time": function(faker, index) {
+            let date = index + 1 < 10 ? '0' + (index + 1) : (index + 1)
+            return '220-09-' + date
+          },
+          "i_1": "{{integer(100, 9999)}}",
+          "i_3": "{{integer(100, 9999)}}",
+          "i_6": "{{integer(100, 9999)}}",
+          "i_7": "{{integer(100, 9999)}}",
+          "i_8": {
+            "items": [
+              '{{repeat(31)}}',
+              {
+                "item_id": '{{index() + 1}}',
+                  "item_name": '{{ lorem(1, "words") }}',
+                  "i_1": '{{integer(100, 99999)}}',
+                  "i_7": '{{integer(100, 99999)}}',
+  
+              }
+            ],
+            "summary": {
+              "i_1": '{{integer(100, 99999)}}',
+              "i_7": '{{integer(100, 99999)}}',
+            }
+          }
+        }
+      ]
+    }
+  ]
+  
+
+  [
+    '{{repeat(7)}}',
+    {
+      "salon_id": '{{index() + 1}}',
+      "salon": {
+        "id": '{{ index() + 1 }}',
+        "name": "{{firstName()}} {{ lastName() }}",
+        "province_name": "{{province()}}",
+        "city_name": "{{city()}}",
+        "district_name": "{{district()}}",
+        "address": "{{ street() }}, {{ city() }}",
+        "concat": "{{firstName()}} {{surname()}}",
+        "concat_phone": '{{ phone() }}'
+      },
+      "items": [
+        '{{repeat(5)}}',
+        {
+          "time": function(faker, index) {
+            let date = index + 1 < 10 ? '0' + (index + 1) : (index + 1)
+            return '220-09-' + date
+          },
+          "i_1": "{{integer(100, 9999)}}",
+          "i_2": {
+            "items": [
+              '{{repeat(1, 31)}}',
+              {
+                "item_id": '{{index() + 1}}',
+                  "item_name": '{{ lorem(1, "words") }}',
+                  "i_3": '{{integer(100, 99999)}}',
+                  "i_4": '{{integer(100, 99999)}}',
+  
+              }
+            ],
+            "summary": {
+              "i_3": '{{integer(100, 99999)}}',
+              "i_4": '{{integer(100, 99999)}}',
+            }
+          },
+          "i_5": {
+            "items": [
+              '{{repeat(1, 31)}}',
+              {
+                "item_id": '{{index() + 1}}',
+                  "item_name": '{{ lorem(1, "words") }}',
+                  "i_3": '{{integer(100, 99999)}}',
+                  "i_4": '{{integer(100, 99999)}}',
+                	"i_7": '{{integer(100, 99999)}}',
+  
+              }
+            ],
+            "summary": {
+              "i_3": '{{integer(100, 99999)}}',
+              "i_4": '{{integer(100, 99999)}}',
+              "i_7": '{{integer(100, 99999)}}',
+            }
+          },
+          "i_8": "{{integer(100, 9999)}}",
+          "i_9": "{{integer(100, 9999)}}",
+        }
+      ]
+    }
+  ]
+  

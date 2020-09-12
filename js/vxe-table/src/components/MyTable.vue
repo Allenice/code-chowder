@@ -9,6 +9,7 @@
       border
       :span-method="colspanMethod"
       max-height="1000px"
+      :sort-config="{trigger: 'cell'}"
     >
       <vxe-table-column v-for="(prop, ix) in props" :key="prop.title + ix" v-bind="prop">
         <template v-if="prop.children && prop.children.length">
@@ -80,6 +81,14 @@ export default {
             age: ix,
             address: "Shenzhen" + ix,
           },
+           {
+            id: 10001 + "_2_" + ix,
+            name: "Test_" + Math.floor(ix / 10),
+            role: "",
+            sex: "Man" + ix,
+            age: ix,
+            address: "",
+          }
         ]);
       });
 
@@ -117,17 +126,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-body {
-  .vxe-table.border--default .vxe-table--header-wrapper,
-  .vxe-table.border--full .vxe-table--header-wrapper,
-  .vxe-table.border--outer .vxe-table--header-wrapper {
-    background-color: #eff2f7;
-  }
-
-  .vxe-table .vxe-body--row.row--stripe {
-    background-color: #f9fafc;
-  }
-}
-</style>
