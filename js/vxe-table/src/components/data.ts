@@ -91,16 +91,30 @@ console.time('test')
 mockData.forEach((salonItem, salonIndex) => {
     salonItem.items.forEach((dateItem, dateIndex) => {
         let count = 1
+
+        let baseItem = {
+            salon_id: salonItem.salon_id,
+            salon_name: salonItem.salon.name,
+            address: salonItem.salon.address,
+            time: dateItem.time
+        }
+
         let items: Record<string, any>[] = []
+
         Object.keys(dateItem).forEach(key => {
             // @ts-ignore
             let iItem = dateItem[key]
             if (typeof iItem === 'object') {
                 count = Math.max(count, iItem.items.length)
+                items[0] = items[0] || {}
+                items[0][`${key}|item_name`] = '汇总'
+                Object.keys(iItem.summary).forEach(sKey => {
+                    items[0][`${key}|${sKey}`] = iItem.summary[sKey]
+                })
                 iItem.items.forEach((iaItem: Record<string, any>, iaIndex: number) => {
-                    items[iaIndex] = items[iaIndex] || {}
+                    items[iaIndex + 1] = items[iaIndex + 1] || {}
                     Object.keys(iaItem).forEach(iaKey => {
-                        items[iaIndex][`${key}|${iaKey}`] = iaItem[iaKey]
+                        items[iaIndex + 1][`${key}|${iaKey}`] = iaItem[iaKey]
                     })
                 })
             } else {
@@ -109,20 +123,17 @@ mockData.forEach((salonItem, salonIndex) => {
             }
         })
 
-        for (let i = 0; i < count; i++) {
+        // 包括汇总行
+        for (let i = 0; i <= count; i++) {
             let item = items[i]
             orignal.push({
                 id: `s${salonIndex}-d${dateIndex}-${i}`,
-                salon_id: salonItem.salon_id,
-                salon_name: salonItem.salon.name,
-                address: salonItem.salon.address,
-                time: dateItem.time,
+                ...baseItem,
                 ...(item || {})
             })
         }
     })
 })
 console.timeEnd('test')
-console.log(orignal.length)
 
 export const data = orignal

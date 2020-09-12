@@ -5,11 +5,11 @@
       :data="tableData"
       size="medium"
       show-header-overflow
-      stripe
       border
       :span-method="colspanMethod"
       max-height="1000px"
       :sort-config="{trigger: 'cell'}"
+      :row-class-name="getRowClassName"
     >
       <template #empty>没有更多数据了！</template>
 
@@ -41,20 +41,14 @@ export default {
   created() {},
 
   methods: {
-    colspanMethod({
-      rowIndex,
-      columnIndex,
-      $rowIndex,
-      $columnIndex,
-      row,
-      column,
-    }: ColumnCellRenderParams) {
-
-        let spanFileds = ['salon_name', 'address', 'time']
+    colspanMethod({ row, column }: ColumnCellRenderParams) {
+      let spanFileds = ["salon_name", "address", "time"];
       if (spanFileds.includes(column.property)) {
         let data = (this.$refs.table as Table).getTableData().tableData;
         // @ts-ignore
-        let sameData = data.filter((v) => v[column.property] === row[column.property]);
+        let sameData = data.filter(
+          (v) => v[column.property] === row[column.property]
+        );
         // @ts-ignore
         let curIndex = sameData.findIndex((v) => v.id === row.id);
 
@@ -68,6 +62,19 @@ export default {
           colspan: 1,
         };
       }
+    },
+
+    getRowClassName({ row }: ColumnCellRenderParams) {
+      if (!this.$refs.table) return "";
+    //   let field = "salon_name";
+
+      let data = (this.$refs.table as Table).getTableData().tableData;
+      // @ts-ignore
+      let sameData = data.filter((v) => v['salon_name'] === row['salon_name'] && v['time'] === row['time']);
+
+      let curIndex = sameData.findIndex((v) => v.id === row.id);
+
+      return curIndex % 2 === 0 ? '' : 'row--stripe';
     },
   },
 };
