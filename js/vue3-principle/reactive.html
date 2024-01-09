@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // 用一个 Set 存储所有的 effect
+        const bucket  = new Set()
+
+        // 当前正在执行的 effect
+        let activeEffect
+
+        // effect 注册函数，用于注册 effect
+        function useEffect(effect) {
+            // 当调用 useEffect 的时候，将 activeEffect 赋值为当前的副作用函数
+            activeEffect = effect
+            // 马上执行一次副作用函数, 将会触发 getter 收集依赖
+            effect()
+        }
+
+        const data = {
+            text: 'Hello World'
+        }
+
+        const obj = new Proxy(data, {
+            get(target, key) {
+                // 将当前的 effect 存入 bucket
+                if (activeEffect) {
+                    bucket.add(activeEffect)
+                }
+                return target[key]
+            },
+            set(target, key, value) {
+                target[key] = value
+                // 当数据发生变化的时候，执行所有的 effect
+                bucket.forEach(fn => fn())
+                return true
+            }
+        })
+
+        useEffect(function effect() {
+            console.log('effect', obj.text)
+            document.title = obj.text
+        })
+
+        setTimeout(() => {
+            obj.text = 'Hello Vue'
+        }, 3000)
+
+        setTimeout(() => {
+            // 修改不存在的属性，也会触发 effect 执行，这是不对的
+            obj.noExist = 'Hello Vue3'
+        }, 4000);
+
+
+    </script>
+</head>
+<body>
+    <div></div>
+</body>
+</html>

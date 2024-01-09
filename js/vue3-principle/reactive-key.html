@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // 使用一个 weakmap 存储对象的 effect
+        const bucket = new WeakMap()
+
+        // 当前正在执行的 effect
+        let activeEffect
+
+        // effect 注册函数，用于注册 effect
+        function useEffect(effect) {
+            // 当调用 useEffect 的时候，将 activeEffect 赋值为当前的副作用函数
+            activeEffect = effect
+            // 马上执行一次副作用函数, 将会触发 getter 收集依赖
+            effect()
+        }
+
+        // 响应式数据
+        function reactive(obj) {
+            return new Proxy(obj, {
+                get(target, key) {
+                    track(target, key)
+                    // 返回当前值
+                    return target[key]
+                },
+                set(target, key, value) {
+                    // 设置新值
+                    target[key] = value
+                   trigger(target, key)
+                }
+            })
+        }
+
+        // 跟踪依赖，收集依赖（副作用）
+        function track(target, key) {
+            // 没有 activeEffect，直接 return
+            if (!activeEffect) return
+
+            // 根据 target 从“桶”中取得 keyEffectsMap，它也是一个 Map 类型：key --> effects
+            let keyEffectsMap = bucket.get(target)
+            // 如果不存在 depsMap，那么新建一个 Map 并与 target 关联
+            if (!keyEffectsMap) {
+                keyEffectsMap = new Map()
+                bucket.set(target, keyEffectsMap)
+            }
+            // 根据 key 从 depsMap 中取得 effects，它是一个 Set 类型：effect
+            let effects = keyEffectsMap.get(key)
+            // 如果不存在 deps，那么新建一个 Set 并与 key 关联
+            if (!effects) {
+                effects = new Set()
+                keyEffectsMap.set(key, effects)
+            }
+            // 将当前的 effect 存入 deps
+            effects.add(activeEffect)
+        }
+
+        // 触发副作用
+        function trigger(target, key) {
+             // 根据 target 从“桶”中取得 depsMap，它也是一个 Map 类型：key --> effects
+            let depsMap = bucket.get(target)
+            // 如果不存在 depsMap, 直接返回
+            if (!depsMap) return true
+            // 根据 key 从 depsMap 中取得 deps，它是一个 Set 类型：effect
+            let effects = depsMap.get(key)
+                // 执行副作用函数
+            effects && effects.forEach(effect => effect())
+        }
+
+
+        // 测试
+        const obj = reactive({
+            text: 'Hello World'
+        })
+
+        useEffect(() => {
+            console.log('effect', obj.text)
+            document.title = obj.text
+        })
+
+        setTimeout(() => {
+            obj.text = 'Hello Vue'
+        }, 3000)
+
+        setTimeout(() => {
+            // 修改不存在的属性，也会触发 effect 执行，这是不对的
+            obj.noExist = 'Hello Vue3'
+        }, 4000);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
